@@ -1,47 +1,42 @@
 from cmu_graphics import *
-from objects.board import drawBoard, generateBoard
-from events.mousePress import mousePress
+from objects.board import drawBoard, Board
 from events.keyPress import keyPress
+from events.mousePress import mousePress
+from events.step import step
 
 
 def onAppStart(app):
-    app.stepsPerSecond = 30
+    app.stepsPerSecond = 2
 
-    # grid constants
-    app.rows = 20
-    app.cols = 20
-    app.boardLeft = 50
-    app.boardTop = 50
-    app.boardWidth = 500
-    app.boardHeight = 500
+    app.board = Board(20, 20)
+
     app.cellBorderWidth = 1
 
-    app.cellWidth = app.boardWidth / app.cols
-    app.cellHeight = app.boardHeight / app.rows
-
-    # [[None] * app.cols for _ in range(app.rows)]
-    generateBoard(app)
-
-    app.selectedCell = (0, 0)
+    app.selectedCoords = (0, 0)
+    app.premoveSelectedCoords = (0, 0)
     app.isFocused = True
 
     app.flag = False
 
+    app.premoves = []
 
-def onStep(app):
-
-    print(app.selectedCell)
+    app.c = 0
 
 
 def redrawAll(app):
     drawBoard(app)
 
 
+def onKeyPress(app, key):
+    keyPress(app, key)
+
+
 def onMousePress(app, mouseX, mouseY):
     mousePress(app, mouseX, mouseY)
 
 
-def onKeyPress(app, key):
-    keyPress(app, key)
+def onStep(app):
+    step(app)
+
 
 runApp(width=600, height=600)

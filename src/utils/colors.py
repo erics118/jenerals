@@ -10,5 +10,4 @@ FOG = rgb(57, 57, 57)
 RED = rgb(254, 48, 0)
 BLUE = rgb(66, 99, 216)
 WHITE = rgb(255, 255, 255)
-
 ACCENT = rgb(0, 128, 128)

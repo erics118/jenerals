@@ -6,12 +6,12 @@ import utils.colors as colors
 
 
 def drawBoardBorder(app):
-    # draw the board outline (with double-thickness):
+    # draw the board outline with double-thickness
     drawRect(
-        app.boardLeft,
-        app.boardTop,
-        app.boardWidth,
-        app.boardHeight,
+        app.board.left,
+        app.board.top,
+        app.board.width,
+        app.board.height,
         fill=None,
         border=colors.BORDER,
         borderWidth=2 * app.cellBorderWidth,

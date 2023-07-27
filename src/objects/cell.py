@@ -3,7 +3,7 @@ from cmu_graphics import *
 
 
 class Cell:
-    def __init__(self, row, col, team, t, numTroops, isVisible=True):
+    def __init__(self, row, col, team, t, numTroops=0, isVisible=False):
         self.row = row
         self.col = col
         self.team = team  # player, bot, neutral
@@ -12,29 +12,34 @@ class Cell:
         self.isVisible = isVisible
 
     def step(self):
-        self.numTroops += 1
+        if self.numTroops > 0:
+            self.numTroops += 1
 
     def isSelectable(self):
         self.team == "red"
 
     def getCellLeftTop(self, app):
-        cellLeft = app.boardLeft + self.col * app.cellWidth
-        cellTop = app.boardTop + self.row * app.cellHeight
+        cellLeft = app.board.left + self.col * app.board.cellWidth
+        cellTop = app.board.top + self.row * app.board.cellHeight
         return (cellLeft, cellTop)
 
     def getColor(self):
         if self.team == "player":
             return colors.BLUE
-        elif self.team == "neutral":
-            return colors.VISIBLE_CELL
 
+        if self.isVisible and self.team == "bot":
+            return colors.RED
+
+        return colors.FOG
+
+    def getImage(self):
         if self.isVisible:
-            if self.team == "bot":
-                return colors.RED
-            elif self.team == "neutral":
-                return colors.VISIBLE_CELL
+            return self.t
         else:
-            return colors.FOG
+            if self.t in ["mountain", "city"]:
+                return "obstacle"
+            else:
+                return "fog"
 
 
 def drawCell(app, cell):
@@ -42,49 +47,37 @@ def drawCell(app, cell):
     border = colors.BORDER
     color = cell.getColor()
 
-    # if is selectedCell
+    # if is selectedCoords
     if app.isFocused:
-        if app.selectedCell == (cell.row, cell.col):
+        if app.selectedCoords == (cell.row, cell.col):
             color = colors.VISIBLE_CELL
             border = colors.WHITE
-        # is above, below, left, or right of app.selectedCell
-        elif app.selectedCell in [
+        # is above, below, left, or right of app.selectedCoords
+        elif app.selectedCoords in [
             (cell.row - 1, cell.col),
             (cell.row + 1, cell.col),
             (cell.row, cell.col - 1),
             (cell.row, cell.col + 1),
         ]:
-            # todo: diff colors depending on existing color
+            # TODO: diff colors depending on existing color
             color = rgb(108, 108, 108)
 
     drawRect(
         cellLeft,
         cellTop,
-        app.cellWidth,
-        app.cellHeight,
+        app.board.cellWidth,
+        app.board.cellHeight,
         fill=color,
         border=border,
         borderWidth=app.cellBorderWidth,
     )
 
     if cell.t != "fog":
-        imageName = ""
-        if cell.t == "city":
-            imageName = "city"
-        elif cell.t == "mountain":
-            imageName = "mountain"
-        elif cell.t == "obstacle":
-            imageName = "obstacle"
-        elif cell.t == "general":
-            imageName = "crown"
-        else:
-            print("wtf")
-
-        imagePath = "./src/images/" + imageName + ".png"
+        imagePath = "./src/images/" + cell.t + ".png"
         drawImage(
             imagePath,
-            cellLeft + app.cellHeight // 2,
-            cellTop + app.cellHeight // 2,
+            cellLeft + app.board.cellHeight // 2,
+            cellTop + app.board.cellHeight // 2,
             align="center",
         )
 
@@ -92,48 +85,31 @@ def drawCell(app, cell):
     if cell.numTroops > 0:
         drawLabel(
             str(cell.numTroops),
-            cellLeft + app.cellHeight // 2,
-            cellTop + app.cellHeight // 2,
+            cellLeft + app.board.cellHeight // 2,
+            cellTop + app.board.cellHeight // 2,
             size=14,
             fill=colors.WHITE,
-            bold=True
+            bold=True,
         )
 
 
 def drawBoardCells(app):
     drawRect(0, 0, app.width, app.height, fill=colors.BACKGROUND)
 
-    for row in range(app.rows):
-        for col in range(app.cols):
-            # cell = Cell(row, col, "player", "fog", 1)
-            # if app.board[row][col] == "city":
-            #     cell.color = colors.FOG
-            #     cell.image = "city"
-            # elif app.board[row][col] == "general":
-            #     cell.color = colors.BLUE
-            #     cell.image = "crown"
-            # elif app.board[row][col] == "general2":
-            #     cell.color = colors.RED
-            #     cell.image = "crown"
-            # elif app.board[row][col] == "mountain":
-            #     cell.color = colors.FOG
-            #     cell.image = "mountain"
-            # elif app.board[row][col] == "obstacle":
-            #     cell.color = colors.FOG
-            #     cell.image = "obstacle"
-
-            drawCell(app, app.board[row][col])
+    for row in range(app.board.rows):
+        for col in range(app.board.cols):
+            drawCell(app, app.board.at(row, col))
 
 
-def getCell(app, x, y):
+def getCellCoords(app, x, y):
     # out of bounds of board
     if (
-        x < app.boardLeft
-        or x > app.boardLeft + app.boardWidth
-        or y < app.boardTop
-        or y > app.boardTop + app.boardHeight
+        x < app.board.left
+        or x > app.board.left + app.board.width
+        or y < app.board.top
+        or y > app.board.top + app.board.height
     ):
         return None
-    row = int((y - app.boardTop) / app.cellHeight)
-    col = int((x - app.boardLeft) / app.cellWidth)
+    row = int((y - app.board.top) / app.board.cellHeight)
+    col = int((x - app.board.left) / app.board.cellWidth)
     return (row, col)
