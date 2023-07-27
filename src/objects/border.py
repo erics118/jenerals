@@ -1,7 +1,9 @@
-
 from cmu_graphics import *
 
 import utils.colors as colors
+
+# TODO: draw borders only between visible cells
+
 
 def drawBoardBorder(app):
     # draw the board outline (with double-thickness):
