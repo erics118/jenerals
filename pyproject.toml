@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "generals"
+version = "0.0.1"
+authors = [{name = "Eric Shen"}]
+description = "generals.io clone using cmu_graphics"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = [
+    "cmu_graphics==1.1.25"
+]
