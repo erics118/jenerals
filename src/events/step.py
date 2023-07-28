@@ -42,6 +42,10 @@ def doMove(app, drow, dcol):
             # old cell has one troop left
             app.board.at(*app.selectedCoords).numTroops = 1
 
+    if app.board.at(*app.selectedCoords).team == "neutral":
+        if app.board.at(*new).team == "player":
+            app.selectedCoords = new
+            app.premoveSelectedCoords = new
     app.selectedCoords = new
 
 
@@ -54,6 +58,9 @@ def stepWithCount(app):
 
 
 def step(app):
+    if not app.hasOngoingGame:
+        return
+
     if app.isPaused:
         return
 

@@ -1,7 +1,9 @@
 from objects.board import Board
 
 
-def appStart(app):
+def newGame(app):
+    app.hasOngoingGame = True
+    app.isDragging = False
     app.isPaused = False
     app.forceIsVisible = False
 
@@ -10,16 +12,22 @@ def appStart(app):
 
     app.stepsPerSecond = 2
 
-    app.board = Board(20, 20)
+    app.board = Board(app, 20, 20)
 
     app.cellBorderWidth = 1
 
-    app.selectedCoords = (0, 0)
-    app.premoveSelectedCoords = (0, 0)
     app.isFocused = True
-
-    app.flag = False
 
     app.premoves = []
 
     app.c = 0
+
+
+def appStart(app, dev):
+    app.dev = dev
+
+    app.flag = False
+
+    app.hasOngoingGame = False
+
+    app.startGame = lambda: newGame(app)

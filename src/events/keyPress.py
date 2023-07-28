@@ -1,23 +1,23 @@
-from utils.legal import isMoveLegal
-from utils.premoves import clearPremoves
+from utils.premoves import clearPremoves, doPremove
 from .step import stepWithCount, doMove
-
-
-# TODO: make premove show the selected cell as well and be instant rather than onStep
-def doPremove(app, drow, dcol):
-    # disregard illegal moves or if no cell is focused
-    if not app.isFocused or not isMoveLegal(app, app.premoveSelectedCoords, drow, dcol):
-        return
-
-    new = (app.premoveSelectedCoords[0] + drow, app.premoveSelectedCoords[1] + dcol)
-
-    # record the premove
-    app.premoves.append((drow, dcol))
-    app.premoveSelectedCoords = new
 
 
 # on a key press
 def keyPress(app, key):
+    if not app.hasOngoingGame:
+        startScreenKeyPress(app, key)
+    else:
+        inGameKeyPress(app, key)
+
+
+# key presses on start screen
+def startScreenKeyPress(app, key):
+    match key:
+        case "enter":
+            app.startGame()
+
+
+def inGameKeyPress(app, key):
     match key:
         # if space is pressed, toggle focus
         case "space":
@@ -35,7 +35,8 @@ def keyPress(app, key):
         case "q":
             clearPremoves(app)
 
-    devKeyPress(app, key)
+    if app.dev:
+        devKeyPress(app, key)
 
 
 # dev cheats
@@ -53,13 +54,15 @@ def devKeyPress(app, key):
                 stepWithCount(app)
         # do all premoves
         case "/":
-            # TODO: can go thru mountains with this
+            # TODO: fix going through mountains with this
             while len(app.premoves) >= 1:
                 doMove(app, *app.premoves.pop(0))
         case "p":
             app.isPaused = not app.isPaused
         case "v":
             app.forceIsVisible = not app.forceIsVisible
+        case "r":
+            app.board.collectTroops(app.selectedCoords)
 
 
 # TODO: key hold

@@ -32,6 +32,8 @@ class Cell:
                 return colors.RED
             elif self.t == "city":
                 return colors.VISIBLE_CITY
+            elif self.t == "mountain":
+                return colors.VISIBLE_MOUNTAIN
             else:  # self.team == "neutral"
                 return colors.VISIBLE_CELL
 
@@ -44,7 +46,6 @@ class Cell:
             if self.t in ["mountain", "city"]:
                 return "obstacle"
         return None
-
 
 
 def drawCell(app, cell):
@@ -81,8 +82,18 @@ def drawCell(app, cell):
         (cell.row, cell.col + 1),
     ]:
         # TODO: diff colors depending on existing color
-
-        color = colors.SURROUNDING_FOCUSED_NEUTRAL
+        if cell.t == "fog" or cell.t == "mountain" or cell.t == "city":
+            if cell.team == "player":
+                # must be visible?
+                color = colors.SURROUNDING_BLUE_VISIBLE
+            else:
+                if cell.t == "mountain" or cell.t == "city":
+                    color = colors.SURROUNDING_OBSTACLE_VISIBLE
+                else:
+                    if cell.isVisible:
+                        color = colors.SURROUNDING_FOG_VISIBLE
+                    else:
+                        color = colors.SURROUNDING_FOG_NOT_VISIBLE
 
     drawRect(
         cellLeft,
