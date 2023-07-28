@@ -1,41 +1,48 @@
 from cmu_graphics import *
-from objects.board import drawBoard, Board
+from events.appStart import appStart
+from events.drawAll import drawAll
 from events.keyPress import keyPress
+from events.mouseDrag import mouseDrag
 from events.mousePress import mousePress
 from events.step import step
 
+# TODO: if not focused on a cell, then dont do premoves
+# TODO: if not focused on a cell, then allow for moving through mountains, enemy, etc
+# TODO: scoreboard
+# TODO: chat, put all notifications in there too
+# TODO: zoom in/out shortcuts
+# TODO: allow taking 50% of troops
+# TODO: dev gather all troops
+# TODO: make all cells visible
+# TODO: ai
+# TODO: restart game
+# TODO: pre-game screen
+# TODO: allow player to play with another player with WASD
+
 
 def onAppStart(app):
-    app.stepsPerSecond = 2
-
-    app.board = Board(20, 20)
-
-    app.cellBorderWidth = 1
-
-    app.selectedCoords = (0, 0)
-    app.premoveSelectedCoords = (0, 0)
-    app.isFocused = True
-
-    app.flag = False
-
-    app.premoves = []
-
-    app.c = 0
-
-
-def redrawAll(app):
-    drawBoard(app)
+    appStart(app)
 
 
 def onKeyPress(app, key):
     keyPress(app, key)
 
 
+def redrawAll(app):
+    drawAll(app)
+
+
 def onMousePress(app, mouseX, mouseY):
     mousePress(app, mouseX, mouseY)
 
 
+def onMouseDrag(app, mouseX, mouseY):
+    mouseDrag(app, mouseX, mouseY)
+
+
 def onStep(app):
+    if app.isPaused:
+        return
     step(app)
 
 

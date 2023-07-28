@@ -1,3 +1,4 @@
+from utils.floodFill import floodFill
 from .border import drawBoardBorder
 from .cell import drawBoardCells, Cell
 from cmu_graphics import *
@@ -35,9 +36,27 @@ class Board:
         # TODO: randomly add cities and mountains
         # TODO: make sure there are no blocked areas
         # maybe by seeing if flood fill can reach all cells
-        for r in range(rows):
-            for c in range(cols):
-                self.grid[r][c] = Cell(r, c, "neutral", randomCellType())
+
+        bad = True
+        while bad:
+            for r in range(rows):
+                for c in range(cols):
+                    self.grid[r][c] = Cell(r, c, "neutral", randomCellType())
+
+            # check if there are any blocked areas
+            tempGrid = makeList(rows, cols)
+            for r in range(rows):
+                for c in range(cols):
+                    if self.grid[r][c].t == "mountain":
+                        tempGrid[r][c] = 1
+                    else:
+                        tempGrid[r][c] = 0
+
+            floodFill(tempGrid)
+            print('testing')
+            if 0 not in tempGrid:
+                bad = False
+
 
         # put player's general in the top left
         # TODO: put into random place
