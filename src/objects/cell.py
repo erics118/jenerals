@@ -23,11 +23,11 @@ class Cell:
         cellTop = app.board.top + self.row * app.board.cellHeight
         return (cellLeft, cellTop)
 
-    def getColor(self):
+    def getColor(self, forceIsVisible=False):
         if self.team == "player":
             return colors.BLUE
 
-        if self.isVisible:
+        if self.isVisible or forceIsVisible:
             if self.team == "bot":
                 return colors.RED
             elif self.t == "city":
@@ -37,8 +37,8 @@ class Cell:
 
         return colors.FOG
 
-    def getImage(self):
-        if self.isVisible:
+    def getImage(self, forceIsVisible=False):
+        if self.isVisible or forceIsVisible:
             return self.t
         else:
             if self.t in ["mountain", "city"]:
@@ -46,23 +46,23 @@ class Cell:
         return None
 
 
+
 def drawCell(app, cell):
-    if app.board.at(cell.row - 1, cell.col).team == "player":
-        app.board.at(cell.row, cell.col).isVisible = True
-    if app.board.at(cell.row + 1, cell.col).team == "player":
-        app.board.at(cell.row, cell.col).isVisible = True
-    if app.board.at(cell.row, cell.col - 1).team == "player":
-        app.board.at(cell.row, cell.col).isVisible = True
-    if app.board.at(cell.row, cell.col + 1).team == "player":
-        app.board.at(cell.row, cell.col).isVisible = True
-    if app.board.at(cell.row - 1, cell.col - 1).team == "player":
-        app.board.at(cell.row, cell.col).isVisible = True
-    if app.board.at(cell.row - 1, cell.col + 1).team == "player":
-        app.board.at(cell.row, cell.col).isVisible = True
-    if app.board.at(cell.row + 1, cell.col - 1).team == "player":
-        app.board.at(cell.row, cell.col).isVisible = True
-    if app.board.at(cell.row + 1, cell.col + 1).team == "player":
-        app.board.at(cell.row, cell.col).isVisible = True
+    directions = [
+        (-1, +1),
+        (0, +1),
+        (+1, +1),
+        (-1, 0),
+        (+1, 0),
+        (-1, -1),
+        (0, -1),
+        (+1, -1),
+    ]
+
+    # TODO: move to board class so not called too repetitively
+    for drow, dcol in directions:
+        if app.board.at(cell.row + drow, cell.col + dcol).team == "player":
+            app.board.at(cell.row, cell.col).isVisible = True
 
     cellLeft, cellTop = cell.getCellLeftTop(app)
     border = colors.BORDER
@@ -81,6 +81,7 @@ def drawCell(app, cell):
         (cell.row, cell.col + 1),
     ]:
         # TODO: diff colors depending on existing color
+
         color = colors.SURROUNDING_FOCUSED_NEUTRAL
 
     drawRect(
@@ -94,7 +95,7 @@ def drawCell(app, cell):
     )
 
     if cell.t != "fog":
-        imagePath = cell.getImage()
+        imagePath = cell.getImage(app.forceIsVisible)
         if imagePath is not None:
             drawImage(
                 "./src/images/" + imagePath + ".png",
@@ -111,7 +112,7 @@ def drawCell(app, cell):
             cellTop + app.board.cellHeight // 2,
             size=14,
             fill=colors.WHITE,
-            bold=True,
+            bold=False,
         )
 
 

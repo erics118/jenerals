@@ -25,6 +25,7 @@ def doMove(app, drow, dcol):
                 app.board.at(*app.selectedCoords).numTroops = 1
                 # new cell is now player
                 app.board.at(*new).team = "player"
+                app.board.at(*new).isVisible = "true"
 
         # elif is own cell
         elif app.board.at(*new).team == "player":
@@ -53,6 +54,9 @@ def stepWithCount(app):
 
 
 def step(app):
+    if app.isPaused:
+        return
+
     if len(app.premoves) >= 1:
         doMove(app, *app.premoves.pop(0))
 

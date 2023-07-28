@@ -34,7 +34,13 @@ def keyPress(app, key):
         # if q is pressed, clear premoves
         case "q":
             clearPremoves(app)
-        # dev stuff
+
+    devKeyPress(app, key)
+
+
+# dev cheats
+def devKeyPress(app, key):
+    match key:
         # toggle flag
         case ",":
             app.flag = not app.flag
@@ -52,6 +58,8 @@ def keyPress(app, key):
                 doMove(app, *app.premoves.pop(0))
         case "p":
             app.isPaused = not app.isPaused
+        case "v":
+            app.forceIsVisible = not app.forceIsVisible
 
 
 # TODO: key hold

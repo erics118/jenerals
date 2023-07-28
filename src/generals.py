@@ -12,8 +12,6 @@ from events.step import step
 # TODO: chat, put all notifications in there too
 # TODO: zoom in/out shortcuts
 # TODO: allow taking 50% of troops
-# TODO: dev gather all troops
-# TODO: make all cells visible
 # TODO: ai
 # TODO: restart game
 # TODO: pre-game screen
@@ -41,8 +39,6 @@ def onMouseDrag(app, mouseX, mouseY):
 
 
 def onStep(app):
-    if app.isPaused:
-        return
     step(app)
 
 

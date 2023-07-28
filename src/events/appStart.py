@@ -3,6 +3,7 @@ from objects.board import Board
 
 def appStart(app):
     app.isPaused = False
+    app.forceIsVisible = False
 
     app.mx = 0
     app.my = 0
