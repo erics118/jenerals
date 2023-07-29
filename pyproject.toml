@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "jenerals"
 version = "0.0.1"
 authors = [{ name = "Eric Shen" }]
-description = "jenerals.io clone using cmu_graphics"
+description = "generals.io clone in python using cmu_graphics"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
