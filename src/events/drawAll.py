@@ -43,7 +43,7 @@ def drawStartScreen(app):
 
     drawAccentedLabel("jenerals.io", app.width // 2, 150, size=64, bold=True)
 
-    desc = "Protect your jeneral. Capture enemy jenerals."
+    desc = "Protect your general. Capture enemy generals."
     drawLabel(desc, app.width // 2, 200, size=18, fill=colors.WHITE, bold=True)
 
 

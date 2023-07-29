@@ -34,7 +34,7 @@ def generateGrid(rows, cols):
 
     # TODO: make sure it is at least rows//2 away from the opponent
     r, c = randomCoords(rows, cols)
-    grid[r][c] = Cell(r, c, "player", "jeneral")
+    grid[r][c] = Cell(r, c, "player", "general")
     grid[r][c].isVisible = True
 
     return (grid, (r, c))
@@ -88,14 +88,14 @@ class Board:
         self.cellHeight = self.height / self.rows
 
         # randomly generate the grid
-        self.grid, jeneralCoords = generateGrid(self.rows, self.cols)
+        self.grid, generalCoords = generateGrid(self.rows, self.cols)
 
         # regenerate grid until there are no blocked areas
         while hasBlockedAreas(self.grid):
-            self.grid, jeneralCoords = generateGrid(self.rows, self.cols)
+            self.grid, generalCoords = generateGrid(self.rows, self.cols)
 
-        app.selectedCoords = jeneralCoords
-        app.premoveSelectedCoords = jeneralCoords
+        app.selectedCoords = generalCoords
+        app.premoveSelectedCoords = generalCoords
 
     def at(self, row, col):
         """
@@ -114,9 +114,9 @@ class Board:
         if mode == "city":
             for r in range(self.rows):
                 for c in range(self.cols):
-                    # if is a city or jeneral
+                    # if is a city or general
                     if (
-                        self.grid[r][c].t in ["city", "jeneral"]
+                        self.grid[r][c].t in ["city", "general"]
                         and self.grid[r][c].team != "neutral"
                     ):
                         self.grid[r][c].numTroops += 1

@@ -55,7 +55,7 @@ def stepWithCount(app):
     """
     A step occurs twice a second.
     A turn is two steps.
-    Every step, cities and jenerals step.
+    Every step, cities and generals step.
     Every 25 steps, all cells step.
     """
 

@@ -17,7 +17,7 @@ class Cell:
         self.row = row
         self.col = col
         self.team = team  # player, bot, neutral
-        self.t = t  # obstacle, city, mountain, jeneral, fog
+        self.t = t  # obstacle, city, mountain, general, fog
         self.numTroops = numTroops
         self.isVisible = isVisible
 
@@ -30,7 +30,7 @@ class Cell:
     def isSelectable(self):
         """
         Return whether the cell is selectable.
-        A cell is not selectable if it is a city or jeneral, but selectable otherwise.
+        A cell is not selectable if it is a city or general, but selectable otherwise.
         """
         pass
 
@@ -140,7 +140,7 @@ def drawCell(app, cell):
             )
 
     # troop count
-    if cell.numTroops > 0 or (cell.t in ["jeneral", "city"] and cell.team != "neutral"):
+    if cell.numTroops > 0 or (cell.t in ["general", "city"] and cell.team != "neutral"):
         drawLabel(
             str(cell.numTroops),
             cellLeft + app.board.cellHeight // 2,

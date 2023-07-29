@@ -11,4 +11,5 @@ Install the `cairo` graphics library using your package manager.
 Install the required packages with `pip install .`.
 
 ## Running
+
 Run the program with `python3 src/main.py`

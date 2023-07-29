@@ -1,5 +1,5 @@
 run:
-    python3 src/jenerals.py
+    python3 src/main.py
 
 dev:
-    python3 src/jenerals.py --dev
+    python3 src/main.py --dev

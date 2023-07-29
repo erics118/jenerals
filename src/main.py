@@ -1,7 +1,7 @@
 import sys
 
-
 from cmu_graphics import *
+
 from events.appStart import appStart
 from events.drawAll import drawAll
 from events.keyPress import keyPress
