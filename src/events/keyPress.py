@@ -47,25 +47,25 @@ def inGameKeyPress(app, key):
 def devKeyPress(app, key):
     match key:
         # toggle flag
-        case "f":
+        case "F":
             app.flag = not app.flag
         # step once
-        case ".":
+        case "<":
             stepWithCount(app)
-        # step 100 times
+        # step 25 turns
         case ">":
-            for _ in range(50):
+            for _ in range(25 * 2):
                 stepWithCount(app)
         # do all premoves
-        case "/":
+        case "?":
             # TODO: fix going through mountains with this
             while len(app.premoves) >= 1:
                 doMove(app, *app.premoves.pop(0))
-        case "p":
+        case "P":
             app.isPaused = not app.isPaused
-        case "v":
+        case "V":
             app.forceIsVisible = not app.forceIsVisible
-        case "r":
+        case "C":
             app.board.collectTroops(app.selectedCoords)
 
 
