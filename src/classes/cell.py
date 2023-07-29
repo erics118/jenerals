@@ -1,4 +1,4 @@
-import utils.colors as colors
+from utils.colors import Colors
 from cmu_graphics import *
 
 from utils.image import getImagePath
@@ -47,19 +47,19 @@ class Cell:
         """Get the color of the cell to be used when drawing"""
 
         if self.team == "player":
-            return colors.BLUE
+            return Colors.BLUE
 
         if self.isVisible or forceIsVisible:
             if self.team == "bot":
-                return colors.RED
+                return Colors.RED
             elif self.t == "city":
-                return colors.VISIBLE_CITY
+                return Colors.VISIBLE_CITY
             elif self.t == "mountain":
-                return colors.VISIBLE_MOUNTAIN
+                return Colors.VISIBLE_MOUNTAIN
             else:  # self.team == "neutral"
-                return colors.VISIBLE_CELL
+                return Colors.VISIBLE_CELL
 
-        return colors.FOG
+        return Colors.FOG
 
 
 def drawCell(app, cell):
@@ -82,14 +82,14 @@ def drawCell(app, cell):
             app.board.at(cell.row, cell.col).isVisible = True
 
     cellLeft, cellTop = cell.getCellLeftTop(app)
-    border = colors.BORDER
+    border = Colors.BORDER
     color = cell.getColor()
 
     # if is selectedCoords
 
     if app.premoveSelectedCoords == (cell.row, cell.col):
-        # color = colors.VISIBLE_CELL
-        border = colors.WHITE
+        # color = Colors.VISIBLE_CELL
+        border = Colors.WHITE
     # is above, below, left, or right of app.selectedCoords
     if app.isFocused and app.premoveSelectedCoords in [
         (cell.row - 1, cell.col),
@@ -101,15 +101,15 @@ def drawCell(app, cell):
         if cell.t == "fog" or cell.t == "mountain" or cell.t == "city":
             if cell.team == "player":
                 # must be visible?
-                color = colors.SURROUNDING_BLUE_VISIBLE
+                color = Colors.SURROUNDING_BLUE_VISIBLE
             else:
                 if cell.t == "mountain" or cell.t == "city":
-                    color = colors.SURROUNDING_OBSTACLE_VISIBLE
+                    color = Colors.SURROUNDING_OBSTACLE_VISIBLE
                 else:
                     if cell.isVisible:
-                        color = colors.SURROUNDING_FOG_VISIBLE
+                        color = Colors.SURROUNDING_FOG_VISIBLE
                     else:
-                        color = colors.SURROUNDING_FOG_NOT_VISIBLE
+                        color = Colors.SURROUNDING_FOG_NOT_VISIBLE
 
     # draw the background for the cell
     drawRect(
@@ -140,7 +140,7 @@ def drawCell(app, cell):
             cellLeft + app.board.cellHeight // 2,
             cellTop + app.board.cellHeight // 2,
             size=12,
-            fill=colors.WHITE,
+            fill=Colors.WHITE,
             bold=False,
         )
 

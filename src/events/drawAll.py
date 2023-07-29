@@ -1,12 +1,12 @@
 from classes.board import drawBoard
 from cmu_graphics import *
-import utils.colors as colors
+from utils.colors import Colors
 
 
 def drawBackground(app):
     """Draw the background"""
 
-    drawRect(0, 0, app.width, app.height, fill=colors.BACKGROUND)
+    drawRect(0, 0, app.width, app.height, fill=Colors.BACKGROUND)
 
 
 def drawTurnCounter(app):
@@ -17,10 +17,10 @@ def drawTurnCounter(app):
     borderWidth = 3
 
     # draw the outer rect for accent color
-    drawRect(0, 0, w + borderWidth, h + borderWidth, fill=colors.ACCENT)
+    drawRect(0, 0, w + borderWidth, h + borderWidth, fill=Colors.ACCENT)
 
     # draw the inner rect for white
-    drawRect(0, 0, w, h, fill=colors.WHITE)
+    drawRect(0, 0, w, h, fill=Colors.WHITE)
 
     # create the label
     # show a `.` after the turn if it is
@@ -28,14 +28,14 @@ def drawTurnCounter(app):
     if app.c % 2 == 1:
         label += "."
 
-    drawLabel(label, w // 2, h // 2, size=14, fill=colors.BLACK, align="center")
+    drawLabel(label, w // 2, h // 2, size=14, fill=Colors.BLACK, align="center")
 
 
 def drawAccentedLabel(label, x, y, **kwargs):
     """Draw a label with a box, and an accented shadow"""
 
-    drawLabel(label, x + 3, y + 3, **kwargs, fill=colors.ACCENT)
-    drawLabel(label, x, y, **kwargs, fill=colors.WHITE)
+    drawLabel(label, x + 3, y + 3, **kwargs, fill=Colors.ACCENT)
+    drawLabel(label, x, y, **kwargs, fill=Colors.WHITE)
 
 
 def drawStartScreen(app):
@@ -44,7 +44,7 @@ def drawStartScreen(app):
     drawAccentedLabel("jenerals.io", app.width // 2, 150, size=64, bold=True)
 
     desc = "Protect your general. Capture enemy generals."
-    drawLabel(desc, app.width // 2, 200, size=18, fill=colors.WHITE, bold=True)
+    drawLabel(desc, app.width // 2, 200, size=18, fill=Colors.WHITE, bold=True)
 
 
 def drawGame(app):
@@ -62,3 +62,5 @@ def drawAll(app):
 
     if app.flag:
         drawRect(10, 10, 30, 30, fill="red")
+
+    app.button.draw()

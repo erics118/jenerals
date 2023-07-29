@@ -1,6 +1,6 @@
 from cmu_graphics import *
 
-import utils.colors as colors
+from utils.colors import Colors
 
 
 # TODO: draw borders only between visible cells
@@ -15,6 +15,6 @@ def drawBoardBorder(app):
         app.board.width,
         app.board.height,
         fill=None,
-        border=colors.BORDER,
+        border=Colors.BORDER,
         borderWidth=2 * app.cellBorderWidth,
     )

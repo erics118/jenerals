@@ -1,6 +1,12 @@
 def mousePress(app, mouseX, mouseY):
     """Handle mouse presses"""
 
+    # check buttons first
+    if app.button.isMouseWithin(mouseX, mouseY):
+        return
+
+    app.mouseCoords = (mouseX, mouseY)
+
     if app.hasOngoingGame:
         inGameMousePress(app, mouseX, mouseY)
     else:
@@ -15,5 +21,4 @@ def startScreenMousePress(app, mouseX, mouseY):
 
 def inGameMousePress(app, mouseX, mouseY):
     """Handle mouse presses in the game"""
-
-    app.mx, app.my = mouseX, mouseY
+    pass

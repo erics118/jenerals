@@ -16,7 +16,8 @@ def startScreenMouseDrag(app, mouseX, mouseY):
 def inGameMouseDrag(app, mouseX, mouseY):
     """Handle mouse drags in the game"""
 
-    app.isDragging = True
-    app.board.left = mouseX - app.mx + app.board.left
-    app.board.top = mouseY - app.my + app.board.top
-    app.mx, app.my = mouseX, mouseY
+    if app.mouseCoords != None:
+        app.isDragging = True
+        app.board.left = mouseX - app.mouseCoords[0] + app.board.left
+        app.board.top = mouseY - app.mouseCoords[1] + app.board.top
+        app.mouseCoords = (mouseX, mouseY)

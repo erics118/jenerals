@@ -1,16 +1,16 @@
 from classes.board import Board
+from classes.button import Button
+from utils.colors import rgb
 
 
 def newGame(app):
     """Create a new game"""
 
     app.hasOngoingGame = True
-    app.isDragging = False
     app.isPaused = False
     app.forceIsVisible = False
 
-    app.mx = 0
-    app.my = 0
+    app.mouseCoords = None
 
     app.stepsPerSecond = 2
 
@@ -28,6 +28,7 @@ def newGame(app):
 def appStart(app, dev):
     # is developer mode flag
     app.dev = dev
+    app.isDragging = False
 
     # used to check something is working while developing
     app.flag = False
@@ -36,3 +37,20 @@ def appStart(app, dev):
 
     # lambda to add a function to the app
     app.startGame = lambda: newGame(app)
+
+    def f(app):
+        app.flag ^= True
+
+    app.button = Button(
+        app,
+        50,
+        50,
+        100,
+        100,
+        fill=rgb(230, 200, 200),
+        onClick=f,
+        borderWidth=3,
+        borderColor=rgb(200, 100, 100),
+        text="hi",
+        textColor="red",
+    )
