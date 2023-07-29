@@ -3,6 +3,8 @@ from utils.legal import isMoveLegal
 
 
 def doMove(app, drow, dcol):
+    """Move troops from one cell to another"""
+
     # disregard illegal moves or if no cell is focused
     if not app.isFocused or not isMoveLegal(app, app.selectedCoords, drow, dcol):
         # clear remaining premoves that follow that illegal move
@@ -50,6 +52,13 @@ def doMove(app, drow, dcol):
 
 
 def stepWithCount(app):
+    """
+    A step occurs twice a second.
+    A turn is two steps.
+    Every step, cities and jenerals step.
+    Every 25 steps, all cells step.
+    """
+
     app.c += 1
     if app.c % (app.stepsPerSecond * 25) == 0:
         app.board.step("all")
@@ -58,6 +67,8 @@ def stepWithCount(app):
 
 
 def step(app):
+    """Step the game"""
+
     if not app.hasOngoingGame:
         return
 

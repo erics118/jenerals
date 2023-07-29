@@ -2,6 +2,8 @@ from objects.board import Board
 
 
 def newGame(app):
+    """Create a new game"""
+
     app.hasOngoingGame = True
     app.isDragging = False
     app.isPaused = False

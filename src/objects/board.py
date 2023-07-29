@@ -5,7 +5,9 @@ from cmu_graphics import *
 import random
 
 
-def _randomCellType():
+def randomCellType():
+    """Generate a random cell type, with hardcoded probabilities"""
+
     r = random.randint(0, 99)
     if r < 15:
         return "mountain"
@@ -15,26 +17,32 @@ def _randomCellType():
         return "fog"
 
 
-def _randomCoords(rows, cols):
+def randomCoords(rows, cols):
+    """Generate a random coordinate"""
+
     return (random.randint(0, rows - 1), random.randint(0, cols - 1))
 
 
-def _generateGrid(rows, cols):
+def generateGrid(rows, cols):
+    """Generate a random grid"""
+
     grid = makeList(rows, cols)
 
     for r in range(rows):
         for c in range(cols):
-            grid[r][c] = Cell(r, c, "neutral", _randomCellType())
+            grid[r][c] = Cell(r, c, "neutral", randomCellType())
 
-    # put player's jeneral in the top left
-    # TODO: put in a random place, at least rows//2 away from the opponent
-    r, c = _randomCoords(rows, cols)
+    # TODO: make sure it is at least rows//2 away from the opponent
+    r, c = randomCoords(rows, cols)
     grid[r][c] = Cell(r, c, "player", "jeneral")
     grid[r][c].isVisible = True
+
     return (grid, (r, c))
 
 
-def _hasBlockedAreas(grid):
+def hasBlockedAreas(grid):
+    """Check if a generated grid has any blocked areas"""
+
     rows = len(grid)
     cols = len(grid[0])
 
@@ -58,7 +66,15 @@ def _hasBlockedAreas(grid):
 
 
 class Board:
+    """
+    Board represents the main part of the game state.
+    This includes the grid, the cells, and the troops.
+    It does not include the selected cell or the premoves.
+    """
+
     def __init__(self, app, rows, cols):
+        """Initialize the board"""
+
         # static board properties
         self.rows = rows
         self.cols = cols
@@ -72,24 +88,29 @@ class Board:
         self.cellHeight = self.height / self.rows
 
         # randomly generate the grid
-        self.grid, jeneralCoords = _generateGrid(self.rows, self.cols)
+        self.grid, jeneralCoords = generateGrid(self.rows, self.cols)
 
         # regenerate grid until there are no blocked areas
-        while _hasBlockedAreas(self.grid):
-            self.grid, jeneralCoords = _generateGrid(self.rows, self.cols)
+        while hasBlockedAreas(self.grid):
+            self.grid, jeneralCoords = generateGrid(self.rows, self.cols)
 
         app.selectedCoords = jeneralCoords
         app.premoveSelectedCoords = jeneralCoords
 
-    # helper function to get the cell at a row and col
     def at(self, row, col):
+        """
+        Get the cell at a row and col, with bounds checking.
+        Do not access the grid directly.
+        """
+
         r = min(max(row, 0), self.rows - 1)
         c = min(max(col, 0), self.cols - 1)
 
         return self.grid[r][c]
 
-    # increment cells
     def step(self, mode):
+        """Increment the number of troops in the cell"""
+
         if mode == "city":
             for r in range(self.rows):
                 for c in range(self.cols):
@@ -105,8 +126,9 @@ class Board:
                 for c in range(self.cols):
                     self.grid[r][c].step()
 
-    # collect all troops into a single cell
     def collectTroops(self, coords):
+        """Collect all troops into a single cell"""
+
         cnt = 0
         for r in range(self.rows):
             for c in range(self.cols):
@@ -120,5 +142,7 @@ class Board:
 
 
 def drawBoard(app):
+    """Draw the board"""
+
     drawBoardCells(app)
     drawBoardBorder(app)

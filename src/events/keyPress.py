@@ -2,22 +2,26 @@ from utils.premoves import clearPremoves, doPremove
 from .step import stepWithCount, doMove
 
 
-# on a key press
 def keyPress(app, key):
+    """Handle key presses"""
+
     if not app.hasOngoingGame:
         startScreenKeyPress(app, key)
     else:
         inGameKeyPress(app, key)
 
 
-# key presses on start screen
 def startScreenKeyPress(app, key):
+    """Handle key presses on the start screen"""
+
     match key:
         case "enter":
             app.startGame()
 
 
 def inGameKeyPress(app, key):
+    """Handle key presses in the game"""
+
     match key:
         # if space is pressed, toggle focus
         case "space":

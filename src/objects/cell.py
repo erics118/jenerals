@@ -3,7 +3,17 @@ from cmu_graphics import *
 
 
 class Cell:
+    """
+    A single cell on the board.
+    It includes the position, the team, type, the number of troops, and if the cell is visible.
+
+    The row and col fields are sometimes redundant if the cell is in a Board.
+    Nevertheless, they are useful in other cases.
+    """
+
     def __init__(self, row, col, team, t, numTroops=0, isVisible=False):
+        """Initialize the cell"""
+
         self.row = row
         self.col = col
         self.team = team  # player, bot, neutral
@@ -12,18 +22,28 @@ class Cell:
         self.isVisible = isVisible
 
     def step(self):
+        """Increment the number of troops in the cell"""
         if self.numTroops > 0:
             self.numTroops += 1
 
+    # TODO: implement this
     def isSelectable(self):
-        self.team == "red"
+        """
+        Return whether the cell is selectable.
+        A cell is not selectable if it is a city or jeneral, but selectable otherwise.
+        """
+        pass
 
     def getCellLeftTop(self, app):
+        """Get the top left coordinate of the cell"""
+
         cellLeft = app.board.left + self.col * app.board.cellWidth
         cellTop = app.board.top + self.row * app.board.cellHeight
         return (cellLeft, cellTop)
 
     def getColor(self, forceIsVisible=False):
+        """Get the color of the cell to be used when drawing"""
+
         if self.team == "player":
             return colors.BLUE
 
@@ -40,6 +60,8 @@ class Cell:
         return colors.FOG
 
     def getImage(self, forceIsVisible=False):
+        """Get the image of the cell to be used when drawing"""
+
         if self.isVisible or forceIsVisible:
             return self.t
         else:
@@ -49,6 +71,8 @@ class Cell:
 
 
 def drawCell(app, cell):
+    """Draw a single cell."""
+
     directions = [
         (-1, +1),
         (0, +1),
@@ -128,12 +152,16 @@ def drawCell(app, cell):
 
 
 def drawBoardCells(app):
+    """Draw all the cells in the board"""
+
     for r in range(app.board.rows):
         for c in range(app.board.cols):
             drawCell(app, app.board.at(r, c))
 
 
 def getCellCoords(app, x, y):
+    """Given x and y coordinates, get the row and col of the cell that contains those coordinates"""
+
     # out of bounds of board
     if (
         x < app.board.left
@@ -144,4 +172,5 @@ def getCellCoords(app, x, y):
         return None
     row = int((y - app.board.top) / app.board.cellHeight)
     col = int((x - app.board.left) / app.board.cellWidth)
+
     return (row, col)

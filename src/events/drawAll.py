@@ -4,10 +4,14 @@ import utils.colors as colors
 
 
 def drawBackground(app):
+    """Draw the background"""
+
     drawRect(0, 0, app.width, app.height, fill=colors.BACKGROUND)
 
 
 def drawTurnCounter(app):
+    """Draw the turn counter in the top left corner"""
+
     w = 75
     h = 20
     borderWidth = 3
@@ -27,13 +31,17 @@ def drawTurnCounter(app):
     drawLabel(label, w // 2, h // 2, size=14, fill=colors.BLACK, align="center")
 
 
-def drawLabelWithAccent(label, x, y, **kwargs):
+def drawAccentedLabel(label, x, y, **kwargs):
+    """Draw a label with a box, and an accented shadow"""
+
     drawLabel(label, x + 3, y + 3, **kwargs, fill=colors.ACCENT)
     drawLabel(label, x, y, **kwargs, fill=colors.WHITE)
 
 
 def drawStartScreen(app):
-    drawLabelWithAccent("jenerals.io", app.width // 2, 150, size=64, bold=True)
+    """Draw the start screen"""
+
+    drawAccentedLabel("jenerals.io", app.width // 2, 150, size=64, bold=True)
 
     desc = "Protect your jeneral. Capture enemy jenerals."
     drawLabel(desc, app.width // 2, 200, size=18, fill=colors.WHITE, bold=True)

@@ -6,6 +6,8 @@ import utils.colors as colors
 
 
 def drawBoardBorder(app):
+    """Draw the board border"""
+
     # draw the board outline with double-thickness
     drawRect(
         app.board.left,
