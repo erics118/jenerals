@@ -1,6 +1,8 @@
 import utils.colors as colors
 from cmu_graphics import *
 
+from utils.image import getImagePath
+
 
 class Cell:
     """
@@ -59,16 +61,6 @@ class Cell:
 
         return colors.FOG
 
-    def getImage(self, forceIsVisible=False):
-        """Get the image of the cell to be used when drawing"""
-
-        if self.isVisible or forceIsVisible:
-            return self.t
-        else:
-            if self.t in ["mountain", "city"]:
-                return "obstacle"
-        return None
-
 
 def drawCell(app, cell):
     """Draw a single cell."""
@@ -119,6 +111,7 @@ def drawCell(app, cell):
                     else:
                         color = colors.SURROUNDING_FOG_NOT_VISIBLE
 
+    # draw the background for the cell
     drawRect(
         cellLeft,
         cellTop,
@@ -129,17 +122,18 @@ def drawCell(app, cell):
         borderWidth=app.cellBorderWidth,
     )
 
-    if cell.t != "fog":
-        imagePath = cell.getImage(app.forceIsVisible)
-        if imagePath is not None:
-            drawImage(
-                "./src/images/" + imagePath + ".png",
-                cellLeft + app.board.cellHeight // 2,
-                cellTop + app.board.cellHeight // 2,
-                align="center",
-            )
+    # draw the image for the cell if it is not fog
+    imagePath = getImagePath(cell.t, cell.isVisible or app.forceIsVisible)
 
-    # troop count
+    if imagePath is not None:
+        drawImage(
+            imagePath,
+            cellLeft + app.board.cellHeight // 2,
+            cellTop + app.board.cellHeight // 2,
+            align="center",
+        )
+
+    # draw the troop count
     if cell.numTroops > 0 or (cell.t in ["general", "city"] and cell.team != "neutral"):
         drawLabel(
             str(cell.numTroops),
@@ -151,14 +145,7 @@ def drawCell(app, cell):
         )
 
 
-def drawBoardCells(app):
-    """Draw all the cells in the board"""
-
-    for r in range(app.board.rows):
-        for c in range(app.board.cols):
-            drawCell(app, app.board.at(r, c))
-
-
+# Code modified from tetris grid assignment on CS Academy
 def getCellCoords(app, x, y):
     """Given x and y coordinates, get the row and col of the cell that contains those coordinates"""
 

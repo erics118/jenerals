@@ -1,4 +1,4 @@
-from cmu_graphics import *
+from cmu_graphics import rgb
 
 # grid colors
 BACKGROUND = rgb(34, 34, 34)

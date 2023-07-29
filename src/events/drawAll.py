@@ -1,4 +1,4 @@
-from objects.board import drawBoard
+from classes.board import drawBoard
 from cmu_graphics import *
 import utils.colors as colors
 

@@ -1,4 +1,4 @@
-from objects.cell import getCellCoords
+from classes.cell import getCellCoords
 
 
 def mouseRelease(app, mouseX, mouseY):

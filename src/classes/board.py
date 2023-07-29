@@ -1,6 +1,6 @@
 from utils.floodFill import floodFill
 from .border import drawBoardBorder
-from .cell import drawBoardCells, Cell
+from .cell import Cell, drawCell
 from cmu_graphics import *
 import random
 
@@ -24,7 +24,12 @@ def randomCoords(rows, cols):
 
 
 def generateGrid(rows, cols):
-    """Generate a random grid"""
+    """
+    Generate a random grid
+
+    Returns the grid and the coordinates of the general
+    The general is the starting selected cell
+    """
 
     grid = makeList(rows, cols)
 
@@ -38,6 +43,14 @@ def generateGrid(rows, cols):
     grid[r][c].isVisible = True
 
     return (grid, (r, c))
+
+
+def drawBoardCells(app):
+    """Draw all the cells in the board"""
+
+    for r in range(app.board.rows):
+        for c in range(app.board.cols):
+            drawCell(app, app.board.at(r, c))
 
 
 def hasBlockedAreas(grid):

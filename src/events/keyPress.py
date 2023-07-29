@@ -47,7 +47,7 @@ def inGameKeyPress(app, key):
 def devKeyPress(app, key):
     match key:
         # toggle flag
-        case ",":
+        case "f":
             app.flag = not app.flag
         # step once
         case ".":

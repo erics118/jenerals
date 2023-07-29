@@ -11,6 +11,7 @@ from events.mousePress import mousePress
 from events.step import step
 from utils.cliFlags import ArgsConfig, parse
 
+# TODO: take in app as a parameter in initiaization of all apps. not sure if good idea
 # NOTE: if not focused on a cell, still do premoves and dont move immediately
 
 # TODO: if not focused on a cell, then allow for moving through mountains, enemy, etc

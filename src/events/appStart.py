@@ -1,4 +1,4 @@
-from objects.board import Board
+from classes.board import Board
 
 
 def newGame(app):
@@ -26,10 +26,13 @@ def newGame(app):
 
 
 def appStart(app, dev):
+    # is developer mode flag
     app.dev = dev
 
+    # used to check something is working while developing
     app.flag = False
 
     app.hasOngoingGame = False
 
+    # lambda to add a function to the app
     app.startGame = lambda: newGame(app)

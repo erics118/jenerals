@@ -1,4 +1,4 @@
-from utils.legal import isMoveLegal
+from .legal import isMoveLegal
 
 
 def clearPremoves(app):
