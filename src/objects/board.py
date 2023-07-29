@@ -26,11 +26,11 @@ def _generateGrid(rows, cols):
         for c in range(cols):
             grid[r][c] = Cell(r, c, "neutral", _randomCellType())
 
-    # put player's general in the top left
+    # put player's jeneral in the top left
     # TODO: put in a random place, at least rows//2 away from the opponent
     r, c = _randomCoords(rows, cols)
-    grid[r][c] = Cell(r, c, "player", "general")
-
+    grid[r][c] = Cell(r, c, "player", "jeneral")
+    grid[r][c].isVisible = True
     return (grid, (r, c))
 
 
@@ -72,14 +72,14 @@ class Board:
         self.cellHeight = self.height / self.rows
 
         # randomly generate the grid
-        self.grid, generalCoords = _generateGrid(self.rows, self.cols)
+        self.grid, jeneralCoords = _generateGrid(self.rows, self.cols)
 
         # regenerate grid until there are no blocked areas
         while _hasBlockedAreas(self.grid):
-            self.grid, generalCoords = _generateGrid(self.rows, self.cols)
+            self.grid, jeneralCoords = _generateGrid(self.rows, self.cols)
 
-        app.selectedCoords = generalCoords
-        app.premoveSelectedCoords = generalCoords
+        app.selectedCoords = jeneralCoords
+        app.premoveSelectedCoords = jeneralCoords
 
     # helper function to get the cell at a row and col
     def at(self, row, col):
@@ -93,9 +93,9 @@ class Board:
         if mode == "city":
             for r in range(self.rows):
                 for c in range(self.cols):
-                    # if is a city or general
+                    # if is a city or jeneral
                     if (
-                        self.grid[r][c].t in ["city", "general"]
+                        self.grid[r][c].t in ["city", "jeneral"]
                         and self.grid[r][c].team != "neutral"
                     ):
                         self.grid[r][c].numTroops += 1

@@ -27,8 +27,16 @@ def drawTurnCounter(app):
     drawLabel(label, w // 2, h // 2, size=14, fill=colors.BLACK, align="center")
 
 
+def drawLabelWithAccent(label, x, y, **kwargs):
+    drawLabel(label, x + 3, y + 3, **kwargs, fill=colors.ACCENT)
+    drawLabel(label, x, y, **kwargs, fill=colors.WHITE)
+
+
 def drawStartScreen(app):
-    drawLabel("press enter to start", 200, 200, size=18)
+    drawLabelWithAccent("jenerals.io", app.width // 2, 150, size=64, bold=True)
+
+    desc = "Protect your jeneral. Capture enemy jenerals."
+    drawLabel(desc, app.width // 2, 200, size=18, fill=colors.WHITE, bold=True)
 
 
 def drawGame(app):

@@ -7,7 +7,7 @@ class Cell:
         self.row = row
         self.col = col
         self.team = team  # player, bot, neutral
-        self.t = t  # obstacle, city, mountain, general, fog
+        self.t = t  # obstacle, city, mountain, jeneral, fog
         self.numTroops = numTroops
         self.isVisible = isVisible
 
@@ -116,21 +116,21 @@ def drawCell(app, cell):
             )
 
     # troop count
-    if cell.numTroops > 0 or (cell.t in ["general", "city"] and cell.team != "neutral"):
+    if cell.numTroops > 0 or (cell.t in ["jeneral", "city"] and cell.team != "neutral"):
         drawLabel(
             str(cell.numTroops),
             cellLeft + app.board.cellHeight // 2,
             cellTop + app.board.cellHeight // 2,
-            size=14,
+            size=12,
             fill=colors.WHITE,
             bold=False,
         )
 
 
 def drawBoardCells(app):
-    for row in range(app.board.rows):
-        for col in range(app.board.cols):
-            drawCell(app, app.board.at(row, col))
+    for r in range(app.board.rows):
+        for c in range(app.board.cols):
+            drawCell(app, app.board.at(r, c))
 
 
 def getCellCoords(app, x, y):
