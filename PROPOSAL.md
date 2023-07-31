@@ -61,7 +61,7 @@ Alternatively, I could code a strategy based on how top players play. The basic 
 - TP1: August 5
   - Finish bot movement with basic strategy
 - TP2: August 8
-  - finish bot strategy
+  - Finish bot strategy
 - TP3 (Project Due Date): August 10
   - Polish up the game and fix weird bugs
 

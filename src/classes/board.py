@@ -55,7 +55,7 @@ def drawBoardCells(app):
 
     for r in range(app.board.rows):
         for c in range(app.board.cols):
-            drawCell(app, app.board.at(r, c))
+            drawCell(app, app.board.at((r, c)))
 
 
 def hasBlockedAreas(grid):
@@ -115,14 +115,14 @@ class Board:
         app.selectedCoords = generalCoords
         app.premoveSelectedCoords = generalCoords
 
-    def at(self, row, col):
+    def at(self, coords):
         """
         Get the cell at a row and col, with bounds checking.
         Do not access the grid directly.
         """
 
-        r = min(max(row, 0), self.rows - 1)
-        c = min(max(col, 0), self.cols - 1)
+        r = min(max(coords[0], 0), self.rows - 1)
+        c = min(max(coords[1], 0), self.cols - 1)
 
         return self.grid[r][c]
 
@@ -154,7 +154,7 @@ class Board:
                         cnt += cell.numTroops - 1
                         cell.numTroops = 1
 
-        self.grid.at(*coords).numTroops += cnt
+        self.grid.at(coords).numTroops += cnt
 
 
 def drawBoard(app):

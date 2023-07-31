@@ -1,3 +1,4 @@
+from .addTuple import add
 from .legal import isMoveLegal
 
 
@@ -16,14 +17,11 @@ def doPremove(app, moveCoords):
 
     # disregard illegal moves or if no cell is focused
     if not app.isFocused or not isMoveLegal(
-        app, app.premoveSelectedCoords, *moveCoords
+        app, app.premoveSelectedCoords, moveCoords
     ):
         return
 
-    new = (
-        app.premoveSelectedCoords[0] + moveCoords[0],
-        app.premoveSelectedCoords[1] + moveCoords[1],
-    )
+    new = add(app.premoveSelectedCoords, moveCoords)
 
     # record the premove
     app.premoves.append(moveCoords)

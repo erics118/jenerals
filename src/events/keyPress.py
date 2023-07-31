@@ -62,7 +62,7 @@ def devKeyPress(app, key):
         case "?":
             # TODO: fix going through mountains with this
             while len(app.premoves) >= 1:
-                doMove(app, *app.premoves.pop(0))
+                doMove(app, app.premoves.pop(0))
         case "P":
             app.isPaused = not app.isPaused
         case "V":

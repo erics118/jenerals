@@ -1,7 +1,6 @@
 from cmu_graphics import *
 
 from classes.board import Board
-from classes.button import Button
 
 
 def newGame(app):
@@ -47,16 +46,16 @@ def appStart(app, dev):
         app.flag ^= True
 
     app.buttons = [
-        Button(
-            50,
-            50,
-            100,
-            100,
-            fill=rgb(230, 200, 200),
-            onClick=f,
-            borderWidth=3,
-            borderColor=rgb(200, 100, 100),
-            text="hi",
-            textColor="red",
-        )
+        # Button(
+        #     50,
+        #     50,
+        #     100,
+        #     100,
+        #     fill=rgb(230, 200, 200),
+        #     onClick=f,
+        #     borderWidth=3,
+        #     borderColor=rgb(200, 100, 100),
+        #     text="hi",
+        #     textColor="red",
+        # )
     ]

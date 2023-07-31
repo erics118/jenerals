@@ -78,8 +78,8 @@ def drawCell(app, cell):
 
     # TODO: move to board class so not called too repetitively
     for drow, dcol in directions:
-        if app.board.at(cell.row + drow, cell.col + dcol).team == "player":
-            app.board.at(cell.row, cell.col).isVisible = True
+        if app.board.at((cell.row + drow, cell.col + dcol)).team == "player":
+            app.board.at((cell.row, cell.col)).isVisible = True
 
     cellLeft, cellTop = cell.getCellLeftTop(app)
     border = Colors.BORDER
@@ -134,7 +134,9 @@ def drawCell(app, cell):
         )
 
     # draw the troop count
-    if cell.numTroops > 0 or (cell.t in ["general", "city"] and cell.team != "neutral"):
+    if cell.numTroops > 0 or (
+        cell.t in ["general", "city"] and cell.team != "neutral"
+    ):
         drawLabel(
             str(cell.numTroops),
             cellLeft + app.board.cellHeight // 2,
