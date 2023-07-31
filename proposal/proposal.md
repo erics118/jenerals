@@ -76,6 +76,8 @@ Your backups must not be on your computer (ideally, store them in the cloud) -->
 
 I will be using [GitHub](https://github.com/) as my version control system. The private repository is located at [`erics118/15-112-tp`](https://github.com/erics118/15-112-tp).
 
+Image: ![version control](./versionControl.png)
+
 ### Module List (1 pts)
 <!-- A list of all external modules/hardware/technologies you are planning to use in your project. Note that any such modules must be approved by a tech demo. If you are not planning to use any additional modules, that's okay, just say so! -->
 For TP0, I said that I will not be using any modules.

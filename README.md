@@ -6,7 +6,7 @@ generals.io clone in python using cmu_graphics
 
 Install `Python 3.10` using your package manager. Any patch version should work. Other minor versions may work, but this is the only one that is tested.
 
-Install the `cairo` graphics library using your package manager.
+Install the `cairo` graphics library using your package manager, as it is required by the `cmu_graphics` dependency.
 
 Install the required packages with `pip install -e .`.
 
@@ -17,6 +17,7 @@ Run the program with `python3 src/main.py`
 Run the program in development mode with `python3 src/main.py --dev`
 
 ## Just
+
 If you have [`just`](https://github.com/casey/just) installed, there are some other shortcuts.
 
 You can run `just install` to install the required packages.
