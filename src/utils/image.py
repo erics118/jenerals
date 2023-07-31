@@ -20,5 +20,5 @@ def getImagePath(t, isVisible):
 
     if imageName is None:
         return None
-    else:
-        return f"./images/{imageName}.png"
+
+    return f"./images/{imageName}.png"

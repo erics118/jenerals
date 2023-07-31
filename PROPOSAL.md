@@ -74,9 +74,7 @@ Alternatively, I could code a strategy based on how top players play. The basic 
 You must back up your code somehow!!!
 Your backups must not be on your computer (ideally, store them in the cloud) -->
 
-I will be using [GitHub](https://github.com/) as my version control system.
-The private repository is located at [`erics118/15-112-tp`](https://github.com/erics118/15-112-tp).
-
+I will be using [GitHub](https://github.com/) as my version control system. The private repository is located at [`erics118/15-112-tp`](https://github.com/erics118/15-112-tp).
 
 ### Module List (1 pts)
 <!-- A list of all external modules/hardware/technologies you are planning to use in your project. Note that any such modules must be approved by a tech demo. If you are not planning to use any additional modules, that's okay, just say so! -->
@@ -94,3 +92,8 @@ Alternatively, I might use an image processing module, such as [PIL](https://pil
 
 <!-- Note: Your TP0, TP1, TP2, collectively count for one quiz grade. -->
 
+## Questions
+
+- can storyboard be images of the original game that i clone?
+- do i need explain each panel, or are images enough?
+- what level of cleanness and detail?

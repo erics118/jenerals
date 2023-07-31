@@ -10,8 +10,14 @@ def mouseRelease(app, mouseX, mouseY):
         app.mouseCoords = None
         return
 
-    # check if clicked on button
-    if app.button.checkClick(mouseX, mouseY):
+    # on mouse release, check if the button that was pressed down in mousePress
+    # is the same as the button that is being released
+    # if so, call the button's click method
+    # if the release position isn't even a button, do nothing
+    if app.pressedButtonId is not None:
+        if app.buttons[app.pressedButtonId].isMouseWithin(mouseX, mouseY):
+            app.buttons[app.pressedButtonId].click(app)
+        app.pressedButtonId = None
         return
 
     if app.hasOngoingGame:
@@ -20,9 +26,8 @@ def mouseRelease(app, mouseX, mouseY):
         startScreenMouseRelease(app, mouseX, mouseY)
 
 
-def startScreenMouseRelease(app, mouseX, mouseY):
+def startScreenMouseRelease(_app, _mouseX, _mouseY):
     """Handle mouse releases on the start screen"""
-    pass
 
 
 def inGameMouseRelease(app, mouseX, mouseY):

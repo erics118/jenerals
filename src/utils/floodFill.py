@@ -1,16 +1,20 @@
-# 0 = unvisited
-# 1 = wall
-# 2 = visited
 def floodFill(grid, coords=None):
+    """
+    Flood fill algorithm to find all the accessible areas in the grid.
+    0 = unvisited
+    1 = wall
+    2 = visited
+    """
     # having coords as None is the initial call
     # find the first non-wall cell and start the flood fill from there
-    if coords == None:
-        firstNotWall = None
-        for r in range(len(grid)):
-            for c in range(len(grid[0])):
-                if grid[r][c] == 0:
-                    firstNotWall = (r, c)
-                    break
+
+    if coords is None:
+        firstNotWall = next(
+            (r, c)
+            for r, row in enumerate(grid)
+            for c, cell in enumerate(row)
+            if cell == 0
+        )
 
         floodFill(grid, firstNotWall)
         return
@@ -38,8 +42,8 @@ def floodFill(grid, coords=None):
 
 
 def hasInaccessibleAreas(grid):
-    for r in range(len(grid)):
-        for c in range(len(grid[0])):
-            if grid[r][c] == 0:
-                return True
-    return False
+    """
+    Returns whether or not there are inaccessible areas in the grid.
+    """
+
+    return any(cell == 0 for row in grid for cell in row)

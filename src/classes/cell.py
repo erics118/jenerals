@@ -25,6 +25,7 @@ class Cell:
 
     def step(self):
         """Increment the number of troops in the cell"""
+
         if self.numTroops > 0:
             self.numTroops += 1
 
@@ -34,7 +35,6 @@ class Cell:
         Return whether the cell is selectable.
         A cell is not selectable if it is a city or general, but selectable otherwise.
         """
-        pass
 
     def getCellLeftTop(self, app):
         """Get the top left coordinate of the cell"""
@@ -145,9 +145,12 @@ def drawCell(app, cell):
         )
 
 
-# Code modified from tetris grid assignment on CS Academy
+# CITE: code modified from tetris grid assignment on CS Academy
 def getCellCoords(app, x, y):
-    """Given x and y coordinates, get the row and col of the cell that contains those coordinates"""
+    """
+    Given x and y coordinates, get the row and col
+    of the cell that contains those coordinates
+    """
 
     # out of bounds of board
     if (

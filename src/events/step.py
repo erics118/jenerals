@@ -1,17 +1,17 @@
-from utils.premoves import clearPremoves
 from utils.legal import isMoveLegal
+from utils.premoves import clearPremoves
 
 
-def doMove(app, drow, dcol):
+def doMove(app, moveCoords):
     """Move troops from one cell to another"""
 
     # disregard illegal moves or if no cell is focused
-    if not app.isFocused or not isMoveLegal(app, app.selectedCoords, drow, dcol):
+    if not app.isFocused or not isMoveLegal(app, app.selectedCoords, moveCoords):
         # clear remaining premoves that follow that illegal move
         clearPremoves(app)
         return
 
-    new = (app.selectedCoords[0] + drow, app.selectedCoords[1] + dcol)
+    new = (app.selectedCoords[0] + moveCoords[0], app.selectedCoords[1] + moveCoords[1])
 
     # if selected is player
     if app.board.at(*app.selectedCoords).team == "player":
@@ -67,7 +67,7 @@ def stepWithCount(app):
 
 
 def step(app):
-    """Step the game"""
+    """Handle step events"""
 
     if not app.hasOngoingGame:
         return

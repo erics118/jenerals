@@ -4,7 +4,7 @@ from utils.colors import Colors
 
 
 # TODO: draw borders only between visible cells
-# Code modified from tetris grid assignment on CS Academy
+# CITE: code modified from tetris grid assignment on CS Academy
 def drawBoardBorder(app):
     """Draw the board border"""
 

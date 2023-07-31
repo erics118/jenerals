@@ -1,5 +1,6 @@
-from classes.board import drawBoard
 from cmu_graphics import *
+
+from classes.board import drawBoard
 from utils.colors import Colors
 
 
@@ -48,11 +49,15 @@ def drawStartScreen(app):
 
 
 def drawGame(app):
+    """Draw the game"""
+
     drawBoard(app)
     drawTurnCounter(app)
 
 
 def drawAll(app):
+    """Draw all elements of the app"""
+
     drawBackground(app)
 
     if not app.hasOngoingGame:
@@ -63,4 +68,5 @@ def drawAll(app):
     if app.flag:
         drawRect(10, 10, 30, 30, fill="red")
 
-    app.button.draw()
+    for button in app.buttons:
+        button.draw()

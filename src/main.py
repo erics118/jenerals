@@ -25,33 +25,41 @@ from utils.cliFlags import ArgsConfig, parse
 # TODO: restart game
 # TODO: nicer pre-game screen
 # TODO: allow player to play with another player with WASD
+# TODO: always pass coords as a tuple
 
 
 def onAppStart(app, dev=False):
+    """Initializes the application when it starts."""
     appStart(app, dev)
 
 
 def onKeyPress(app, key):
+    """Handle key presses"""
     keyPress(app, key)
 
 
 def redrawAll(app):
+    """Draw all elements of the app"""
     drawAll(app)
 
 
 def onMousePress(app, mouseX, mouseY):
+    """Handle mouse presses"""
     mousePress(app, mouseX, mouseY)
 
 
 def onMouseRelease(app, mouseX, mouseY):
+    """Handle mouse releases"""
     mouseRelease(app, mouseX, mouseY)
 
 
 def onMouseDrag(app, mouseX, mouseY):
+    """Handle mouse drags"""
     mouseDrag(app, mouseX, mouseY)
 
 
 def onStep(app):
+    """Handle step events"""
     step(app)
 
 

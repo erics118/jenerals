@@ -1,26 +1,31 @@
+from random import randint
+
+from cmu_graphics import *
+
 from utils.floodFill import floodFill
+
 from .border import drawBoardBorder
 from .cell import Cell, drawCell
-from cmu_graphics import *
-import random
 
 
 def randomCellType():
     """Generate a random cell type, with hardcoded probabilities"""
 
-    r = random.randint(0, 99)
+    r = randint(0, 99)
+
     if r < 15:
         return "mountain"
-    elif r < 20:
+
+    if r < 20:
         return "city"
-    else:
-        return "fog"
+
+    return "fog"
 
 
 def randomCoords(rows, cols):
     """Generate a random coordinate"""
 
-    return (random.randint(0, rows - 1), random.randint(0, cols - 1))
+    return (randint(0, rows - 1), randint(0, cols - 1))
 
 
 def generateGrid(rows, cols):
@@ -125,33 +130,31 @@ class Board:
         """Increment the number of troops in the cell"""
 
         if mode == "city":
-            for r in range(self.rows):
-                for c in range(self.cols):
+            for row in self.grid:
+                for cell in row:
                     # if is a city or general
-                    if (
-                        self.grid[r][c].t in ["city", "general"]
-                        and self.grid[r][c].team != "neutral"
-                    ):
-                        self.grid[r][c].numTroops += 1
+                    if cell.t in ["city", "general"] and cell.team != "neutral":
+                        cell.numTroops += 1
 
         if mode == "all":
-            for r in range(self.rows):
-                for c in range(self.cols):
-                    self.grid[r][c].step()
+            for row in self.grid:
+                for cell in row:
+                    cell.step()
 
     def collectTroops(self, coords):
         """Collect all troops into a single cell"""
 
         cnt = 0
-        for r in range(self.rows):
-            for c in range(self.cols):
-                if self.grid[r][c].team == "player":
+        for r, row in enumerate(self.grid):
+            for c, cell in enumerate(row):
+                if cell.team == "player":
                     if (r, c) == coords:
                         continue
-                    if self.grid[r][c].numTroops > 1:
-                        cnt += self.grid[r][c].numTroops - 1
-                        self.grid[r][c].numTroops = 1
-        self.grid[coords[0]][coords[1]].numTroops += cnt
+                    if cell.numTroops > 1:
+                        cnt += cell.numTroops - 1
+                        cell.numTroops = 1
+
+        self.grid.at(*coords).numTroops += cnt
 
 
 def drawBoard(app):

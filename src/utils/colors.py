@@ -1,7 +1,13 @@
+from enum import Enum
+
 from cmu_graphics import rgb
 
 
 class Colors:
+    """
+    Colors used in the game.
+    """
+
     # grid colors
     BACKGROUND = rgb(34, 34, 34)
     BORDER = rgb(0, 0, 0)

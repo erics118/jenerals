@@ -1,6 +1,7 @@
+from cmu_graphics import *
+
 from classes.board import Board
 from classes.button import Button
-from utils.colors import rgb
 
 
 def newGame(app):
@@ -26,9 +27,13 @@ def newGame(app):
 
 
 def appStart(app, dev):
+    """Start the app"""
+
     # is developer mode flag
     app.dev = dev
     app.isDragging = False
+
+    app.pressedButtonId = None
 
     # used to check something is working while developing
     app.flag = False
@@ -41,16 +46,17 @@ def appStart(app, dev):
     def f(app):
         app.flag ^= True
 
-    app.button = Button(
-        app,
-        50,
-        50,
-        100,
-        100,
-        fill=rgb(230, 200, 200),
-        onClick=f,
-        borderWidth=3,
-        borderColor=rgb(200, 100, 100),
-        text="hi",
-        textColor="red",
-    )
+    app.buttons = [
+        Button(
+            50,
+            50,
+            100,
+            100,
+            fill=rgb(230, 200, 200),
+            onClick=f,
+            borderWidth=3,
+            borderColor=rgb(200, 100, 100),
+            text="hi",
+            textColor="red",
+        )
+    ]

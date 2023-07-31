@@ -3,40 +3,49 @@
 
 
 class ArgsConfig:
+    """A class that holds the configuration for the CLI flag parser."""
+
     def __init__(self, **kwargs):
         self.short = kwargs["short"]
         self.long = kwargs["long"]
 
 
-# super simple flags parser, inspired by: https://www.npmjs.com/package/simple-args-parser
-# - allows multiple short options put together (`-abc` = `-a -b -c`)
-# - silently ignores incorrect usage and unknown args
-# - doesn't support using equal signs (only `-a value`, not `-a=value`)
-# - ending with a `:` means that it takes in a value
 def parse(args, config):
-    res = dict()
-    for i in range(len(args)):
-        a = args[i]
-        # long arg (two dashes)
-        if a.startswith("--"):
-            a = a[2:]
-            # if it's a valid long arg
-            if a in config.long:
-                res[a] = True
-            elif i + 1 != len(args) and ((a + ":") in config.longArgs):
+    """
+    Super simple flags parser, inspired by:
+    https://www.npmjs.com/package/simple-args-parser
+    Allows multiple short options put together (`-abc` = `-arg -b -c`)
+    Silently ignores incorrect usage and unknown args
+    Doesn't support using equal signs (only `-arg value`, not `-arg=value`)
+    Ending with arg `:` means that it takes in arg value
+    """
+    res = {}
+
+    for i, arg in enumerate(args):
+        arg = args[i]
+        # long rg (two dashes)
+        if arg.startswith("--"):
+            arg = arg[2:]
+
+            # if it's arg valid long arg
+            if arg in config.long:
+                res[arg] = True
+            elif i + 1 != len(args) and ((arg + ":") in config.longArgs):
                 i += 1
-                res[a] = args[i]
+                res[arg] = args[i]
         # short arg (one dash)
-        elif a.startswith("-"):
-            a = a[1:]
+        elif arg.startswith("-"):
+            arg = arg[1:]
+
             # in the case of -abc, loop over each char individually
-            for ch in a:
-                if ch in config.short:
-                    res[ch] = True
-            # check if the last short arg requires a value
-            if (i + 1 != len(args)) and ((a[-1] + ":") in config.short):
+            for char in arg:
+                if char in config.short:
+                    res[char] = True
+
+            # check if the last short arg requires arg value
+            if (i + 1 != len(args)) and ((arg[-1] + ":") in config.short):
                 i += 1
-                res[a] = args[i]
+                res[arg] = args[i]
 
     return res
 

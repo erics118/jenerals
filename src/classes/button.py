@@ -4,7 +4,7 @@ from cmu_graphics import *
 class Button:
     """A button. Handles click events, on release."""
 
-    def __init__(self, app, x, y, width, height, **kwargs):
+    def __init__(self, x, y, width, height, **kwargs):
         self.x = x
         self.y = y
         self.width = width
@@ -16,7 +16,12 @@ class Button:
         self.fill = kwargs.get("fill")
         self.borderColor = kwargs.get("borderColor")
         self.borderWidth = kwargs.get("borderWidth")
-        self.onClick = lambda: kwargs.get("onClick")(app)
+        self.onClick = kwargs.get("onClick")
+
+    def click(self, app):
+        """Handle a click event, no matter what"""
+
+        self.onClick(app)
 
     def isMouseWithin(self, mouseX, mouseY):
         """Check if the mouse is within the button's bounds."""
@@ -26,42 +31,32 @@ class Button:
             and self.y <= mouseY <= self.y + self.height
         )
 
-    def checkClick(self, mouseX, mouseY):
-        """
-        Check if the mouse is within the button's bounds.
-        If so, call the onClick lambda.
-        returns True if the mouse is within the button's bounds, otherwise False.
-        """
-
-        if self.isMouseWithin(mouseX, mouseY):
-            self.onClick()
-            return True
-
-        return False
-
     def draw(self):
         """Draw the button."""
 
         # Draw the background
         kwargs = dict()
-        if self.fill != None:
+        if self.fill is not None:
             kwargs["fill"] = self.fill
-        if self.borderColor != None:
+        if self.borderColor is not None:
             kwargs["border"] = self.borderColor
-        if self.borderWidth != None:
+        if self.borderWidth is not None:
             kwargs["borderWidth"] = self.borderWidth
 
         drawRect(self.x, self.y, self.width, self.height, **kwargs)
 
         # Draw the text if it exists
-        if self.text != None:
+        if self.text is not None:
             kwargs = dict()
-            if self.font != None:
+            if self.font is not None:
                 kwargs["font"] = self.font
-            if self.fontSize != None:
+            if self.fontSize is not None:
                 kwargs["size"] = self.fontSize
-            if self.textColor != None:
+            if self.textColor is not None:
                 kwargs["fill"] = self.textColor
             drawLabel(
-                self.text, self.x + self.width // 2, self.y + self.height // 2, **kwargs
+                self.text,
+                self.x + self.width // 2,
+                self.y + self.height // 2,
+                **kwargs,
             )

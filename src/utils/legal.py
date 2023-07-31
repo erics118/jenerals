@@ -1,19 +1,20 @@
-def isMoveLegal(app, cell, drow, dcol):
-    newRow = cell[0] + drow
-    newCol = cell[1] + dcol
-    if not (0 <= newRow < app.board.rows):
-        return
+def isMoveLegal(app, cell, moveCoords):
+    """
+    Returns whether or not the move is legal.
+    """
 
-    if not (0 <= newCol < app.board.cols):
+    newCoords = (cell[0] + moveCoords[0], cell[1] + moveCoords[1])
+
+    # check bounds
+    if not (0 <= newCoords[0] < app.board.rows and 0 <= newCoords[1] < app.board.cols):
         return False
 
-    if app.board.at(*cell).team != "player":
+    # allow move if new cell is not visible
+    if not app.board.at(*newCoords).isVisible:
         return True
 
-    if (
-        app.board.at(newRow, newCol).isVisible
-        and app.board.at(newRow, newCol).t == "mountain"
-    ):
+    # don't allow move if new cell is a mountain
+    if app.board.at(*newCoords).isVisible and app.board.at(*newCoords).t == "mountain":
         return False
 
     return True

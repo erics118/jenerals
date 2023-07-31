@@ -1,5 +1,6 @@
 from utils.premoves import clearPremoves, doPremove
-from .step import stepWithCount, doMove
+
+from .step import doMove, stepWithCount
 
 
 def keyPress(app, key):
@@ -28,13 +29,13 @@ def inGameKeyPress(app, key):
             app.isFocused = not app.isFocused
         # if an arrow key is pressed, do a premove
         case "left":
-            doPremove(app, 0, -1)
+            doPremove(app, (0, -1))
         case "right":
-            doPremove(app, 0, 1)
+            doPremove(app, (0, 1))
         case "up":
-            doPremove(app, -1, 0)
+            doPremove(app, (-1, 0))
         case "down":
-            doPremove(app, 1, 0)
+            doPremove(app, (1, 0))
         # if q is pressed, clear premoves
         case "q":
             clearPremoves(app)
@@ -43,8 +44,9 @@ def inGameKeyPress(app, key):
         devKeyPress(app, key)
 
 
-# dev cheats
 def devKeyPress(app, key):
+    """Handle key presses in the game when dev mode is on"""
+
     match key:
         # toggle flag
         case "F":
