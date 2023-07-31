@@ -97,10 +97,10 @@ class Board:
         self.rows = rows
         self.cols = cols
 
-        self.left = 50
-        self.top = 50
-        self.width = 500
-        self.height = 500
+        self.left = 80
+        self.top = 80
+        self.width = 640
+        self.height = 640
 
         self.cellWidth = self.width / self.cols
         self.cellHeight = self.height / self.rows

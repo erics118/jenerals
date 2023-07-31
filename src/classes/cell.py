@@ -1,6 +1,6 @@
-from utils.colors import Colors
 from cmu_graphics import *
 
+from utils.colors import Colors
 from utils.image import getImagePath
 
 
@@ -104,7 +104,10 @@ def drawCell(app, cell):
                 color = Colors.SURROUNDING_BLUE_VISIBLE
             else:
                 if cell.t == "mountain" or cell.t == "city":
-                    color = Colors.SURROUNDING_OBSTACLE_VISIBLE
+                    if cell.isVisible:
+                        color = Colors.SURROUNDING_OBSTACLE_VISIBLE
+                    else:
+                        color = Colors.SURROUNDING_OBSTACLE_NOT_VISIBLE
                 else:
                     if cell.isVisible:
                         color = Colors.SURROUNDING_FOG_VISIBLE

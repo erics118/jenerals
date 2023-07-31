@@ -68,4 +68,4 @@ if __name__ == "__main__":
     res = parse(sys.argv[1:], ArgsConfig(short=["d"], long="dev"))
     dev = res.get("d", False) or res.get("dev", False)
 
-    runApp(dev=dev, width=600, height=600)
+    runApp(dev=dev)

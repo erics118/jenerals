@@ -1,5 +1,3 @@
-from enum import Enum
-
 from cmu_graphics import rgb
 
 
@@ -20,6 +18,7 @@ class Colors:
     SURROUNDING_FOG_NOT_VISIBLE = rgb(43, 43, 43)
     SURROUNDING_BLUE_VISIBLE = rgb(48, 60, 107)
     SURROUNDING_OBSTACLE_VISIBLE = rgb(187, 187, 187)
+    SURROUNDING_OBSTACLE_NOT_VISIBLE = rgb(43, 43, 43)
 
     # theme colors
     RED = rgb(254, 48, 0)

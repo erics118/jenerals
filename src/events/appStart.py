@@ -16,7 +16,7 @@ def newGame(app):
 
     app.board = Board(app, 20, 20)
 
-    app.cellBorderWidth = 1
+    app.cellBorderWidth = 0.5
 
     app.isFocused = True
 
@@ -26,6 +26,8 @@ def newGame(app):
 
 
 def appStart(app, dev):
+    app.width = 800
+    app.height = 800
     """Start the app"""
 
     # is developer mode flag
@@ -42,8 +44,8 @@ def appStart(app, dev):
     # lambda to add a function to the app
     app.startGame = lambda: newGame(app)
 
-    def f(app):
-        app.flag ^= True
+    # def f(app):
+    #     app.flag ^= True
 
     app.buttons = [
         # Button(

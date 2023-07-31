@@ -55,6 +55,7 @@ def drawGame(app):
     """Draw the game"""
 
     drawBoard(app)
+    # drawPremoves()
     drawTurnCounter(app)
 
 
