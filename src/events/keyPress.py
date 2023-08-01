@@ -1,4 +1,4 @@
-from utils.premoves import clearPremoves, doPremove
+from utils.premoves import clearPremoves, doPremove, popPremove
 
 from .step import doMove, stepWithCount
 
@@ -39,6 +39,8 @@ def inGameKeyPress(app, key):
         # if q is pressed, clear premoves
         case "q":
             clearPremoves(app)
+        case "e":
+            popPremove(app)
 
     if app.dev:
         devKeyPress(app, key)

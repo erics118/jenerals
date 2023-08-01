@@ -2,10 +2,11 @@ from random import randint
 
 from cmu_graphics import *
 
+from objects.cell import drawCell
 from utils.floodFill import floodFill
 
 from .border import drawBoardBorder
-from .cell import Cell, drawCell
+from .cell import Cell
 
 
 def randomCellType():
