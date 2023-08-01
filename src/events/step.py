@@ -14,44 +14,56 @@ def doMove(app, moveCoords):
         clearPremoves(app)
         return
 
-    new = add(app.selectedCoords, moveCoords)
+    newCoords = add(app.selectedCoords, moveCoords)
+    new = app.board.at(newCoords)
+    selected = app.board.at(app.selectedCoords)
 
     # if selected is player
-    if app.board.at(app.selectedCoords).team == "player":
+    if selected.team == "player":
         # if new cell is neutral
-        if app.board.at(new).team == "neutral":
-            # the selected cell has at more than one troop
-            if app.board.at(app.selectedCoords).numTroops > 1:
-                # then move the troops over, leaving one behind and using one up
-                app.board.at(new).numTroops += (
-                    app.board.at(app.selectedCoords).numTroops - 1
-                )
-                # old cell has one troop left
-                app.board.at(app.selectedCoords).numTroops = 1
-                # new cell is now player
-                app.board.at(new).team = "player"
-                app.board.at(new).isVisible = "true"
+        if new.team == "neutral":
+            if new.t == "fog":
+                # the selected cell has at more than one troop
+                if selected.numTroops > 1:
+                    # then move the troops over, leaving one behind and using one up
+                    new.numTroops += selected.numTroops - 1
+                    # old cell has one troop left
+                    selected.numTroops = 1
+                    # new cell is now player
+                    new.team = "player"
+                    new.isVisible = True
+
+            elif new.t == "city":
+                # capturing a city consumes the numTroops the city has
+                if selected.numTroops >= new.numTroops + 1:
+                    # then move the troops over, leaving one behind and using one up
+                    new.numTroops = selected.numTroops - new.numTroops - 2
+                    # old cell has two troops left
+                    selected.numTroops = 1
+                    # new cell is now player
+                    new.team = "player"
+                    new.isVisible = True
+                # otherwise, not enough troops to capture it. send all the troops over anyway
+                else:
+                    new.numTroops = new.numTroops - selected.numTroops + 1
+                    selected.numTroops = 1
 
         # elif is own cell
-        elif app.board.at(new).team == "player":
-            if (
-                app.board.at(app.selectedCoords).numTroops == 1
-                and app.board.at(new).numTroops == 1
-            ):
+        elif new.team == "player":
+            if selected.numTroops == 1 and new.numTroops == 1:
                 return
 
             # then move the troops over, leaving one behind
-            app.board.at(new).numTroops += (
-                app.board.at(app.selectedCoords).numTroops - 1
-            )
+            new.numTroops += selected.numTroops - 1
             # old cell has one troop left
-            app.board.at(app.selectedCoords).numTroops = 1
+            selected.numTroops = 1
 
-    if app.board.at(app.selectedCoords).team == "neutral":
-        if app.board.at(new).team == "player":
-            app.selectedCoords = new
-            app.premoveSelectedCoords = new
-    app.selectedCoords = new
+    if selected.team == "neutral":
+        if new.team == "player":
+            app.selectedCoords = newCoords
+            app.premoveSelectedCoords = newCoords
+
+    app.selectedCoords = newCoords
 
 
 def stepWithCount(app):

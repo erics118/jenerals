@@ -26,7 +26,10 @@ class Cell:
     def step(self):
         """Increment the number of troops in the cell"""
 
-        if self.numTroops > 0:
+        if self.t == "city" and self.team == "neutral":
+            return
+
+        if self.numTroops != 0:
             self.numTroops += 1
 
     # TODO: implement this
@@ -82,14 +85,15 @@ def drawCell(app, cell):
             app.board.at((cell.row, cell.col)).isVisible = True
 
     cellLeft, cellTop = cell.getCellLeftTop(app)
-    border = Colors.BORDER
+    border = None
+
+    if cell.isVisible:
+        border = Colors.BORDER
+    if app.premoveSelectedCoords == (cell.row, cell.col):
+        border = Colors.WHITE
+
     color = cell.getColor()
 
-    # if is selectedCoords
-
-    if app.premoveSelectedCoords == (cell.row, cell.col):
-        # color = Colors.VISIBLE_CELL
-        border = Colors.WHITE
     # is above, below, left, or right of app.selectedCoords
     if app.isFocused and app.premoveSelectedCoords in [
         (cell.row - 1, cell.col),
@@ -103,9 +107,14 @@ def drawCell(app, cell):
                 # must be visible?
                 color = Colors.SURROUNDING_BLUE_VISIBLE
             else:
-                if cell.t == "mountain" or cell.t == "city":
+                if cell.t == "city":
                     if cell.isVisible:
-                        color = Colors.SURROUNDING_OBSTACLE_VISIBLE
+                        color = Colors.SURROUNDING_CITY_VISIBLE
+                    else:
+                        color = Colors.SURROUNDING_OBSTACLE_NOT_VISIBLE
+                elif cell.t == "mountain":
+                    if cell.isVisible:
+                        color = Colors.SURROUNDING_MOUNTAIN_VISIBLE
                     else:
                         color = Colors.SURROUNDING_OBSTACLE_NOT_VISIBLE
                 else:
@@ -137,14 +146,16 @@ def drawCell(app, cell):
         )
 
     # draw the troop count
-    if cell.numTroops > 0 or (
-        cell.t in ["general", "city"] and cell.team != "neutral"
+    if (
+        cell.t == "general"
+        or (cell.t == "city" and cell.isVisible)
+        or (cell.numTroops != 0 and cell.t == "fog")
     ):
         drawLabel(
             str(cell.numTroops),
             cellLeft + app.board.cellHeight // 2,
             cellTop + app.board.cellHeight // 2,
-            size=12,
+            size=13,
             fill=Colors.WHITE,
             bold=False,
         )

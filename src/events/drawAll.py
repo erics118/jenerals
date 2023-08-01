@@ -45,10 +45,10 @@ def drawStartScreen(app):
     drawAccentedLabel("jenerals.io", app.width // 2, 150, size=64, bold=True)
 
     desc = "Protect your general. Capture enemy generals."
-    drawLabel(desc, app.width // 2, 200, size=18, fill=Colors.WHITE, bold=True)
+    drawLabel(desc, app.width // 2, 210, size=18, fill=Colors.WHITE, bold=True)
 
     hint = "Press 'enter' to start the game."
-    drawLabel(hint, app.width // 2, 250, size=18, fill=Colors.WHITE, bold=True)
+    drawLabel(hint, app.width // 2, 260, size=18, fill=Colors.WHITE, bold=True)
 
 
 def drawGame(app):

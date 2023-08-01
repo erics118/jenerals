@@ -22,6 +22,10 @@ def randomCellType():
     return "fog"
 
 
+def randomCityTroops():
+    return randint(40, 50)
+
+
 def randomCoords(rows, cols):
     """Generate a random coordinate"""
 
@@ -41,6 +45,8 @@ def generateGrid(rows, cols):
     for r in range(rows):
         for c in range(cols):
             grid[r][c] = Cell(r, c, "neutral", randomCellType())
+            if grid[r][c].t == "city":
+                grid[r][c].numTroops = randomCityTroops()
 
     # TODO: make sure it is at least rows//2 away from the opponent
     r, c = randomCoords(rows, cols)

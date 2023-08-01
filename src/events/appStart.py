@@ -16,7 +16,7 @@ def newGame(app):
 
     app.board = Board(app, 20, 20)
 
-    app.cellBorderWidth = 0.5
+    app.cellBorderWidth = 0.8
 
     app.isFocused = True
 
