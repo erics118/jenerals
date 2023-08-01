@@ -1,8 +1,7 @@
 from cmu_graphics import *
 
 from utils.addTuple import add
-
-""
+from utils.colors import Colors
 
 
 def getPremoveCoords(app, coords):
@@ -21,9 +20,29 @@ def drawPremoves(app):
 
     currPremoveCoords = app.selectedCoords
     for premove in app.premoves:
-        print(currPremoveCoords)
-        print()
-        drawLabel(
-            "x", *getPremoveCoords(app, currPremoveCoords), fill="red", size=20
-        )
+        shift = (0, 0)
+        h = app.board.cellWidth // 2
+        #  ← ↓ →
+        if premove == (1, 0):
+            label = "↓"
+            shift = (0, h)
+        elif premove == (0, 1):
+            label = "→"
+            shift = (h, 0)
+        elif premove == (-1, 0):
+            label = "↑"
+            shift = (0, -h)
+        elif premove == (0, -1):
+            label = "←"
+            shift = (-h, 0)
+
+        premoveCoords = add(getPremoveCoords(app, currPremoveCoords), shift)
         currPremoveCoords = add(currPremoveCoords, premove)
+        drawLabel(
+            label,
+            *premoveCoords,
+            fill=Colors.WHITE,
+            size=15,
+            bold=True,
+            font="symbols",
+        )
