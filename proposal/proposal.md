@@ -53,20 +53,30 @@ Alternatively, I could code a strategy based on how top players play. The basic 
 3. If quite a few troops have been collected, capture a city.
 3. Repeat step 2
 
+#### Sockets
+
+Sockets would require me to learn how to use the library and handle changes coming in from two places
+
+possible helpful resource: https://stackoverflow.com/questions/11352855/communication-between-two-computers-using-python-socket
+
 ### Timeline Plan (2.5 pts)
 <!-- A timeline for when you intend to complete the major features of the project. -->
 
 - TP0: August 1
   - Finish MVP for one player
 - TP1: August 5
-  - Finish bot movement with basic strategy
+  - bot
+    - Finish bot movement with basic strategy
+  - sockets
+    - get second player working locally
 - TP2: August 8
-  - Finish bot strategy
+  - bot
+    - Finish bot strategy
+  - sockets
+    - add leaderboard and stuff
+    - get sockets working between separate computers
 - TP3 (Project Due Date): August 10
   - Polish up the game and fix weird bugs
-
-
-
 
 ### Version Control Plan (1.5 pts)
 <!-- A short description and image demonstrating how you are using version control to back up your code. Notes:
@@ -80,22 +90,18 @@ Image: ![version control](./versionControl.png)
 
 ### Module List (1 pts)
 <!-- A list of all external modules/hardware/technologies you are planning to use in your project. Note that any such modules must be approved by a tech demo. If you are not planning to use any additional modules, that's okay, just say so! -->
+
 For TP0, I said that I will not be using any modules.
 
 After the MVP, I may decide to use some AI module, like [tensorflow](https://www.tensorflow.org/), but I am not sure yet.
 
-Alternatively, I might use an image processing module, such as [PIL](https://pillow.readthedocs.io/en/stable/).
+I also might instead use a socket library, or the built-in library.
 
+Alternatively, I might use an image processing module, such as [PIL](https://pillow.readthedocs.io/en/stable/).
 
 ## Storyboard (5 pts)
 <!-- Generate a storyboard that demonstrates how a user would interact with your finished project. A storyboard is just a series of sketches showing (roughly) what your project will look like. Your storyboard should have at least six panels, and at least three of those should demonstrate features within the project. You may scan or take a picture of your storyboard and include it in the directory as the file storyboard.png (other acceptable filetypes include .gif, .jpg, and .pdf). -->
 
-<!-- Include any preliminary code files you have already created at this stage. Some code at this stage would be helpful, but not necessary. It may be prototype code, and so perhaps may not be part of your final project. It also may or may not have any user interface. -->
+screenshots of generals.io, and my own
 
-<!-- Note: Your TP0, TP1, TP2, collectively count for one quiz grade. -->
-
-## Questions
-
-- can storyboard be images of the original game that i clone?
-- do i need explain each panel, or are images enough?
-- what level of cleanness and detail?
+![storyboard](storyboard.png)

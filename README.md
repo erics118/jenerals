@@ -26,6 +26,10 @@ You can also use `just run` to run the program.
 
 Use `just dev` to run the program in development mode, which includes a few extra features to help with development.
 
+## Project Proposal
+
+Project proposal documents are located under `proposal/`
+
 ## Dev Shortcuts
 
 `F` - toggle flag (for debugging)
