@@ -2,9 +2,9 @@ def mousePress(app, mouseX, mouseY):
     """Handle mouse presses"""
 
     # if clicked on a button, set pressedButtonId and return
-    for buttonId, button in enumerate(app.buttons):
+    for buttonName, button in app.buttons.items():
         if button.isMouseWithin(mouseX, mouseY):
-            app.pressedButtonId = buttonId
+            app.pressedButtonName = buttonName
             return
 
     app.mouseCoords = (mouseX, mouseY)

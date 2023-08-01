@@ -14,10 +14,10 @@ def mouseRelease(app, mouseX, mouseY):
     # is the same as the button that is being released
     # if so, call the button's click method
     # if the release position isn't even a button, do nothing
-    if app.pressedButtonId is not None:
-        if app.buttons[app.pressedButtonId].isMouseWithin(mouseX, mouseY):
-            app.buttons[app.pressedButtonId].click(app)
-        app.pressedButtonId = None
+    if app.pressedButtonName is not None:
+        if app.buttons[app.pressedButtonName].isMouseWithin(mouseX, mouseY):
+            app.buttons[app.pressedButtonName].click(app)
+        app.pressedButtonName = None
         return
 
     if app.hasOngoingGame:

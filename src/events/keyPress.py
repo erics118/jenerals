@@ -1,3 +1,4 @@
+from events.appStart import newGame
 from utils.premoves import clearPremoves, doPremove, popPremove
 
 from .step import doMove, stepWithCount
@@ -17,7 +18,7 @@ def startScreenKeyPress(app, key):
 
     match key:
         case "enter":
-            app.startGame()
+            newGame(app)
 
 
 def inGameKeyPress(app, key):

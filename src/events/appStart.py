@@ -1,10 +1,14 @@
 from cmu_graphics import *
 
 from classes.board import Board
+from classes.button import Button
+from utils.colors import Colors
 
 
 def newGame(app):
     """Create a new game"""
+
+    app.buttons["play"].drawing = False
 
     app.hasOngoingGame = True
     app.isPaused = False
@@ -39,12 +43,21 @@ def appStart(app, dev):
     # dragging
     app.isDragging = False
 
-    # buttons
-    app.pressedButtonId = None
-    app.buttons = []
-
     # game
     app.hasOngoingGame = False
 
-    # lambda to add a start the game
-    app.startGame = lambda: newGame(app)
+    # buttons
+    app.pressedButtonName = None
+
+    app.buttons = {
+        "play": Button(
+            400,
+            440,
+            170,
+            60,
+            text="PLAY",
+            onClick=newGame,
+            textColor=Colors.ACCENT,
+            textSize=22,
+        )
+    }
