@@ -22,7 +22,7 @@ def drawPremoves(app):
     for premove in app.premoves:
         shift = (0, 0)
         h = app.board.cellWidth // 2
-        #  ← ↓ →
+
         if premove == (1, 0):
             label = "↓"
             shift = (0, h)

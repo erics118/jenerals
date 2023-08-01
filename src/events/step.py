@@ -32,6 +32,8 @@ def doMove(app, moveCoords):
                     # new cell is now player
                     new.team = "player"
                     new.isVisible = True
+                else:
+                    clearPremoves(app)
 
             elif new.t == "city":
                 # capturing a city consumes the numTroops the city has
@@ -47,6 +49,7 @@ def doMove(app, moveCoords):
                 else:
                     new.numTroops = new.numTroops - selected.numTroops + 1
                     selected.numTroops = 1
+                    clearPremoves(app)
 
         # elif is own cell
         elif new.team == "player":

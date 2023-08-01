@@ -5,6 +5,7 @@ from utils.image import getImagePath
 
 
 def drawCell(app, cell):
+    isVisible = cell.isVisible or app.forceIsVisible
     """Draw a single cell."""
 
     directions = [
@@ -26,12 +27,12 @@ def drawCell(app, cell):
     cellLeft, cellTop = cell.getCellLeftTop(app)
     border = None
 
-    if cell.isVisible:
+    if isVisible:
         border = Colors.BORDER
     if app.premoveSelectedCoords == (cell.row, cell.col):
         border = Colors.WHITE
 
-    color = cell.getColor()
+    color = cell.getColor(app.forceIsVisible)
 
     # is above, below, left, or right of app.selectedCoords
     if app.isFocused and app.premoveSelectedCoords in [
@@ -47,17 +48,17 @@ def drawCell(app, cell):
                 color = Colors.SURROUNDING_BLUE_VISIBLE
             else:
                 if cell.t == "city":
-                    if cell.isVisible:
+                    if isVisible:
                         color = Colors.SURROUNDING_CITY_VISIBLE
                     else:
                         color = Colors.SURROUNDING_OBSTACLE_NOT_VISIBLE
                 elif cell.t == "mountain":
-                    if cell.isVisible:
+                    if isVisible:
                         color = Colors.SURROUNDING_MOUNTAIN_VISIBLE
                     else:
                         color = Colors.SURROUNDING_OBSTACLE_NOT_VISIBLE
                 else:
-                    if cell.isVisible:
+                    if isVisible:
                         color = Colors.SURROUNDING_FOG_VISIBLE
                     else:
                         color = Colors.SURROUNDING_FOG_NOT_VISIBLE
@@ -87,7 +88,7 @@ def drawCell(app, cell):
     # draw the troop count
     if (
         cell.t == "general"
-        or (cell.t == "city" and cell.isVisible)
+        or (cell.t == "city" and isVisible)
         or (cell.numTroops != 0 and cell.t == "fog")
     ):
         drawLabel(

@@ -5,8 +5,9 @@ def isMoveLegal(app, cell, moveCoords):
     """
     Returns whether or not the move is legal.
     """
-
     newCoords = add(cell, moveCoords)
+
+    isVisible = app.board.at(newCoords).isVisible or app.forceIsVisible
 
     # check bounds
     if not (
@@ -16,14 +17,11 @@ def isMoveLegal(app, cell, moveCoords):
         return False
 
     # allow move if new cell is not visible
-    if not app.board.at(newCoords).isVisible:
+    if not isVisible:
         return True
 
     # don't allow move if new cell is a mountain
-    if (
-        app.board.at(newCoords).isVisible
-        and app.board.at(newCoords).t == "mountain"
-    ):
+    if isVisible and app.board.at(newCoords).t == "mountain":
         return False
 
     return True
