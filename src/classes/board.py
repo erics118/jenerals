@@ -2,10 +2,9 @@ from random import randint
 
 from cmu_graphics import *
 
-from objects.cell import drawCell
+from utils.colors import Colors
 from utils.floodFill import floodFill
 
-from .border import drawBoardBorder
 from .cell import Cell
 
 
@@ -33,7 +32,7 @@ def randomCoords(rows, cols):
     return (randint(0, rows - 1), randint(0, cols - 1))
 
 
-def generateGrid(rows, cols):
+def generateGrid(app, rows, cols):
     """
     Generate a random grid
 
@@ -45,24 +44,16 @@ def generateGrid(rows, cols):
 
     for r in range(rows):
         for c in range(cols):
-            grid[r][c] = Cell(r, c, "neutral", randomCellType())
+            grid[r][c] = Cell(app, r, c, "neutral", randomCellType())
             if grid[r][c].t == "city":
                 grid[r][c].numTroops = randomCityTroops()
 
     # TODO: make sure it is at least rows//2 away from the opponent
     r, c = randomCoords(rows, cols)
-    grid[r][c] = Cell(r, c, "player", "general")
+    grid[r][c] = Cell(app, r, c, "player", "general")
     grid[r][c].isVisible = True
 
     return (grid, (r, c))
-
-
-def drawBoardCells(app):
-    """Draw all the cells in the board"""
-
-    for r in range(app.board.rows):
-        for c in range(app.board.cols):
-            drawCell(app, app.board.at((r, c)))
 
 
 def hasBlockedAreas(grid):
@@ -100,6 +91,8 @@ class Board:
     def __init__(self, app, rows, cols):
         """Initialize the board"""
 
+        self.app = app
+
         # static board properties
         self.rows = rows
         self.cols = cols
@@ -113,11 +106,11 @@ class Board:
         self.cellHeight = self.height / self.rows
 
         # randomly generate the grid
-        self.grid, generalCoords = generateGrid(self.rows, self.cols)
+        self.grid, generalCoords = generateGrid(app, self.rows, self.cols)
 
         # regenerate grid until there are no blocked areas
         while hasBlockedAreas(self.grid):
-            self.grid, generalCoords = generateGrid(self.rows, self.cols)
+            self.grid, generalCoords = generateGrid(app, self.rows, self.cols)
 
         app.selectedCoords = generalCoords
         app.premoveSelectedCoords = generalCoords
@@ -163,9 +156,31 @@ class Board:
 
         self.grid.at(coords).numTroops += cnt
 
+    def drawCells(self):
+        """Draw all the cells in the board"""
 
-def drawBoard(app):
-    """Draw the board"""
+        for r in range(self.app.board.rows):
+            for c in range(self.app.board.cols):
+                self.app.board.at((r, c)).draw()
 
-    drawBoardCells(app)
-    drawBoardBorder(app)
+    # TODO: draw borders only between visible cells
+    # CITE: code modified from tetris grid assignment on CS Academy
+    def drawBorder(self):
+        """Draw the board border"""
+
+        # draw the board outline with double-thickness
+        drawRect(
+            self.app.board.left,
+            self.app.board.top,
+            self.app.board.width,
+            self.app.board.height,
+            fill=None,
+            border=Colors.BORDER,
+            borderWidth=2 * self.app.cellBorderWidth,
+        )
+
+    def draw(self):
+        """Draw the board"""
+
+        self.drawCells()
+        self.drawBorder()

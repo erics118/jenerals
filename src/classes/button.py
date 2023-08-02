@@ -7,6 +7,8 @@ class Button:
     """A button. Handles click events, on release."""
 
     def __init__(self, x, y, width, height, **kwargs):
+        self.app = app
+
         self.x = x
         self.y = y
         self.width = width
@@ -17,11 +19,11 @@ class Button:
         self.onClick = kwargs.get("onClick", lambda: print("Clicked"))
         self.drawing = kwargs.get("drawing", True)
 
-    def click(self, app):
+    def click(self):
         """Handle a click event, no matter what"""
 
         if self.drawing:
-            self.onClick(app)
+            self.onClick(self.app)
 
     def isMouseWithin(self, mouseX, mouseY):
         """Check if the mouse is within the button's bounds."""
