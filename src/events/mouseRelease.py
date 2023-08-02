@@ -16,7 +16,7 @@ def mouseRelease(app, mouseX, mouseY):
     # if the release position isn't even a button, do nothing
     if app.pressedButtonName is not None:
         if app.buttons[app.pressedButtonName].isMouseWithin(mouseX, mouseY):
-            app.buttons[app.pressedButtonName].click(app)
+            app.buttons[app.pressedButtonName].click()
         app.pressedButtonName = None
         return
 

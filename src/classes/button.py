@@ -30,8 +30,8 @@ class Button:
 
         return (
             self.drawing
-            and self.x <= mouseX <= self.x + self.width
-            and self.y <= mouseY <= self.y + self.height
+            and self.x - self.width // 2 <= mouseX <= self.x + self.width // 2
+            and self.y - self.height // 2 <= mouseY <= self.y + self.height // 2
         )
 
     def draw(self):

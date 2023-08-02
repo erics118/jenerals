@@ -67,6 +67,7 @@ def doMove(app, moveCoords):
             app.premoveSelectedCoords = newCoords
 
     app.selectedCoords = newCoords
+    app.board.step("visible")
 
 
 def stepWithCount(app):
@@ -78,9 +79,9 @@ def stepWithCount(app):
     """
 
     app.c += 1
-    if app.c % (app.stepsPerSecond * 25) == 0:
+    if app.c % 50 == 0:
         app.board.step("all")
-    elif app.c % (app.stepsPerSecond) == 0:
+    elif app.c % 2 == 0:
         app.board.step("city")
 
 

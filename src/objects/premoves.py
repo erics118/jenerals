@@ -7,8 +7,8 @@ from utils.colors import Colors
 def getPremoveCoords(app, coords):
     """Get the top left coordinate of the cell"""
 
-    cellLeft = app.board.left + (coords[0] + 0.5) * app.board.cellSize
-    cellTop = app.board.top + (coords[1] + 0.5) * app.board.cellSize
+    cellLeft = app.board.left + (coords[0] + 0.5) * app.cellSize
+    cellTop = app.board.top + (coords[1] + 0.5) * app.cellSize
 
     return (cellTop, cellLeft)
 
@@ -21,7 +21,7 @@ def drawPremoves(app):
     currPremoveCoords = app.selectedCoords
     for premove in app.premoves:
         shift = (0, 0)
-        h = app.board.cellSize // 2
+        h = app.cellSize // 2
 
         if premove == (1, 0):
             label = "↓"

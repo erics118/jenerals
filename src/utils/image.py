@@ -2,31 +2,23 @@ import os
 import pathlib
 
 
-def getImagePath(t, isVisible):
+def getImagePath(imageName):
     """Get the image path of the cell to be used when drawing"""
-    if not isVisible and t in ["city", "mountain"]:
-        t = "obstacle"
 
-    imageName = None
-
-    match t:
-        case "city":
-            # image from https://generals.io/city.png
-            imageName = "city"
-        case "general":
-            # image from https://generals.io/crown.png
-            imageName = "crown"
-        case "mountain":
-            # image from https://generals.io/mountain.png
-            imageName = "mountain"
-        case "obstacle":
-            # image from https://generals.io/obstacle.png
-            imageName = "obstacle"
-
-    if imageName is None:
-        return None
-
-    # return f"./images/{imageName}.png"
     return os.path.join(
         pathlib.Path(__file__).parent, f"../../images/{imageName}.png"
     )
+
+
+def getImage(app, t, isVisible):
+    """Get the image of the cell to be used when drawing"""
+
+    imageName = t
+
+    if t == "general":
+        imageName = "crown"
+
+    if (not isVisible) and (t in ["city", "mountain"]):
+        imageName = "obstacle"
+
+    return app.images.get(imageName)

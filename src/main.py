@@ -11,18 +11,23 @@ from events.mouseRelease import mouseRelease
 from events.step import step
 from utils.cliFlags import ArgsConfig, parse
 
+# moving:
 # TODO: if not focused on a cell, then allow for moving through mountains, enemy, etc
-# TODO: broken when premoving into a mountain
-# TODO: scoreboard
-# TODO: chat, put all notifications in there too
-# TODO: zoom in/out shortcuts
-# TODO: allow taking 50% of troops
-# TODO: restart game
-# TODO: allow player to play with another player with WASD
-# TODO: somehow increase the resolution
-# TODO: shift to move mask (meaning only change focus)
-# TODO: z and click twice to take 50% troops
 # TODO: fix clicking when having premoves
+# TODO: move instantly when have no premoves
+# TODO: broken when premoving into a mountain
+
+# multiplayer:
+# TODO: scoreboard
+# TODO: sockets
+# TODO: allow player to play with another player with WASD
+# TODO: chat, put all notifications in there too
+
+# other features:
+# TODO: end game
+# TODO: restart game
+# TODO: somehow increase the resolution
+# TODO: z and click twice to take 50% troops
 
 
 def onAppStart(app, dev=False):

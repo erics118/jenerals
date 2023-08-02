@@ -1,8 +1,7 @@
 from cmu_graphics import *
-from PIL import Image
 
 from utils.colors import Colors
-from utils.image import getImagePath
+from utils.image import getImage
 
 
 class Cell:
@@ -34,18 +33,11 @@ class Cell:
         if self.numTroops != 0:
             self.numTroops += 1
 
-    # TODO: implement this
-    def isSelectable(self):
-        """
-        Return whether the cell is selectable.
-        A cell is not selectable if it is a city or general, but selectable otherwise.
-        """
-
     def getCellLeftTop(self):
         """Get the top left coordinate of the cell"""
 
-        cellLeft = self.app.board.left + self.col * self.app.board.cellSize
-        cellTop = self.app.board.top + self.row * self.app.board.cellSize
+        cellLeft = self.app.board.left + self.col * self.app.cellSize
+        cellTop = self.app.board.top + self.row * self.app.cellSize
         return (cellLeft, cellTop)
 
     def getColor(self, forceIsVisible=False):
@@ -70,25 +62,6 @@ class Cell:
     def draw(self):
         isVisible = self.isVisible or self.app.forceIsVisible
         """Draw a single cell."""
-
-        directions = [
-            (-1, +1),
-            (0, +1),
-            (+1, +1),
-            (-1, 0),
-            (+1, 0),
-            (-1, -1),
-            (0, -1),
-            (+1, -1),
-        ]
-
-        # TODO: move to board class so not called too repetitively
-        for drow, dcol in directions:
-            if (
-                app.board.at((self.row + drow, self.col + dcol)).team
-                == "player"
-            ):
-                app.board.at((self.row, self.col)).isVisible = True
 
         cellLeft, cellTop = self.getCellLeftTop()
         border = None
@@ -133,32 +106,21 @@ class Cell:
         drawRect(
             cellLeft,
             cellTop,
-            self.app.board.cellSize,
-            self.app.board.cellSize,
+            self.app.cellSize,
+            self.app.cellSize,
             fill=color,
             border=border,
             borderWidth=self.app.cellBorderWidth,
         )
 
         # draw the image for the cell if it is not fog
-        imagePath = getImagePath(
-            self.t, self.isVisible or self.app.forceIsVisible
-        )
+        image = getImage(app, self.t, isVisible)
 
-        if imagePath is not None:
-            # get the PIL image
-            image = Image.open(imagePath)
-
-            # resize the image
-            image.thumbnail(
-                (app.board.cellSize * 0.8, app.board.cellSize * 0.8)
-            )
-
-            # draw the image
+        if image is not None:
             drawImage(
-                CMUImage(image),
-                cellLeft + self.app.board.cellSize // 2,
-                cellTop + self.app.board.cellSize // 2,
+                image,
+                cellLeft + self.app.cellSize // 2,
+                cellTop + self.app.cellSize // 2,
                 align="center",
             )
 
@@ -170,8 +132,8 @@ class Cell:
         ):
             drawLabel(
                 str(self.numTroops),
-                cellLeft + self.app.board.cellSize // 2,
-                cellTop + self.app.board.cellSize // 2,
+                cellLeft + self.app.cellSize // 2,
+                cellTop + self.app.cellSize // 2,
                 size=13,
                 fill=Colors.WHITE,
                 bold=False,
@@ -193,7 +155,7 @@ def getCellCoords(app, x, y):
         or y > app.board.top + app.board.height
     ):
         return None
-    row = int((y - app.board.top) / app.board.cellSize)
-    col = int((x - app.board.left) / app.board.cellSize)
+    row = int((y - app.board.top) / app.cellSize)
+    col = int((x - app.board.left) / app.cellSize)
 
     return (row, col)

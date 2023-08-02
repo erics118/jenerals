@@ -129,17 +129,14 @@ class Board:
         self.left = 80
         self.top = 80
 
-        self.cellSize = 32
-
-        self.width = self.cols * self.cellSize
-        self.height = self.rows * self.cellSize
+        self.width = self.cols * app.cellSize
+        self.height = self.rows * app.cellSize
 
         # randomly generate the grid
         self.grid, generalCoords = generateGrid(app, self.rows, self.cols)
 
         # regenerate grid until there are no blocked areas
         while hasBlockedCity(self.grid) or hasBlockedFog(self.grid):
-            print("a")
             self.grid, generalCoords = generateGrid(app, self.rows, self.cols)
 
         app.selectedCoords = generalCoords
@@ -158,6 +155,27 @@ class Board:
 
     def step(self, mode):
         """Increment the number of troops in the cell"""
+
+        directions = [
+            (-1, +1),
+            (0, +1),
+            (+1, +1),
+            (-1, 0),
+            (+1, 0),
+            (-1, -1),
+            (0, -1),
+            (+1, -1),
+        ]
+        if mode == "visible":
+            # update visibility for every cell
+            for row in range(len(self.grid)):
+                for col in range(len(self.grid[0])):
+                    for drow, dcol in directions:
+                        if (
+                            app.board.at((row + drow, col + dcol)).team
+                            == "player"
+                        ):
+                            app.board.at((row, col)).isVisible = True
 
         if mode == "city":
             for row in self.grid:
@@ -193,7 +211,6 @@ class Board:
             for c in range(self.app.board.cols):
                 self.app.board.at((r, c)).draw()
 
-    # TODO: draw borders only between visible cells
     # CITE: code modified from tetris grid assignment on CS Academy
     def drawBorder(self):
         """Draw the board border"""

@@ -25,10 +25,8 @@ def doPremove(app, moveCoords):
     Performs a premove if it is legal and updates the premoveSelectedCoords
     """
 
-    # disregard illegal moves or if no cell is focused
-    if not app.isFocused or not isMoveLegal(
-        app, app.premoveSelectedCoords, moveCoords
-    ):
+    # disregard illegal moves
+    if not isMoveLegal(app, app.premoveSelectedCoords, moveCoords):
         return
 
     new = add(app.premoveSelectedCoords, moveCoords)
