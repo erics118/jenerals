@@ -1,4 +1,5 @@
 from cmu_graphics import *
+from PIL import Image
 
 from utils.colors import Colors
 from utils.image import getImagePath
@@ -43,8 +44,8 @@ class Cell:
     def getCellLeftTop(self):
         """Get the top left coordinate of the cell"""
 
-        cellLeft = self.app.board.left + self.col * self.app.board.cellWidth
-        cellTop = self.app.board.top + self.row * self.app.board.cellHeight
+        cellLeft = self.app.board.left + self.col * self.app.board.cellSize
+        cellTop = self.app.board.top + self.row * self.app.board.cellSize
         return (cellLeft, cellTop)
 
     def getColor(self, forceIsVisible=False):
@@ -132,8 +133,8 @@ class Cell:
         drawRect(
             cellLeft,
             cellTop,
-            self.app.board.cellWidth,
-            self.app.board.cellHeight,
+            self.app.board.cellSize,
+            self.app.board.cellSize,
             fill=color,
             border=border,
             borderWidth=self.app.cellBorderWidth,
@@ -145,10 +146,19 @@ class Cell:
         )
 
         if imagePath is not None:
+            # get the PIL image
+            image = Image.open(imagePath)
+
+            # resize the image
+            image.thumbnail(
+                (app.board.cellSize * 0.8, app.board.cellSize * 0.8)
+            )
+
+            # draw the image
             drawImage(
-                imagePath,
-                cellLeft + self.app.board.cellHeight // 2,
-                cellTop + self.app.board.cellHeight // 2,
+                CMUImage(image),
+                cellLeft + self.app.board.cellSize // 2,
+                cellTop + self.app.board.cellSize // 2,
                 align="center",
             )
 
@@ -160,8 +170,8 @@ class Cell:
         ):
             drawLabel(
                 str(self.numTroops),
-                cellLeft + self.app.board.cellHeight // 2,
-                cellTop + self.app.board.cellHeight // 2,
+                cellLeft + self.app.board.cellSize // 2,
+                cellTop + self.app.board.cellSize // 2,
                 size=13,
                 fill=Colors.WHITE,
                 bold=False,
@@ -183,7 +193,7 @@ def getCellCoords(app, x, y):
         or y > app.board.top + app.board.height
     ):
         return None
-    row = int((y - app.board.top) / app.board.cellHeight)
-    col = int((x - app.board.left) / app.board.cellWidth)
+    row = int((y - app.board.top) / app.board.cellSize)
+    col = int((x - app.board.left) / app.board.cellSize)
 
     return (row, col)

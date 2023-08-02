@@ -13,10 +13,10 @@ def randomCellType():
 
     r = randint(0, 99)
 
-    if r < 15:
+    if r < 20:
         return "mountain"
 
-    if r < 20:
+    if r < 27:
         return "city"
 
     return "fog"
@@ -56,7 +56,7 @@ def generateGrid(app, rows, cols):
     return (grid, (r, c))
 
 
-def hasBlockedAreas(grid):
+def hasBlockedFog(grid):
     """Check if a generated grid has any blocked areas"""
 
     rows = len(grid)
@@ -69,10 +69,39 @@ def hasBlockedAreas(grid):
 
     for r in range(rows):
         for c in range(cols):
-            if grid[r][c].t == "mountain" or grid[r][c] == "city":
-                tempGrid[r][c] = 1
-            else:
+            if grid[r][c].t == "general" or grid[r][c].t == "fog":
                 tempGrid[r][c] = 0
+            else:
+                tempGrid[r][c] = 1
+
+    # flood fill, making visited cells 2
+    floodFill(tempGrid)
+
+    # true if there are any 0's, meaning unvisited cells
+    return any(0 in r for r in tempGrid)
+
+
+def hasBlockedCity(grid):
+    """Check if a generated grid has any blocked areas"""
+
+    rows = len(grid)
+    cols = len(grid[0])
+
+    # 0 is unvisited
+    # 1 is blocked
+    # 2 is visited
+    tempGrid = makeList(rows, cols)
+
+    for r in range(rows):
+        for c in range(cols):
+            if (
+                grid[r][c].t == "general"
+                or grid[r][c].t == "fog"
+                or grid[r][c].t == "city"
+            ):
+                tempGrid[r][c] = 0
+            else:
+                tempGrid[r][c] = 1
 
     # flood fill, making visited cells 2
     floodFill(tempGrid)
@@ -99,17 +128,18 @@ class Board:
 
         self.left = 80
         self.top = 80
-        self.width = 640
-        self.height = 640
 
-        self.cellWidth = self.width / self.cols
-        self.cellHeight = self.height / self.rows
+        self.cellSize = 32
+
+        self.width = self.cols * self.cellSize
+        self.height = self.rows * self.cellSize
 
         # randomly generate the grid
         self.grid, generalCoords = generateGrid(app, self.rows, self.cols)
 
         # regenerate grid until there are no blocked areas
-        while hasBlockedAreas(self.grid):
+        while hasBlockedCity(self.grid) or hasBlockedFog(self.grid):
+            print("a")
             self.grid, generalCoords = generateGrid(app, self.rows, self.cols)
 
         app.selectedCoords = generalCoords
