@@ -25,7 +25,7 @@ def newGame(app):
 
     app.premoves = []
 
-    app.c = 0
+    app.c = 1 * app.stepsPerSecond
 
 
 def appStart(app, dev):
@@ -34,7 +34,7 @@ def appStart(app, dev):
     # static values
     app.width = 800
     app.height = 800
-    app.stepsPerSecond = 2
+    app.stepsPerSecond = 20
     app.cellBorderWidth = 0.8
 
     # is developer mode flag

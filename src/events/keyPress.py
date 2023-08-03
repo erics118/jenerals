@@ -59,7 +59,7 @@ def devKeyPress(app, key):
             stepWithCount(app)
         # step 25 turns
         case ">":
-            for _ in range(25 * 2):
+            for _ in range(app.stepsPerSecond * 25 * 2):
                 stepWithCount(app)
         # do all premoves
         case "?":

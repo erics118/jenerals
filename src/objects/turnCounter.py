@@ -10,16 +10,21 @@ def drawTurnCounter(app):
     h = 20
     borderWidth = 3
 
+    # create the label
+    # show a `.` after the turn if it is half step
+
+    turn = app.c // app.stepsPerSecond
+    isHalf = (app.c * 2 // app.stepsPerSecond) % 2 == 1
+    label = f"Turn {turn}"
+
+    if isHalf:
+        h += 0.7
+        label += "."
+
     # draw the outer rect for accent color
     drawRect(0, 0, w + borderWidth, h + borderWidth, fill=Colors.ACCENT)
 
     # draw the inner rect for white
     drawRect(0, 0, w, h, fill=Colors.WHITE)
 
-    # create the label
-    # show a `.` after the turn if it is
-    label = f"Turn {app.c//2}"
-    if app.c % 2 == 1:
-        label += "."
-
-    drawLabel(label, w // 2, h // 2, size=14, fill=Colors.BLACK, align="center")
+    drawLabel(label, 10, 10, size=14, fill=Colors.BLACK, align="left")

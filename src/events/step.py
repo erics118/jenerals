@@ -74,14 +74,15 @@ def stepWithCount(app):
     """
     A step occurs twice a second.
     A turn is two steps.
-    Every step, cities and generals step.
-    Every 25 steps, all cells step.
+    Every turn, cities and generals step.
+    Every 25 turns, all cells step.
     """
 
     app.c += 1
-    if app.c % 50 == 0:
+
+    if app.c % (25 * app.stepsPerSecond) == 0:
         app.board.step("all")
-    elif app.c % 2 == 0:
+    elif app.c % (app.stepsPerSecond) == 0:
         app.board.step("city")
 
 
@@ -94,7 +95,8 @@ def step(app):
     if app.isPaused:
         return
 
-    if len(app.premoves) >= 1:
-        doMove(app, app.premoves.pop(0))
-
     stepWithCount(app)
+
+    if app.c % (app.stepsPerSecond // 2) == 0:
+        if len(app.premoves) >= 1:
+            doMove(app, app.premoves.pop(0))
