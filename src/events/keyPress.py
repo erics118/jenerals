@@ -1,7 +1,7 @@
 from events.appStart import newGame
+from events.step import doMove, stepWithCount
+from utils.addTuple import add
 from utils.premoves import clearPremoves, doPremove, popPremove
-
-from .step import doMove, stepWithCount
 
 
 def keyPress(app, key):
@@ -30,13 +30,13 @@ def inGameKeyPress(app, key):
             app.isFocused = not app.isFocused
         # if an arrow key is pressed, do a premove
         case "left":
-            doPremove(app, (0, -1))
+            doPremove(app, add(app.premoveSelectedCoords, (0, -1)))
         case "right":
-            doPremove(app, (0, 1))
+            doPremove(app, add(app.premoveSelectedCoords, (0, 1)))
         case "up":
-            doPremove(app, (-1, 0))
+            doPremove(app, add(app.premoveSelectedCoords, (-1, 0)))
         case "down":
-            doPremove(app, (1, 0))
+            doPremove(app, add(app.premoveSelectedCoords, (1, 0)))
         # if q is pressed, clear premoves
         case "q":
             clearPremoves(app)

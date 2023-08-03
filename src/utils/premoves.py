@@ -1,5 +1,4 @@
-from .addTuple import add
-from .legal import isMoveLegal
+from .legal import isCoordLegal
 
 
 def popPremove(app):
@@ -7,9 +6,9 @@ def popPremove(app):
     Remove the most recent premove
     """
     if len(app.premoves) > 0:
-        popped = app.premoves.pop()
-        undo = (-popped[0], -popped[1])
-        app.premoveSelectedCoords = add(app.premoveSelectedCoords, undo)
+        app.premoveSelectedCoords = app.premoves.pop()
+        # undo = (-popped[0], -popped[1])
+        # app.premoveSelectedCoords = add(app.premoveSelectedCoords, undo)
 
 
 def clearPremoves(app):
@@ -20,18 +19,16 @@ def clearPremoves(app):
     app.selectedCoords = app.premoveSelectedCoords
 
 
-def doPremove(app, moveCoords):
+def doPremove(app, newCoords):
     """
     Performs a premove if it is legal and updates the premoveSelectedCoords
     """
 
     # disregard illegal moves
-    if not isMoveLegal(app, app.premoveSelectedCoords, moveCoords):
+    if not isCoordLegal(app, newCoords):
         return
 
-    new = add(app.premoveSelectedCoords, moveCoords)
-
     # record the premove
-    app.premoves.append(moveCoords)
+    app.premoves.append(newCoords)
 
-    app.premoveSelectedCoords = new
+    app.premoveSelectedCoords = newCoords

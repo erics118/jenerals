@@ -1,6 +1,5 @@
 from cmu_graphics import *
 
-from utils.addTuple import add
 from utils.colors import Colors
 
 
@@ -19,30 +18,27 @@ def drawPremoves(app):
         return
 
     currPremoveCoords = app.selectedCoords
-    for premove in app.premoves:
-        shift = (0, 0)
-        h = app.cellSize // 2
+    for premoveCoords in app.premoves:
+        # shift = (0, 0)
+        # h = app.cellSize // 2
+        label = "x"
+        # if premove == (1, 0):
+        #     label = "↓"
+        #     shift = (0, h)
+        # elif premove == (0, 1):
+        #     label = "→"
+        #     shift = (h, 0)
+        # elif premove == (-1, 0):
+        #     label = "↑"
+        #     shift = (0, -h)
+        # elif premove == (0, -1):
+        #     label = "←"
+        #     shift = (-h, 0)
 
-        if premove == (1, 0):
-            label = "↓"
-            shift = (0, h)
-        elif premove == (0, 1):
-            label = "→"
-            shift = (h, 0)
-        elif premove == (-1, 0):
-            label = "↑"
-            shift = (0, -h)
-        elif premove == (0, -1):
-            label = "←"
-            shift = (-h, 0)
+        # premoveCoords = add(getPremoveCoords(app, currPremoveCoords), shift)
+        # currPremoveCoords = add(currPremoveCoords, premove)
 
-        premoveCoords = add(getPremoveCoords(app, currPremoveCoords), shift)
-        currPremoveCoords = add(currPremoveCoords, premove)
+        a = getPremoveCoords(app, premoveCoords)
         drawLabel(
-            label,
-            *premoveCoords,
-            fill=Colors.WHITE,
-            size=15,
-            bold=True,
-            font="symbols",
+            label, *a, fill=Colors.RED, size=10, bold=True, font="symbols"
         )

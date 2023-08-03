@@ -1,11 +1,7 @@
-from utils.addTuple import add
-
-
-def isMoveLegal(app, cell, moveCoords):
+def isCoordLegal(app, newCoords):
     """
     Returns whether or not the move is legal.
     """
-    newCoords = add(cell, moveCoords)
 
     isVisible = app.board.at(newCoords).isVisible or app.forceIsVisible
 

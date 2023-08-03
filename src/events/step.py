@@ -1,20 +1,16 @@
-from utils.addTuple import add
-from utils.legal import isMoveLegal
+from utils.legal import isCoordLegal
 from utils.premoves import clearPremoves
 
 
-def doMove(app, moveCoords):
+def doMove(app, newCoords):
     """Move troops from one cell to another"""
 
     # disregard illegal moves or if no cell is focused
-    if not app.isFocused or not isMoveLegal(
-        app, app.selectedCoords, moveCoords
-    ):
+    if not app.isFocused or not isCoordLegal(app, newCoords):
         # clear remaining premoves that follow that illegal move
         clearPremoves(app)
         return
 
-    newCoords = add(app.selectedCoords, moveCoords)
     new = app.board.at(newCoords)
     selected = app.board.at(app.selectedCoords)
 
