@@ -19,8 +19,8 @@ from utils.cliFlags import ArgsConfig, parse
 # multiplayer:
 # TODO: scoreboard
 # TODO: sockets
-# TODO: allow player to play with another player with WASD
 # TODO: chat, put all notifications in there too
+# TODO: capture general should end game
 
 # other features:
 # TODO: end game
@@ -52,7 +52,7 @@ def onMousePress(app, mouseX, mouseY):
 
 def onMouseRelease(app, mouseX, mouseY):
     """Handle mouse releases"""
-    mouseRelease(app, mouseX, mouseY)
+    # mouseRelease(app, mouseX, mouseY)
 
 
 def onMouseDrag(app, mouseX, mouseY):

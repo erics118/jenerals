@@ -9,6 +9,7 @@ import pathlib
 #     https://generals.io/swamp.png
 
 
+# CITE: modified from graphics demos provided on Piazza
 def getImagePath(imageName):
     """Get the image path of the cell to be used when drawing"""
 

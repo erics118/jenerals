@@ -5,16 +5,15 @@ from utils.premoves import clearPremoves
 def doMove(playerId, app, move):
     """Move troops from one cell to another"""
 
+    p = app.players[playerId]
     # disregard illegal moves or if no cell is focused
-    if not app.players[playerId].isFocused or not isMoveLegal(
-        playerId, app, move
-    ):
+    if not p.isFocused or not isMoveLegal(playerId, app, move):
         # clear remaining premoves that follow that illegal move
         clearPremoves(playerId, app)
         return
 
     new = app.board.at(move.coords)
-    selected = app.board.at(app.players[playerId].selectedCoords)
+    selected = app.board.at(p.selectedCoords)
 
     if move.moveTroops:
         # if selected is player

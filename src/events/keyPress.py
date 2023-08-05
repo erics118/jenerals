@@ -27,8 +27,7 @@ def inGameKeyPress(app, key):
 
     match key:
         # if space is pressed, toggle focus
-        # case "space":
-        #     app.isFocused = not app.isFocused
+
         # if an arrow key is pressed, do a premove
         case "left":
             doPremove(
@@ -63,10 +62,18 @@ def inGameKeyPress(app, key):
                 1, app, Move(add(app.players[1].premoveSelectedCoords, (1, 0)))
             )
         # if q is pressed, clear premoves
-        # case "q":
-        #     clearPremoves(app)
-        # case "e":
-        #     popPremove(app)
+        case "i":
+            clearPremoves(0, app)
+        case "p":
+            popPremove(0, app)
+        case "l":
+            app.players[0].isFocused ^= True
+        case "q":
+            clearPremoves(1, app)
+        case "e":
+            popPremove(1, app)
+        case "z":
+            app.players[1].isFocused ^= True
 
     if app.dev:
         devKeyPress(app, key)
