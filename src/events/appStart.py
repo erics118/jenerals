@@ -1,5 +1,5 @@
 from cmu_graphics import *
-from PIL import Image
+from PIL import Image, ImageFilter
 
 from classes.board import Board
 from classes.button import Button
@@ -72,10 +72,21 @@ def appStart(app, dev):
     for t in ["city", "crown", "mountain", "obstacle", "swamp"]:
         # get the image
         image = Image.open(getImagePath(t))
+        # first convert to RGBA before sharpening, because sharpen doesn't work
+        # when the image is in P mode
+        # CITE: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.convert
 
+        image = image.convert("RGBA")
         # resize the image
         imageSize = app.cellSize * 0.8
+
+        # CITE: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.thumbnail
         image.thumbnail((imageSize, imageSize))
+
+        # sharpen the image
+        # doesn't really do much, but slightly darker lines
+        # CITE: https://pillow.readthedocs.io/en/stable/reference/ImageFilter.html
+        image = image.filter(ImageFilter.SHARPEN)
 
         # save the image
         app.images[t] = CMUImage(image)

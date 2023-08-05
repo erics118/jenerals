@@ -1,4 +1,5 @@
 from classes.cell import getCellCoords
+from utils.premoves import doPremove
 
 
 def mouseRelease(app, mouseX, mouseY):
@@ -40,6 +41,5 @@ def inGameMouseRelease(app, mouseX, mouseY):
         app.isFocused = not app.isFocused
     else:
         app.isFocused = True
-        if app.premoveSelectedCoords == app.selectedCoords:
-            app.premoveSelectedCoords = coords
-        app.selectedCoords = coords
+
+        doPremove(app, coords, False)

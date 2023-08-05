@@ -7,7 +7,7 @@ def popPremove(app):
     """
     if len(app.premoves) > 0:
         app.premoves.pop()
-        app.premoveSelectedCoords = app.premoves[-1]
+        app.premoveSelectedCoords = app.premoves[-1][0]
 
 
 def clearPremoves(app):
@@ -18,7 +18,7 @@ def clearPremoves(app):
     app.selectedCoords = app.premoveSelectedCoords
 
 
-def doPremove(app, newCoords):
+def doPremove(app, newCoords, moveTroops=True):
     """
     Performs a premove if it is legal and updates the premoveSelectedCoords
     """
@@ -31,6 +31,15 @@ def doPremove(app, newCoords):
         app.premoveSelectedCoords = app.selectedCoords
 
     # record the premove
-    app.premoves.append(newCoords)
+    should = None
+    if moveTroops == False:
+        should = False
+    elif moveTroops == True:
+        if app.isFocused:
+            should = True
+        else:
+            should = False
+
+    app.premoves.append((newCoords, should))
 
     app.premoveSelectedCoords = newCoords

@@ -19,7 +19,7 @@ def drawPremoves(app):
         return
 
     prev = app.selectedCoords
-    for premoveCoords in app.premoves:
+    for premoveCoords, moveTroops in app.premoves:
         premoveCenter = getPremoveCoords(app, premoveCoords)
         delta = subtract(prev, premoveCoords)
 
@@ -42,7 +42,7 @@ def drawPremoves(app):
         drawLabel(
             label,
             *add(premoveCenter, shift),
-            fill=Colors.WHITE,
+            fill=Colors.WHITE if moveTroops else Colors.RED,
             size=10,
             bold=True,
             font="symbols",

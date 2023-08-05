@@ -13,9 +13,7 @@ from utils.cliFlags import ArgsConfig, parse
 
 # moving:
 # TODO: if not focused on a cell, then allow for moving through mountains, enemy, etc
-# TODO: fix clicking when having premoves
 # TODO: move instantly when have no premoves
-# TODO: broken when premoving into a mountain
 
 # multiplayer:
 # TODO: scoreboard
