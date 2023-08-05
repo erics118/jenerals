@@ -2,19 +2,19 @@ from utils.legal import isCoordLegal
 from utils.premoves import clearPremoves
 
 
-def doMove(app, newCoords, moveTroops=True):
+def doMove(app, move):
     """Move troops from one cell to another"""
 
     # disregard illegal moves or if no cell is focused
-    if not app.isFocused or not isCoordLegal(app, newCoords):
+    if not app.isFocused or not isCoordLegal(app, move.coords):
         # clear remaining premoves that follow that illegal move
         clearPremoves(app)
         return
 
-    new = app.board.at(newCoords)
+    new = app.board.at(move.coords)
     selected = app.board.at(app.selectedCoords)
 
-    if moveTroops:
+    if move.moveTroops:
         # if selected is player
         if selected.team == "player":
             # if new cell is neutral
@@ -63,7 +63,7 @@ def doMove(app, newCoords, moveTroops=True):
     #         app.selectedCoords = newCoords
     #         app.premoveSelectedCoords = newCoords
 
-    app.selectedCoords = newCoords
+    app.selectedCoords = move.coords
     app.board.step("visible")
 
 
@@ -96,5 +96,4 @@ def step(app):
 
     if app.c % (app.stepsPerSecond // 2) == 0:
         if len(app.premoves) >= 1:
-            a = app.premoves.pop(0)
-            doMove(app, a[0], a[1])
+            doMove(app, app.premoves.pop(0))

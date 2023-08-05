@@ -1,3 +1,4 @@
+from classes.move import Move
 from utils.legal import isCoordLegal
 
 
@@ -7,7 +8,7 @@ def popPremove(app):
     """
     if len(app.premoves) > 0:
         app.premoves.pop()
-        app.premoveSelectedCoords = app.premoves[-1][0]
+        app.premoveSelectedCoords = app.premoves[-1].coords
 
 
 def clearPremoves(app):
@@ -40,6 +41,6 @@ def doPremove(app, newCoords, moveTroops=True):
         else:
             should = False
 
-    app.premoves.append((newCoords, should))
+    app.premoves.append(Move(newCoords, should))
 
     app.premoveSelectedCoords = newCoords

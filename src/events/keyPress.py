@@ -64,7 +64,7 @@ def devKeyPress(app, key):
         # do all premoves
         case "?":
             while len(app.premoves) >= 1:
-                doMove(app, app.premoves.pop(0)[0])
+                doMove(app, app.premoves.pop(0))
         case "P":
             app.isPaused = not app.isPaused
         case "V":
