@@ -3,6 +3,7 @@ from PIL import Image, ImageFilter
 
 from classes.board import Board
 from classes.button import Button
+from classes.player import Player
 from utils.colors import Colors
 from utils.image import getImagePath
 
@@ -14,17 +15,24 @@ def newGame(app):
 
     app.hasOngoingGame = True
     app.isPaused = False
-    app.forceIsVisible = False
+    app.forceIsVisible = True
 
     app.mouseCoords = None
+
+    app.players = [
+        Player("Player 0", Colors.PLAYER_0),
+        Player("Player 1", Colors.PLAYER_1),
+    ]
 
     app.board = Board(app, 20, 20)
     app.board.step("visible")
     app.board.step("city")
-    app.isFocused = True
 
-    app.premoves = []
+    # app.isFocused = True
 
+    # app.premoves = []
+
+    # start at first turn
     app.c = 1 * app.stepsPerSecond
 
 

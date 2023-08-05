@@ -24,6 +24,8 @@ class Colors:
     SURROUNDING_OBSTACLE_NOT_VISIBLE = rgb(43, 43, 43)
 
     SURROUNDING_BLUE_VISIBLE = rgb(48, 60, 107)
+    # TODO: grab actual color from https://generals.io/
+    SURROUNDING_RED_VISIBLE = rgb(180, 40, 10)
 
     # theme colors
     RED = rgb(254, 48, 0)
@@ -31,3 +33,6 @@ class Colors:
     WHITE = rgb(255, 255, 255)
     ACCENT = rgb(0, 128, 128)
     BLACK = rgb(0, 0, 0)
+
+    PLAYER_0 = RED
+    PLAYER_1 = BLUE

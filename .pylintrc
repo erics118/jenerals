@@ -193,6 +193,10 @@ good-names=i,
            ex,
            r,
            c,
+           r1,
+           r2,
+           c1,
+           c2,
            dr,
            dc,
            drow,
@@ -446,7 +450,9 @@ disable=raw-checker-failed,
         unused-wildcard-import,
         redefined-outer-name,
         fixme,
-        too-few-public-methods
+        too-few-public-methods,
+        too-many-instance-attributes,
+        use-dict-literal
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option

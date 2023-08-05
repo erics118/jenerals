@@ -49,11 +49,29 @@ def generateGrid(app, rows, cols):
                 grid[r][c].numTroops = randomCityTroops()
 
     # TODO: make sure it is at least rows//2 away from the opponent
-    r, c = randomCoords(rows, cols)
-    grid[r][c] = Cell(app, r, c, "player", "general")
-    grid[r][c].isVisible = True
+    # r, c = randomCoords(rows, cols)
+    # grid[r][c] = Cell(app, r, c, "player", "general")
+    # grid[r][c].isVisible = True
 
-    return (grid, (r, c))
+    dist = 0
+
+    while dist < rows // 2:
+        r1, c1 = randomCoords(rows, cols)
+        r2, c2 = randomCoords(rows, cols)
+
+        dist = abs(r1 - r2) + abs(c1 - c2)
+
+    grid[r1][c1] = Cell(app, r1, c1, "player0", "general")
+    grid[r1][c1].isVisible = True
+    grid[r1][c1].numTroops = 1
+
+    grid[r2][c2] = Cell(app, r2, c2, "player1", "general")
+    grid[r2][c2].isVisible = True
+    grid[r2][c2].numTroops = 1
+
+    return (grid, (r1, c1), (r2, c2))
+
+    # return (grid, (r, c))
 
 
 def hasBlockedFog(grid):
@@ -69,7 +87,7 @@ def hasBlockedFog(grid):
 
     for r in range(rows):
         for c in range(cols):
-            if grid[r][c].t == "general" or grid[r][c].t == "fog":
+            if grid[r][c].t in ["general", "fog"]:
                 tempGrid[r][c] = 0
             else:
                 tempGrid[r][c] = 1
@@ -94,11 +112,7 @@ def hasBlockedCity(grid):
 
     for r in range(rows):
         for c in range(cols):
-            if (
-                grid[r][c].t == "general"
-                or grid[r][c].t == "fog"
-                or grid[r][c].t == "city"
-            ):
+            if grid[r][c].t in ["general", "fog", "city"]:
                 tempGrid[r][c] = 0
             else:
                 tempGrid[r][c] = 1
@@ -133,14 +147,20 @@ class Board:
         self.height = self.rows * app.cellSize
 
         # randomly generate the grid
-        self.grid, generalCoords = generateGrid(app, self.rows, self.cols)
+        self.grid, general0Coords, general1Coords = generateGrid(
+            app, self.rows, self.cols
+        )
 
         # regenerate grid until there are no blocked areas
         while hasBlockedCity(self.grid) or hasBlockedFog(self.grid):
-            self.grid, generalCoords = generateGrid(app, self.rows, self.cols)
+            self.grid, general0Coords, general1Coords = generateGrid(
+                app, self.rows, self.cols
+            )
 
-        app.selectedCoords = generalCoords
-        app.premoveSelectedCoords = generalCoords
+        app.players[0].selectedCoords = general0Coords
+        app.players[0].premoveSelectedCoords = general0Coords
+        app.players[1].selectedCoords = general1Coords
+        app.players[1].premoveSelectedCoords = general1Coords
 
     def at(self, coords):
         """

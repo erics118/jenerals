@@ -2,21 +2,23 @@ from utils.legal import isMoveLegal
 from utils.premoves import clearPremoves
 
 
-def doMove(app, move):
+def doMove(playerId, app, move):
     """Move troops from one cell to another"""
 
     # disregard illegal moves or if no cell is focused
-    if not app.isFocused or not isMoveLegal(app, move):
+    if not app.players[playerId].isFocused or not isMoveLegal(
+        playerId, app, move
+    ):
         # clear remaining premoves that follow that illegal move
-        clearPremoves(app)
+        clearPremoves(playerId, app)
         return
 
     new = app.board.at(move.coords)
-    selected = app.board.at(app.selectedCoords)
+    selected = app.board.at(app.players[playerId].selectedCoords)
 
     if move.moveTroops:
         # if selected is player
-        if selected.team == "player":
+        if selected.team == f"player{playerId}":
             # if new cell is neutral
             if new.team == "neutral":
                 if new.t == "fog":
@@ -27,10 +29,10 @@ def doMove(app, move):
                         # old cell has one troop left
                         selected.numTroops = 1
                         # new cell is now player
-                        new.team = "player"
+                        new.team = f"player{playerId}"
                         new.isVisible = True
                     else:
-                        clearPremoves(app)
+                        clearPremoves(playerId, app)
 
                 elif new.t == "city":
                     # capturing a city consumes the numTroops the city has
@@ -40,16 +42,16 @@ def doMove(app, move):
                         # old cell has two troops left
                         selected.numTroops = 1
                         # new cell is now player
-                        new.team = "player"
+                        new.team = f"player{playerId}"
                         new.isVisible = True
                     # otherwise, not enough troops to capture it. send all the troops over anyway
                     else:
                         new.numTroops = new.numTroops - selected.numTroops + 1
                         selected.numTroops = 1
-                        clearPremoves(app)
+                        clearPremoves(playerId, app)
 
             # elif is own cell
-            elif new.team == "player":
+            elif new.team == f"player{playerId}":
                 if selected.numTroops == 1 and new.numTroops == 1:
                     return
 
@@ -57,13 +59,32 @@ def doMove(app, move):
                 new.numTroops += selected.numTroops - 1
                 # old cell has one troop left
                 selected.numTroops = 1
+            # elif is opponent
+            elif new.team.startswith("player"):
+                if selected.numTroops == new.numTroops + 1:
+                    # that cell becomes 0
+                    new.numTroops = 0
+                    selected.numTroops = 1
+                elif selected.numTroops > new.numTroops + 1:
+                    # then move the troops over, leaving one behind and using one up
+                    new.numTroops = selected.numTroops - new.numTroops - 1
+                    # old cell has two troops left
+                    selected.numTroops = 1
+                    # new cell is now player
+                    new.team = f"player{playerId}"
+                    new.isVisible = True
+                # otherwise, not enough troops to capture it. send all the troops over anyway
+                else:
+                    new.numTroops = new.numTroops - selected.numTroops + 1
+                    selected.numTroops = 1
+                    clearPremoves(playerId, app)
 
     # if selected.team == "neutral":
     #     if new.team == "player":
     #         app.selectedCoords = newCoords
     #         app.premoveSelectedCoords = newCoords
 
-    app.selectedCoords = move.coords
+    app.players[playerId].selectedCoords = move.coords
     app.board.step("visible")
 
 
@@ -95,5 +116,6 @@ def step(app):
     stepWithCount(app)
 
     if app.c % (app.stepsPerSecond // 2) == 0:
-        if len(app.premoves) >= 1:
-            doMove(app, app.premoves.pop(0))
+        for playerId, p in enumerate(app.players):
+            if len(p.premoves) >= 1:
+                doMove(playerId, app, p.premoves.pop(0))

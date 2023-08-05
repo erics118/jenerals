@@ -4,7 +4,12 @@ from utils.colors import Colors
 
 
 class Button:
-    """A button. Handles click events, on release."""
+    """
+    A button.
+    Handles click events, on release.
+    Doesn't click when the button is not drawn.
+    Considers cases when click and dragging into/out of the button.
+    """
 
     def __init__(self, x, y, width, height, **kwargs):
         self.app = app
@@ -13,7 +18,7 @@ class Button:
         self.y = y
         self.width = width
         self.height = height
-        self.text = kwargs.get("text", None)
+        self.text = kwargs.get("text", "text")
         self.textSize = kwargs.get("textSize", 12)
         self.textColor = kwargs.get("textColor", Colors.BLACK)
         self.onClick = kwargs.get("onClick", lambda: print("Clicked"))
@@ -40,8 +45,7 @@ class Button:
         if not self.drawing:
             return
 
-        # Draw the background
-
+        # Draw the accented background
         drawRect(
             self.x + 3,
             self.y + 3,
@@ -51,6 +55,7 @@ class Button:
             align="center",
         )
 
+        # Draw the background
         drawRect(
             self.x,
             self.y,
@@ -61,10 +66,9 @@ class Button:
         )
 
         # Draw the text if it exists
-        if self.text is not None:
-            kwargs = dict()
-            if self.textSize is not None:
-                kwargs["size"] = self.textSize
-            if self.textColor is not None:
-                kwargs["fill"] = self.textColor
-            drawLabel(self.text, self.x, self.y, **kwargs, align="center")
+        kwargs = dict()
+        if self.textSize is not None:
+            kwargs["size"] = self.textSize
+        if self.textColor is not None:
+            kwargs["fill"] = self.textColor
+        drawLabel(self.text, self.x, self.y, **kwargs, align="center")

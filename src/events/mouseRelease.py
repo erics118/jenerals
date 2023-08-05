@@ -43,4 +43,4 @@ def inGameMouseRelease(app, mouseX, mouseY):
     else:
         app.isFocused = True
 
-        doPremove(app, Move(coords, False))
+        doPremove(1, app, Move(coords, False))

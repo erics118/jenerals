@@ -1,4 +1,4 @@
-def isMoveLegal(app, move):
+def isMoveLegal(playerId, app, move):
     """
     Returns whether or not the move is legal.
     """
@@ -17,7 +17,7 @@ def isMoveLegal(app, move):
         return True
 
     # allow all moves when not focused
-    if not app.isFocused:
+    if not app.players[playerId].isFocused:
         return True
 
     # don't allow move if new cell is a mountain

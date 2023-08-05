@@ -43,11 +43,11 @@ class Cell:
     def getColor(self, forceIsVisible=False):
         """Get the color of the cell to be used when drawing"""
 
-        if self.team == "player":
+        if self.team == "player0":
             return Colors.BLUE
 
         if self.isVisible or forceIsVisible:
-            if self.team == "bot":
+            if self.team == "player1":
                 return Colors.RED
             elif self.t == "city":
                 return Colors.VISIBLE_CITY
@@ -69,39 +69,44 @@ class Cell:
 
         if isVisible:
             border = Colors.BORDER
-        if self.app.premoveSelectedCoords == (self.row, self.col):
-            border = Colors.WHITE
 
-        color = self.getColor(self.app.forceIsVisible)
+        for p in app.players:
+            if p.premoveSelectedCoords == (self.row, self.col):
+                border = Colors.WHITE
 
-        # is above, below, left, or right of app.selectedCoords
-        if self.app.isFocused and self.app.premoveSelectedCoords in [
-            (self.row - 1, self.col),
-            (self.row + 1, self.col),
-            (self.row, self.col - 1),
-            (self.row, self.col + 1),
-        ]:
-            # TODO: diff colors depending on existing color
-            if self.t == "fog" or self.t == "mountain" or self.t == "city":
-                if self.team == "player":
-                    # must be visible?
-                    color = Colors.SURROUNDING_BLUE_VISIBLE
-                else:
-                    if self.t == "city":
-                        if isVisible:
-                            color = Colors.SURROUNDING_CITY_VISIBLE
-                        else:
-                            color = Colors.SURROUNDING_OBSTACLE_NOT_VISIBLE
-                    elif self.t == "mountain":
-                        if isVisible:
-                            color = Colors.SURROUNDING_MOUNTAIN_VISIBLE
-                        else:
-                            color = Colors.SURROUNDING_OBSTACLE_NOT_VISIBLE
+            color = self.getColor(self.app.forceIsVisible)
+
+            # is above, below, left, or right of app.selectedCoords
+            if p.isFocused and p.premoveSelectedCoords in [
+                (self.row - 1, self.col),
+                (self.row + 1, self.col),
+                (self.row, self.col - 1),
+                (self.row, self.col + 1),
+            ]:
+                # TODO: diff colors depending on existing color
+                if self.t in ["fog", "mountain", "city"]:
+                    if self.team == "player0":
+                        # must be visible?
+                        color = Colors.SURROUNDING_BLUE_VISIBLE
+                    elif self.team == "player1":
+                        # must be visible?
+                        color = Colors.SURROUNDING_RED_VISIBLE
                     else:
-                        if isVisible:
-                            color = Colors.SURROUNDING_FOG_VISIBLE
+                        if self.t == "city":
+                            if isVisible:
+                                color = Colors.SURROUNDING_CITY_VISIBLE
+                            else:
+                                color = Colors.SURROUNDING_OBSTACLE_NOT_VISIBLE
+                        elif self.t == "mountain":
+                            if isVisible:
+                                color = Colors.SURROUNDING_MOUNTAIN_VISIBLE
+                            else:
+                                color = Colors.SURROUNDING_OBSTACLE_NOT_VISIBLE
                         else:
-                            color = Colors.SURROUNDING_FOG_NOT_VISIBLE
+                            if isVisible:
+                                color = Colors.SURROUNDING_FOG_VISIBLE
+                            else:
+                                color = Colors.SURROUNDING_FOG_NOT_VISIBLE
 
         # draw the background for the cell
         drawRect(

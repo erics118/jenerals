@@ -26,6 +26,8 @@ from utils.cliFlags import ArgsConfig, parse
 # TODO: end game
 # TODO: restart game
 # TODO: z and click twice to take 50% troops
+# TODO: surrender
+# TODO: tutorial
 
 
 def onAppStart(app, dev=False):
@@ -65,7 +67,7 @@ def onStep(app):
 
 if __name__ == "__main__":
     # dev mode
-    res = parse(sys.argv[1:], ArgsConfig(short=["d"], long="dev"))
-    dev = res.get("d", False) or res.get("dev", False)
+    res = parse(sys.argv[1:], ArgsConfig(long=["dev"]))
+    dev = res.get("dev", False)
 
     runApp(dev=dev)

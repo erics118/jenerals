@@ -18,5 +18,5 @@ def drawAll(app):
     if app.flag:
         drawRect(10, 10, 30, 30, fill="red")
 
-    for buttonName, button in app.buttons.items():
+    for _buttonName, button in app.buttons.items():
         button.draw()

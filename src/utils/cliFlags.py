@@ -6,8 +6,8 @@ class ArgsConfig:
     """A class that holds the configuration for the CLI flag parser."""
 
     def __init__(self, **kwargs):
-        self.short = kwargs["short"]
-        self.long = kwargs["long"]
+        self.short = kwargs.get("short", [])
+        self.long = kwargs.get("long", [])
 
 
 def parse(args, config):

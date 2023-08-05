@@ -15,36 +15,38 @@ def getPremoveCoords(app, coords):
 
 def drawPremoves(app):
     """Draw the premoves"""
-    if app.selectedCoords is None:
-        return
 
-    prev = app.selectedCoords
-    for premoveCoords, moveTroops in app.premoves:
-        premoveCenter = getPremoveCoords(app, premoveCoords)
-        delta = subtract(prev, premoveCoords)
+    for p in app.players:
+        if p.selectedCoords is None:
+            return
 
-        shift = (0, 0)
-        h = app.cellSize // 2
-        label = ""
-        if delta == (1, 0):
-            label = "↑"
-            shift = (0, h)
-        elif delta == (0, 1):
-            label = "←"
-            shift = (h, 0)
-        elif delta == (-1, 0):
-            label = "↓"
-            shift = (0, -h)
-        elif delta == (0, -1):
-            label = "→"
-            shift = (-h, 0)
+        prev = p.selectedCoords
+        for premoveCoords, moveTroops in p.premoves:
+            premoveCenter = getPremoveCoords(app, premoveCoords)
+            delta = subtract(prev, premoveCoords)
 
-        drawLabel(
-            label,
-            *add(premoveCenter, shift),
-            fill=Colors.WHITE if moveTroops else Colors.RED,
-            size=10,
-            bold=True,
-            font="symbols",
-        )
-        prev = premoveCoords
+            shift = (0, 0)
+            h = app.cellSize // 2
+            label = ""
+            if delta == (1, 0):
+                label = "↑"
+                shift = (0, h)
+            elif delta == (0, 1):
+                label = "←"
+                shift = (h, 0)
+            elif delta == (-1, 0):
+                label = "↓"
+                shift = (0, -h)
+            elif delta == (0, -1):
+                label = "→"
+                shift = (-h, 0)
+
+            drawLabel(
+                label,
+                *add(premoveCenter, shift),
+                fill=Colors.WHITE if moveTroops else Colors.RED,
+                size=10,
+                bold=True,
+                font="symbols",
+            )
+            prev = premoveCoords
