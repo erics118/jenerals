@@ -1,14 +1,14 @@
-def isCoordLegal(app, newCoords):
+def isMoveLegal(app, move):
     """
     Returns whether or not the move is legal.
     """
 
-    isVisible = app.board.at(newCoords).isVisible or app.forceIsVisible
+    isVisible = app.board.at(move.coords).isVisible or app.forceIsVisible
 
     # check bounds
     if not (
-        0 <= newCoords[0] < app.board.rows
-        and 0 <= newCoords[1] < app.board.cols
+        0 <= move.coords[0] < app.board.rows
+        and 0 <= move.coords[1] < app.board.cols
     ):
         return False
 
@@ -16,8 +16,12 @@ def isCoordLegal(app, newCoords):
     if not isVisible:
         return True
 
+    # allow all moves when not focused
+    if not app.isFocused:
+        return True
+
     # don't allow move if new cell is a mountain
-    if isVisible and app.board.at(newCoords).t == "mountain":
+    if isVisible and app.board.at(move.coords).t == "mountain":
         return False
 
     return True

@@ -12,8 +12,9 @@ from events.step import step
 from utils.cliFlags import ArgsConfig, parse
 
 # moving:
-# TODO: if not focused on a cell, then allow for moving through mountains, enemy, etc
+# TODO: if not focused on a cell, then allow for moving through mountains
 # TODO: move instantly when have no premoves
+# TODO: do premoves instantly if start and end pos both aren't player cells
 
 # multiplayer:
 # TODO: scoreboard
@@ -24,7 +25,6 @@ from utils.cliFlags import ArgsConfig, parse
 # other features:
 # TODO: end game
 # TODO: restart game
-# TODO: somehow increase the resolution
 # TODO: z and click twice to take 50% troops
 
 

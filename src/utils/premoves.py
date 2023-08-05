@@ -1,5 +1,4 @@
-from classes.move import Move
-from utils.legal import isCoordLegal
+from utils.legal import isMoveLegal
 
 
 def popPremove(app):
@@ -19,28 +18,27 @@ def clearPremoves(app):
     app.selectedCoords = app.premoveSelectedCoords
 
 
-def doPremove(app, newCoords, moveTroops=True):
+def doPremove(app, move):
     """
     Performs a premove if it is legal and updates the premoveSelectedCoords
     """
 
     # disregard illegal moves
-    if not isCoordLegal(app, newCoords):
+    if not isMoveLegal(app, move):
         return
 
     if app.premoveSelectedCoords is None:
         app.premoveSelectedCoords = app.selectedCoords
 
     # record the premove
-    should = None
-    if moveTroops == False:
-        should = False
-    elif moveTroops == True:
+    if move.moveTroops == False:
+        move.moveTroops = False
+    elif move.moveTroops == True:
         if app.isFocused:
-            should = True
+            move.moveTroops = True
         else:
-            should = False
+            move.moveTroops = False
 
-    app.premoves.append(Move(newCoords, should))
+    app.premoves.append(move)
 
-    app.premoveSelectedCoords = newCoords
+    app.premoveSelectedCoords = move.coords

@@ -1,4 +1,4 @@
-from utils.legal import isCoordLegal
+from utils.legal import isMoveLegal
 from utils.premoves import clearPremoves
 
 
@@ -6,7 +6,7 @@ def doMove(app, move):
     """Move troops from one cell to another"""
 
     # disregard illegal moves or if no cell is focused
-    if not app.isFocused or not isCoordLegal(app, move.coords):
+    if not app.isFocused or not isMoveLegal(app, move):
         # clear remaining premoves that follow that illegal move
         clearPremoves(app)
         return
