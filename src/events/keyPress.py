@@ -1,7 +1,7 @@
 from events.appStart import newGame
 from events.step import doMove, stepWithCount
-from utils.addTuple import add
 from utils.premoves import clearPremoves, doPremove, popPremove
+from utils.tuple import add
 
 
 def keyPress(app, key):

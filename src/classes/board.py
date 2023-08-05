@@ -2,10 +2,9 @@ from random import randint
 
 from cmu_graphics import *
 
+from classes.cell import Cell
 from utils.colors import Colors
 from utils.floodFill import floodFill
-
-from .cell import Cell
 
 
 def randomCellType():
@@ -13,16 +12,17 @@ def randomCellType():
 
     r = randint(0, 99)
 
-    if r < 20:
+    if r < 23:
         return "mountain"
 
-    if r < 27:
+    if r < 26:
         return "city"
 
     return "fog"
 
 
 def randomCityTroops():
+    """Generate a random number of troops for the city"""
     return randint(40, 50)
 
 
@@ -202,7 +202,7 @@ class Board:
                         cnt += cell.numTroops - 1
                         cell.numTroops = 1
 
-        self.grid.at(coords).numTroops += cnt
+        self.at(coords).numTroops += cnt
 
     def drawCells(self):
         """Draw all the cells in the board"""

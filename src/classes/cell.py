@@ -60,8 +60,9 @@ class Cell:
 
     # TODO: some borders are missing when having premoves
     def draw(self):
-        isVisible = self.isVisible or self.app.forceIsVisible
         """Draw a single cell."""
+
+        isVisible = self.isVisible or self.app.forceIsVisible
 
         cellLeft, cellTop = self.getCellLeftTop()
         border = None

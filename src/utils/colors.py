@@ -1,6 +1,8 @@
 from cmu_graphics import rgb
 
 
+# CITE: all colors are grabbed from https://generals.io by inspecting
+# the HTML webpage content
 class Colors:
     """
     Colors used in the game.
@@ -29,6 +31,3 @@ class Colors:
     WHITE = rgb(255, 255, 255)
     ACCENT = rgb(0, 128, 128)
     BLACK = rgb(0, 0, 0)
-
-
-0

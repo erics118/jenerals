@@ -69,12 +69,6 @@ def appStart(app, dev):
     # load all images, for visible and not visible
     app.images = {}
 
-    # CITE: uses image from https://generals.io/city.png
-    # CITE: uses image from https://generals.io/crown.png
-    # CITE: uses image from https://generals.io/mountain.png
-    # CITE: uses image from https://generals.io/obstacle.png
-    # CITE: uses image from https://generals.io/swamp.png
-
     for t in ["city", "crown", "mountain", "obstacle", "swamp"]:
         # get the image
         image = Image.open(getImagePath(t))

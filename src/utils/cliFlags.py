@@ -1,5 +1,5 @@
-# originally written by me, in C++
-# ported over to python by manually rewriting it
+# CITE: originally written by me, in C++
+# ported over to python by me manually rewriting it
 
 
 class ArgsConfig:
@@ -51,10 +51,7 @@ def parse(args, config):
 
 
 if __name__ == "__main__":
-    config = ArgsConfig(
-        short=["c:"],
-        long=["hhh"],
-    )
+    config = ArgsConfig(short=["c:"], long=["hhh"])
     args = ["-c", "f", "--hhh"]
 
     res = parse(args, config)

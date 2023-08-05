@@ -1,6 +1,13 @@
 import os
 import pathlib
 
+# CITE: uses images from:
+#     https://generals.io/city.png
+#     https://generals.io/crown.png
+#     https://generals.io/mountain.png
+#     https://generals.io/obstacle.png
+#     https://generals.io/swamp.png
+
 
 def getImagePath(imageName):
     """Get the image path of the cell to be used when drawing"""

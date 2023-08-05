@@ -5,6 +5,7 @@ def floodFill(grid, coords=None):
     1 = wall
     2 = visited
     """
+
     # having coords as None is the initial call
     # find the first non-wall cell and start the flood fill from there
 
