@@ -12,7 +12,6 @@ from events.step import step
 from utils.cliFlags import ArgsConfig, parse
 
 # moving:
-# TODO: if not focused on a cell, then allow for moving through mountains
 # TODO: move instantly when have no premoves
 # TODO: do premoves instantly if start and end pos both aren't player cells
 
@@ -28,6 +27,7 @@ from utils.cliFlags import ArgsConfig, parse
 # TODO: z and click twice to take 50% troops
 # TODO: surrender
 # TODO: tutorial
+# TODO: zooming
 
 
 def onAppStart(app, dev=False):
@@ -52,7 +52,7 @@ def onMousePress(app, mouseX, mouseY):
 
 def onMouseRelease(app, mouseX, mouseY):
     """Handle mouse releases"""
-    # mouseRelease(app, mouseX, mouseY)
+    mouseRelease(app, mouseX, mouseY)
 
 
 def onMouseDrag(app, mouseX, mouseY):

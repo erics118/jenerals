@@ -27,12 +27,11 @@ class Colors:
     # TODO: grab actual color from https://generals.io/
     SURROUNDING_RED_VISIBLE = rgb(180, 40, 10)
 
+    PREMOVE = rgb(50, 50, 50)
+
     # theme colors
     RED = rgb(254, 48, 0)
     BLUE = rgb(66, 99, 216)
     WHITE = rgb(255, 255, 255)
     ACCENT = rgb(0, 128, 128)
     BLACK = rgb(0, 0, 0)
-
-    PLAYER_0 = RED
-    PLAYER_1 = BLUE

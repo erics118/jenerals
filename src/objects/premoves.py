@@ -21,13 +21,15 @@ def drawPremoves(app):
             return
 
         prev = p.selectedCoords
-        for premoveCoords, moveTroops in p.premoves:
+
+        for premoveCoords, _ in p.premoves:
             premoveCenter = getPremoveCoords(app, premoveCoords)
             delta = subtract(prev, premoveCoords)
 
             shift = (0, 0)
             h = app.cellSize // 2
             label = ""
+
             if delta == (1, 0):
                 label = "↑"
                 shift = (0, h)
@@ -44,7 +46,7 @@ def drawPremoves(app):
             drawLabel(
                 label,
                 *add(premoveCenter, shift),
-                fill=Colors.WHITE if moveTroops else Colors.RED,
+                fill=Colors.PREMOVE,
                 size=10,
                 bold=True,
                 font="symbols",

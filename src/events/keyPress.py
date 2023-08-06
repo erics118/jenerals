@@ -1,7 +1,7 @@
 from classes.move import Move
 from events.appStart import newGame
 from events.step import stepWithCount
-from utils.premoves import clearPremoves, doPremove, popPremove
+from utils.premoves import addPremove, clearPremoves, popPremove
 from utils.tuple import add
 
 
@@ -30,35 +30,35 @@ def inGameKeyPress(app, key):
 
         # if an arrow key is pressed, do a premove
         case "left":
-            doPremove(
+            addPremove(
                 0, app, Move(add(app.players[0].premoveSelectedCoords, (0, -1)))
             )
         case "right":
-            doPremove(
+            addPremove(
                 0, app, Move(add(app.players[0].premoveSelectedCoords, (0, 1)))
             )
         case "up":
-            doPremove(
+            addPremove(
                 0, app, Move(add(app.players[0].premoveSelectedCoords, (-1, 0)))
             )
         case "down":
-            doPremove(
+            addPremove(
                 0, app, Move(add(app.players[0].premoveSelectedCoords, (1, 0)))
             )
         case "a":
-            doPremove(
+            addPremove(
                 1, app, Move(add(app.players[1].premoveSelectedCoords, (0, -1)))
             )
         case "d":
-            doPremove(
+            addPremove(
                 1, app, Move(add(app.players[1].premoveSelectedCoords, (0, 1)))
             )
         case "w":
-            doPremove(
+            addPremove(
                 1, app, Move(add(app.players[1].premoveSelectedCoords, (-1, 0)))
             )
         case "s":
-            doPremove(
+            addPremove(
                 1, app, Move(add(app.players[1].premoveSelectedCoords, (1, 0)))
             )
         # if q is pressed, clear premoves
@@ -101,8 +101,6 @@ def devKeyPress(app, key):
             app.isPaused = not app.isPaused
         case "V":
             app.forceIsVisible = not app.forceIsVisible
-        # case "C":
-        #     app.board.collectTroops(app.selectedCoords)
 
 
 # TODO: key hold

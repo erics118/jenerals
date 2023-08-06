@@ -6,7 +6,8 @@ def popPremove(playerId, app):
     Remove the most recent premove
     """
     p = app.players[playerId]
-    if len(a.premoves) > 0:
+
+    if len(p.premoves) > 0:
         p.premoves.pop()
         if len(p.premoves) == 0:
             p.premoveSelectedCoords = None
@@ -24,9 +25,9 @@ def clearPremoves(playerId, app):
     p.selectedCoords = p.premoveSelectedCoords
 
 
-def doPremove(playerId, app, move):
+def addPremove(playerId, app, move):
     """
-    Performs a premove if it is legal and updates the premoveSelectedCoords
+    Add premove if it is legal and updates the premoveSelectedCoords
     """
 
     p = app.players[playerId]

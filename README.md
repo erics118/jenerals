@@ -34,8 +34,6 @@ Run the program in development mode with `python3 src/main.py --dev`
 
 `V` - toggle visibility of all squares
 
-`C` - collect all troops into a single squares
-
 ## Just
 
 If you have [`just`](https://github.com/casey/just) installed, there are some other shortcuts.

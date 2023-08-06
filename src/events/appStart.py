@@ -20,17 +20,13 @@ def newGame(app):
     app.mouseCoords = None
 
     app.players = [
-        Player("Player 0", Colors.PLAYER_0),
-        Player("Player 1", Colors.PLAYER_1),
+        Player(0, "red bro", Colors.RED),
+        Player(0, "blue bruh", Colors.BLUE),
     ]
 
     app.board = Board(app, 20, 20)
     app.board.step("visible")
     app.board.step("city")
-
-    # app.isFocused = True
-
-    # app.premoves = []
 
     # start at first turn
     app.c = 1 * app.stepsPerSecond

@@ -42,20 +42,18 @@ def generateGrid(app, rows, cols):
 
     grid = makeList(rows, cols)
 
+    # randomly generate the grid
     for r in range(rows):
         for c in range(cols):
             grid[r][c] = Cell(app, r, c, "neutral", randomCellType())
+            # random number of troops for cities
             if grid[r][c].t == "city":
                 grid[r][c].numTroops = randomCityTroops()
 
-    # TODO: make sure it is at least rows//2 away from the opponent
-    # r, c = randomCoords(rows, cols)
-    # grid[r][c] = Cell(app, r, c, "player", "general")
-    # grid[r][c].isVisible = True
-
     dist = 0
 
-    while dist < rows // 2:
+    # make sure the two generals are at least 0.3 of the board away from each other
+    while dist < (rows + cols) * 0.3:
         r1, c1 = randomCoords(rows, cols)
         r2, c2 = randomCoords(rows, cols)
 
@@ -69,7 +67,7 @@ def generateGrid(app, rows, cols):
     grid[r2][c2].isVisible = True
     grid[r2][c2].numTroops = 1
 
-    return (grid, (r1, c1), (r2, c2))
+    return (grid, [(r1, c1), (r2, c2)])
 
     # return (grid, (r, c))
 
@@ -147,20 +145,16 @@ class Board:
         self.height = self.rows * app.cellSize
 
         # randomly generate the grid
-        self.grid, general0Coords, general1Coords = generateGrid(
-            app, self.rows, self.cols
-        )
+        self.grid, generalCoords = generateGrid(app, self.rows, self.cols)
 
         # regenerate grid until there are no blocked areas
         while hasBlockedCity(self.grid) or hasBlockedFog(self.grid):
-            self.grid, general0Coords, general1Coords = generateGrid(
-                app, self.rows, self.cols
-            )
+            self.grid, generalCoords = generateGrid(app, self.rows, self.cols)
 
-        app.players[0].selectedCoords = general0Coords
-        app.players[0].premoveSelectedCoords = general0Coords
-        app.players[1].selectedCoords = general1Coords
-        app.players[1].premoveSelectedCoords = general1Coords
+        for playerId, coords in enumerate(generalCoords):
+            app.players[playerId].generalCoord = coords
+            app.players[playerId].selectedCoords = coords
+            app.players[playerId].premoveSelectedCoords = coords
 
     def at(self, coords):
         """
@@ -186,6 +180,7 @@ class Board:
             (0, -1),
             (+1, -1),
         ]
+
         if mode == "visible":
             # update visibility for every cell
             for row in range(len(self.grid)):
@@ -197,32 +192,17 @@ class Board:
                         ):
                             app.board.at((row, col)).isVisible = True
 
-        if mode == "city":
+        elif mode == "city":
             for row in self.grid:
                 for cell in row:
                     # if is a city or general
                     if cell.t in ["city", "general"] and cell.team != "neutral":
                         cell.numTroops += 1
 
-        if mode == "all":
+        elif mode == "all":
             for row in self.grid:
                 for cell in row:
                     cell.step()
-
-    def collectTroops(self, coords):
-        """Collect all troops into a single cell"""
-
-        cnt = 0
-        for r, row in enumerate(self.grid):
-            for c, cell in enumerate(row):
-                if cell.team == "player":
-                    if (r, c) == coords:
-                        continue
-                    if cell.numTroops > 1:
-                        cnt += cell.numTroops - 1
-                        cell.numTroops = 1
-
-        self.at(coords).numTroops += cnt
 
     def drawCells(self):
         """Draw all the cells in the board"""
