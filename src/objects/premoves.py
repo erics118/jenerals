@@ -7,8 +7,8 @@ from utils.tuple import add, subtract
 def getPremoveCoords(app, coords):
     """Get the top left coordinate of the cell"""
 
-    cellLeft = app.board.left + (coords[0] + 0.5) * app.cellSize
-    cellTop = app.board.top + (coords[1] + 0.5) * app.cellSize
+    cellLeft = app.board.top + (coords[0] + 0.5) * app.cellSize
+    cellTop = app.board.left + (coords[1] + 0.5) * app.cellSize
 
     return (cellTop, cellLeft)
 
