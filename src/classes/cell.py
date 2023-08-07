@@ -19,19 +19,17 @@ class Cell:
 
         self.row = row
         self.col = col
-        self.team = team  # player, bot, neutral
+        self.team = team  # 0:first player, 1: second player, -1:neutral
         self.t = t  # obstacle, city, mountain, general, fog
         self.numTroops = numTroops
         self.isVisible = isVisible
 
     def step(self):
         """Increment the number of troops in the cell"""
-
-        if self.t == "city" and self.team == "neutral":
+        if self.team == -1:
             return
 
-        if self.numTroops != 0:
-            self.numTroops += 1
+        self.numTroops += 1
 
     def getCellLeftTop(self):
         """Get the top left coordinate of the cell"""
@@ -43,17 +41,17 @@ class Cell:
     def getColor(self, forceIsVisible=False):
         """Get the color of the cell to be used when drawing"""
 
-        if self.team == "player0":
+        if self.team == 0:
             return Colors.BLUE
 
         if self.isVisible or forceIsVisible:
-            if self.team == "player1":
+            if self.team == 1:
                 return Colors.RED
             elif self.t == "city":
                 return Colors.VISIBLE_CITY
             elif self.t == "mountain":
                 return Colors.VISIBLE_MOUNTAIN
-            else:  # self.team == "neutral"
+            else:  # self.team == -1
                 return Colors.VISIBLE_CELL
 
         return Colors.FOG
@@ -85,10 +83,10 @@ class Cell:
             ]:
                 # TODO: diff colors depending on existing color
                 if self.t in ["fog", "mountain", "city"]:
-                    if self.team == "player0":
+                    if self.team == 0:
                         # must be visible?
                         color = Colors.SURROUNDING_BLUE_VISIBLE
-                    elif self.team == "player1":
+                    elif self.team == 1:
                         # must be visible?
                         color = Colors.SURROUNDING_RED_VISIBLE
                     else:

@@ -45,7 +45,7 @@ def generateGrid(app, rows, cols):
     # randomly generate the grid
     for r in range(rows):
         for c in range(cols):
-            grid[r][c] = Cell(app, r, c, "neutral", randomCellType())
+            grid[r][c] = Cell(app, r, c, -1, randomCellType())
             # random number of troops for cities
             if grid[r][c].t == "city":
                 grid[r][c].numTroops = randomCityTroops()
@@ -59,11 +59,11 @@ def generateGrid(app, rows, cols):
 
         dist = abs(r1 - r2) + abs(c1 - c2)
 
-    grid[r1][c1] = Cell(app, r1, c1, "player0", "general")
+    grid[r1][c1] = Cell(app, r1, c1, 0, "general")
     grid[r1][c1].isVisible = True
     grid[r1][c1].numTroops = 1
 
-    grid[r2][c2] = Cell(app, r2, c2, "player1", "general")
+    grid[r2][c2] = Cell(app, r2, c2, 1, "general")
     grid[r2][c2].isVisible = True
     grid[r2][c2].numTroops = 1
 
@@ -94,6 +94,7 @@ def hasBlockedFog(grid):
     floodFill(tempGrid)
 
     # true if there are any 0's, meaning unvisited cells
+    # CITE: https://docs.python.org/3/library/functions.html#any
     return any(0 in r for r in tempGrid)
 
 
@@ -119,6 +120,7 @@ def hasBlockedCity(grid):
     floodFill(tempGrid)
 
     # true if there are any 0's, meaning unvisited cells
+    # CITE: https://docs.python.org/3/library/functions.html#any
     return any(0 in r for r in tempGrid)
 
 
@@ -196,8 +198,8 @@ class Board:
             for row in self.grid:
                 for cell in row:
                     # if is a city or general
-                    if cell.t in ["city", "general"] and cell.team != "neutral":
-                        cell.numTroops += 1
+                    if cell.t in ["city", "general"]:
+                        cell.step()
 
         elif mode == "all":
             for row in self.grid:

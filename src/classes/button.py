@@ -23,6 +23,8 @@ class Button:
         self.textColor = kwargs.get("textColor", Colors.BLACK)
         self.onClick = kwargs.get("onClick", lambda: print("Clicked"))
         self.drawing = kwargs.get("drawing", True)
+        self.fill = kwargs.get("fill", Colors.WHITE)
+        self.accent = kwargs.get("accent", Colors.ACCENT)
 
     def click(self):
         """Handle a click event, no matter what"""
@@ -51,7 +53,7 @@ class Button:
             self.y + 3,
             self.width,
             self.height,
-            fill=Colors.ACCENT,
+            fill=self.accent,
             align="center",
         )
 
@@ -61,7 +63,7 @@ class Button:
             self.y,
             self.width,
             self.height,
-            fill=Colors.WHITE,
+            fill=self.fill,
             align="center",
         )
 

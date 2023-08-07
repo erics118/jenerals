@@ -17,9 +17,9 @@ def doMove(playerId, app, move):
 
     if move.moveTroops:
         # if selected is player
-        if selected.team == f"player{playerId}":
+        if selected.team == playerId:
             # if new cell is neutral
-            if new.team == "neutral":
+            if new.team == -1:
                 if new.t == "fog":
                     # the selected cell has at more than one troop
                     if selected.numTroops > 1:
@@ -28,7 +28,7 @@ def doMove(playerId, app, move):
                         # old cell has one troop left
                         selected.numTroops = 1
                         # new cell is now player
-                        new.team = f"player{playerId}"
+                        new.team = playerId
                         new.isVisible = True
                     else:
                         clearPremoves(playerId, app)
@@ -41,7 +41,7 @@ def doMove(playerId, app, move):
                         # old cell has two troops left
                         selected.numTroops = 1
                         # new cell is now player
-                        new.team = f"player{playerId}"
+                        new.team = playerId
                         new.isVisible = True
                     # otherwise, not enough troops to capture it. send all the troops over anyway
                     else:
@@ -50,7 +50,7 @@ def doMove(playerId, app, move):
                         clearPremoves(playerId, app)
 
             # elif is own cell
-            elif new.team == f"player{playerId}":
+            elif new.team == playerId:
                 if selected.numTroops == 1 and new.numTroops == 1:
                     return
 
@@ -59,7 +59,7 @@ def doMove(playerId, app, move):
                 # old cell has one troop left
                 selected.numTroops = 1
             # elif is opponent
-            elif new.team.startswith("player"):
+            elif new.team >= 0:
                 if selected.numTroops == new.numTroops + 1:
                     # that cell becomes 0
                     new.numTroops = 0
@@ -70,7 +70,7 @@ def doMove(playerId, app, move):
                     # old cell has two troops left
                     selected.numTroops = 1
                     # new cell is now player
-                    new.team = f"player{playerId}"
+                    new.team = playerId
                     new.isVisible = True
                 # otherwise, not enough troops to capture it. send all the troops over anyway
                 else:
@@ -78,13 +78,31 @@ def doMove(playerId, app, move):
                     selected.numTroops = 1
                     clearPremoves(playerId, app)
 
-    # if selected.team == "neutral":
-    #     if new.team == "player":
-    #         app.selectedCoords = newCoords
-    #         app.premoveSelectedCoords = newCoords
+    # create a set of the teams of the generals
+    generalTeams = set(
+        cell.team
+        for row in app.board.grid
+        for cell in row
+        if cell.t == "general"
+    )
+
+    # if there is only one team left, then the game is over
+    if len(generalTeams) == 1:
+        endGame(app, generalTeams.pop())
 
     app.players[playerId].selectedCoords = move.coords
     app.board.step("visible")
+
+
+def endGame(app, winnerId):
+    """End the game"""
+
+    app.forceIsVisible = True
+    app.isPaused = True
+    app.ended = True
+    app.winnerId = winnerId
+    app.buttons["replay"].drawing = True
+    app.buttons["exit"].drawing = True
 
 
 def stepWithCount(app):

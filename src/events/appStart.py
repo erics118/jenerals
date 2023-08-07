@@ -12,16 +12,21 @@ def newGame(app):
     """Create a new game"""
 
     app.buttons["play"].drawing = False
+    app.buttons["replay"].drawing = False
+    app.buttons["exit"].drawing = False
 
     app.hasOngoingGame = True
     app.isPaused = False
+    app.ended = False
+    app.winnerId = None
+
     app.forceIsVisible = True
 
     app.mouseCoords = None
 
     app.players = [
-        Player(0, "red bro", Colors.RED),
         Player(0, "blue bruh", Colors.BLUE),
+        Player(1, "red bro", Colors.RED),
     ]
 
     app.board = Board(app, 20, 20)
@@ -57,17 +62,49 @@ def appStart(app, dev):
     # buttons
     app.pressedButtonName = None
 
+    def goToStartScreen(app):
+        app.hasOngoingGame = False
+        app.buttons["play"].drawing = True
+        app.buttons["replay"].drawing = False
+        app.buttons["exit"].drawing = False
+
     app.buttons = {
         "play": Button(
             400,
             440,
             170,
             60,
-            text="PLAY",
+            text="Play",
             onClick=newGame,
             textColor=Colors.ACCENT,
             textSize=22,
-        )
+        ),
+        "replay": Button(
+            400,
+            400,
+            140,
+            50,
+            text="Replay",
+            onClick=newGame,
+            textColor=Colors.WHITE,
+            textSize=18,
+            fill=Colors.ACCENT,
+            accent=Colors.BACKGROUND,
+            drawing=False,
+        ),
+        "exit": Button(
+            400,
+            470,
+            140,
+            50,
+            text="Exit",
+            onClick=goToStartScreen,
+            textColor=Colors.WHITE,
+            textSize=18,
+            fill=Colors.ACCENT,
+            accent=Colors.BACKGROUND,
+            drawing=False,
+        ),
     }
 
     # load all images, for visible and not visible

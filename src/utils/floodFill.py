@@ -47,4 +47,5 @@ def hasInaccessibleAreas(grid):
     Returns whether or not there are inaccessible areas in the grid.
     """
 
+    # CITE: https://docs.python.org/3/library/functions.html#any
     return any(cell == 0 for row in grid for cell in row)
