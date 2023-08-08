@@ -13,9 +13,7 @@ import pathlib
 def getImagePath(imageName):
     """Get the image path of the cell to be used when drawing"""
 
-    return os.path.join(
-        pathlib.Path(__file__).parent, f"../../images/{imageName}.png"
-    )
+    return os.path.join(pathlib.Path(__file__).parent, f"../../images/{imageName}.png")
 
 
 def getImage(app, t, isVisible):

@@ -1,3 +1,5 @@
+import threading
+
 from cmu_graphics import *
 
 from events.appStart import appStart
@@ -8,6 +10,15 @@ from events.mousePress import mousePress
 from events.mouseRelease import mouseRelease
 from events.step import step
 from utils.args import parseArgs
+from utils.ip import encodeIp
+
+from utils.sockets import (
+    makePrimarySocket,
+    makeSecondarySocket,
+    recvMessages,
+    sendMessages,
+)
+
 
 # moving:
 # TODO: move instantly when have no premoves
@@ -28,9 +39,9 @@ from utils.args import parseArgs
 # TODO: zooming
 
 
-def onAppStart(app, dev=False):
+def onAppStart(app, socket, ip, identity, dev=False):
     """Initializes the application when it starts."""
-    appStart(app, dev)
+    appStart(app, socket, ip, identity, dev)
 
 
 def onKeyPress(app, key):
@@ -68,4 +79,21 @@ if __name__ == "__main__":
     args = parseArgs()
     dev = args.dev
 
-    runApp(dev=dev)
+    if args.primary:
+        socket, ip, identity = makePrimarySocket()
+
+    if args.secondary:
+        socket, ip, identity = makeSecondarySocket(args.code)
+
+    print(f"Room Code: {encodeIp(ip)}")
+
+    runApp(
+        socket=socket,
+        ip=ip,
+        identity=identity,
+        dev=dev,
+    )
+
+    # create threads for listening and sending messages
+    threading.Thread(target=recvMessages, args=(app, socket)).start()
+    threading.Thread(target=sendMessages, args=(app, socket)).start()

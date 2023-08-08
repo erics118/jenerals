@@ -47,12 +47,11 @@ class Cell:
         if self.isVisible or forceIsVisible:
             if self.team == 1:
                 return Colors.RED
-            elif self.t == "city":
+            if self.t == "city":
                 return Colors.VISIBLE_CITY
-            elif self.t == "mountain":
+            if self.t == "mountain":
                 return Colors.VISIBLE_MOUNTAIN
-            else:  # self.team == -1
-                return Colors.VISIBLE_CELL
+            return Colors.VISIBLE_CELL
 
         return Colors.FOG
 

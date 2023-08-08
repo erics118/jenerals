@@ -2,9 +2,41 @@ from utils.legal import isMoveLegal
 from utils.premoves import clearPremoves
 
 
+def sendMessagesA(app, socket):
+    """Send messages to the socket."""
+
+    if app.msg is None:
+        return
+
+    msg = app.msg
+    app.msg = None
+
+    while not app.stopEvent.is_set():
+        # msg = input("")
+        # need this check bc input() doesn't check it
+        if app.stopEvent.is_set():
+            break
+        socket.send_string(msg)
+        if msg == "EXIT":
+            print("! Exiting...")
+            socket.send("DISCONNECTED".encode("utf-8"))
+            app.stopEvent.set()
+            socket.close()
+            break
+
+
 def doMove(playerId, app, move):
     """Move troops from one cell to another"""
 
+    if playerId == app.identity and move.moveTroops:
+        print(f"MOVE {playerId} {move.coords[0]} {move.coords[1]}")
+        print("sending")
+        app.msg = f"MOVE {playerId} {move.coords[0]} {move.coords[1]}"
+
+        sendMessagesA(app, app.socket)
+        # app.socket.send_string(f"MOVE {playerId} {move.coords[0]} {move.coords[1]}")
+        print("sent")
+    print("a")
     p = app.players[playerId]
     # disregard illegal moves or if no cell is focused
     if not p.isFocused or not isMoveLegal(playerId, app, move):
@@ -43,7 +75,8 @@ def doMove(playerId, app, move):
                         # new cell is now player
                         new.team = playerId
                         new.isVisible = True
-                    # otherwise, not enough troops to capture it. send all the troops over anyway
+                    # otherwise, not enough troops to capture it.
+                    # send all the troops over anyway
                     else:
                         new.numTroops = new.numTroops - selected.numTroops + 1
                         selected.numTroops = 1
@@ -80,10 +113,7 @@ def doMove(playerId, app, move):
 
     # create a set of the teams of the generals
     generalTeams = set(
-        cell.team
-        for row in app.board.grid
-        for cell in row
-        if cell.t == "general"
+        cell.team for row in app.board.grid for cell in row if cell.t == "general"
     )
 
     # if there is only one team left, then the game is over

@@ -1,3 +1,4 @@
+import threading
 from cmu_graphics import *
 from PIL import Image, ImageFilter
 
@@ -37,17 +38,22 @@ def newGame(app):
     app.c = 1 * app.stepsPerSecond
 
 
-def appStart(app, dev):
+def appStart(app, socket, ip, identity, dev):
     """Start the app"""
+
+    # is developer mode flag
+    app.dev = dev
+    app.ip = ip
+    app.socket = socket
+    app.identity = identity
+    app.msg = None
+    app.stopEvent = threading.Event()
 
     # static values
     app.width = 800
     app.height = 800
-    app.stepsPerSecond = 20
+    app.stepsPerSecond = 2
     app.cellBorderWidth = 0.8
-
-    # is developer mode flag
-    app.dev = dev
 
     # used to check something is working while developing
     app.flag = False

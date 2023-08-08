@@ -7,8 +7,8 @@ install:
     pip install -e .
 
 # Run the program
-run:
-    python3 src/main.py
+run *args:
+    python3 src/main.py {{args}}
 
 # Run the program in dev mode, enabling some extra features
 dev:
