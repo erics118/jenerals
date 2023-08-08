@@ -1,5 +1,3 @@
-import sys
-
 from cmu_graphics import *
 
 from events.appStart import appStart
@@ -9,7 +7,7 @@ from events.mouseDrag import mouseDrag
 from events.mousePress import mousePress
 from events.mouseRelease import mouseRelease
 from events.step import step
-from utils.cliFlags import ArgsConfig, parse
+from utils.args import parseArgs
 
 # moving:
 # TODO: move instantly when have no premoves
@@ -67,7 +65,7 @@ def onStep(app):
 
 if __name__ == "__main__":
     # dev mode
-    res = parse(sys.argv[1:], ArgsConfig(long=["dev"]))
-    dev = res.get("dev", False)
+    args = parseArgs()
+    dev = args.dev
 
     runApp(dev=dev)
