@@ -35,8 +35,8 @@ def newGame(app):
     app.board.step("visible")
     app.board.step("city")
 
-    if app.identity == 1:
-        app.msg.set("GET-BOARD")
+    # if app.identity == 1:
+    #     app.msg.set("GET-BOARD")
 
     # start at first turn
     app.c = 1 * app.stepsPerSecond

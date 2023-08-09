@@ -1,4 +1,3 @@
-import pickle
 import time
 import zmq
 from classes.move import Move
@@ -32,9 +31,10 @@ def recvMessages(app):
                     # TODO: implement board serialization and deserialization
                     # because pickle doesn't work with things outside
                     # of its own module
-                    app.socket.send_pyobj(app.board, protocol=pickle.HIGHEST_PROTOCOL)
+                    # app.socket.send_pyobj(app.board, protocol=pickle.HIGHEST_PROTOCOL)
                 case "ACK-GET-BOARD":
-                    app.board = app.socket.recv_pyobj()
+                    # app.board = app.socket.recv_pyobj()
+                    pass
                 case "MOVE":
                     split = msg.split(" ")
                     playerId = int(split[1])

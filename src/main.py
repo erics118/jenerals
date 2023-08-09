@@ -25,6 +25,9 @@ from utils.sockets import (
 #       confirm both players ready
 #       and start both players at the same time
 # TODO: make secondary player gets the same map as primary
+#       also make sure the troop counts are correct
+# TODO: mouse clicking
+# TODO: only show visible cells
 
 # other features:
 # TODO: z and click twice to take 50% troops

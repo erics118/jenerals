@@ -11,8 +11,8 @@ run *args:
     python3 src/main.py {{args}}
 
 # Run the program in dev mode, enabling some extra features
-dev:
-    python3 src/main.py --dev
+dev *args:
+    python3 src/main.py --dev {{args}}
 
 # Package source code for submission to Autolab
 package:
