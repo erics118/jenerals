@@ -25,6 +25,7 @@ from utils.sockets import (
 #       confirm both players ready
 #       and start both players at the same time
 # TODO: make secondary player gets the same map as primary
+
 # other features:
 # TODO: z and click twice to take 50% troops
 # TODO: surrender
