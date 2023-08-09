@@ -1,6 +1,6 @@
 from classes.move import Move
 from events.appStart import newGame
-from events.step import stepWithCount
+from events.step import doMove, stepWithCount
 from utils.premoves import addPremove, clearPremoves, popPremove
 from utils.tuple import add
 
@@ -25,18 +25,19 @@ def startScreenKeyPress(app, key):
 def inGameKeyPress(app, key):
     """Handle key presses in the game"""
 
+    p = app.players[app.identity]
     match key:
         # if space is pressed, toggle focus
 
         # if an arrow key is pressed, do a premove
         case "left":
-            addPremove(0, app, Move(add(app.players[0].premoveSelectedCoords, (0, -1))))
+            addPremove(app.identity, app, Move(add(p.premoveSelectedCoords, (0, -1))))
         case "right":
-            addPremove(0, app, Move(add(app.players[0].premoveSelectedCoords, (0, 1))))
+            addPremove(app.identity, app, Move(add(p.premoveSelectedCoords, (0, 1))))
         case "up":
-            addPremove(0, app, Move(add(app.players[0].premoveSelectedCoords, (-1, 0))))
+            addPremove(app.identity, app, Move(add(p.premoveSelectedCoords, (-1, 0))))
         case "down":
-            addPremove(0, app, Move(add(app.players[0].premoveSelectedCoords, (1, 0))))
+            addPremove(app.identity, app, Move(add(p.premoveSelectedCoords, (1, 0))))
         case "a":
             addPremove(1, app, Move(add(app.players[1].premoveSelectedCoords, (0, -1))))
         case "d":
@@ -72,15 +73,20 @@ def devKeyPress(app, key):
             app.flag = not app.flag
         # step once
         case "<":
-            stepWithCount(app)
+            # step twice, so one turn
+            for _ in range(app.stepsPerSecond * 2):
+                stepWithCount(app)
+            app.msg.set("STEP-1")
         # step 25 turns
         case ">":
             for _ in range(app.stepsPerSecond * 25 * 2):
                 stepWithCount(app)
+            app.msg.set("STEP-25")
         # do all premoves
-        # case "?":
-        #     while len(app.premoves) >= 1:
-        #         doMove(app, app.premoves.pop(0))
+        case "?":
+            p = app.players[app.identity]
+            while len(p.premoves) >= 1:
+                doMove(app.identity, app, p.premoves.pop(0))
         case "P":
             app.isPaused = not app.isPaused
         case "V":
