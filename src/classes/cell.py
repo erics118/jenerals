@@ -47,16 +47,14 @@ class Cell:
         if self.isVisible or forceIsVisible:
             if self.team == 1:
                 return Colors.RED
-            elif self.t == "city":
+            if self.t == "city":
                 return Colors.VISIBLE_CITY
-            elif self.t == "mountain":
+            if self.t == "mountain":
                 return Colors.VISIBLE_MOUNTAIN
-            else:  # self.team == -1
-                return Colors.VISIBLE_CELL
+            return Colors.VISIBLE_CELL
 
         return Colors.FOG
 
-    # TODO: some borders are missing when having premoves
     def draw(self):
         """Draw a single cell."""
 
@@ -81,7 +79,6 @@ class Cell:
                 (self.row, self.col - 1),
                 (self.row, self.col + 1),
             ]:
-                # TODO: diff colors depending on existing color
                 if self.t in ["fog", "mountain", "city"]:
                     if self.team == 0:
                         # must be visible?

@@ -7,8 +7,7 @@ def isMoveLegal(playerId, app, move):
 
     # check bounds
     if not (
-        0 <= move.coords[0] < app.board.rows
-        and 0 <= move.coords[1] < app.board.cols
+        0 <= move.coords[0] < app.board.rows and 0 <= move.coords[1] < app.board.cols
     ):
         return False
 

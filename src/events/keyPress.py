@@ -30,37 +30,21 @@ def inGameKeyPress(app, key):
 
         # if an arrow key is pressed, do a premove
         case "left":
-            addPremove(
-                0, app, Move(add(app.players[0].premoveSelectedCoords, (0, -1)))
-            )
+            addPremove(0, app, Move(add(app.players[0].premoveSelectedCoords, (0, -1))))
         case "right":
-            addPremove(
-                0, app, Move(add(app.players[0].premoveSelectedCoords, (0, 1)))
-            )
+            addPremove(0, app, Move(add(app.players[0].premoveSelectedCoords, (0, 1))))
         case "up":
-            addPremove(
-                0, app, Move(add(app.players[0].premoveSelectedCoords, (-1, 0)))
-            )
+            addPremove(0, app, Move(add(app.players[0].premoveSelectedCoords, (-1, 0))))
         case "down":
-            addPremove(
-                0, app, Move(add(app.players[0].premoveSelectedCoords, (1, 0)))
-            )
+            addPremove(0, app, Move(add(app.players[0].premoveSelectedCoords, (1, 0))))
         case "a":
-            addPremove(
-                1, app, Move(add(app.players[1].premoveSelectedCoords, (0, -1)))
-            )
+            addPremove(1, app, Move(add(app.players[1].premoveSelectedCoords, (0, -1))))
         case "d":
-            addPremove(
-                1, app, Move(add(app.players[1].premoveSelectedCoords, (0, 1)))
-            )
+            addPremove(1, app, Move(add(app.players[1].premoveSelectedCoords, (0, 1))))
         case "w":
-            addPremove(
-                1, app, Move(add(app.players[1].premoveSelectedCoords, (-1, 0)))
-            )
+            addPremove(1, app, Move(add(app.players[1].premoveSelectedCoords, (-1, 0))))
         case "s":
-            addPremove(
-                1, app, Move(add(app.players[1].premoveSelectedCoords, (1, 0)))
-            )
+            addPremove(1, app, Move(add(app.players[1].premoveSelectedCoords, (1, 0))))
         # if q is pressed, clear premoves
         case "i":
             clearPremoves(0, app)
@@ -101,6 +85,3 @@ def devKeyPress(app, key):
             app.isPaused = not app.isPaused
         case "V":
             app.forceIsVisible = not app.forceIsVisible
-
-
-# TODO: key hold

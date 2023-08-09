@@ -1,11 +1,13 @@
+import threading
 from cmu_graphics import *
-from PIL import Image, ImageFilter
-
 from classes.board import Board
+
 from classes.button import Button
+from classes.message import Message
 from classes.player import Player
 from utils.colors import Colors
-from utils.image import getImagePath
+from utils.image import loadImages
+from utils.sockets import recvMessages, sendMessages
 
 
 def newGame(app):
@@ -33,21 +35,29 @@ def newGame(app):
     app.board.step("visible")
     app.board.step("city")
 
+    if app.identity == 1:
+        app.msg.set("GET-BOARD")
+
     # start at first turn
     app.c = 1 * app.stepsPerSecond
 
 
-def appStart(app, dev):
+def appStart(app, socket, ip, identity, dev):
     """Start the app"""
+
+    # is developer mode flag
+    app.dev = dev
+    app.ip = ip
+    app.socket = socket
+    app.identity = identity
+    app.msg = Message()
+    app.stopEvent = threading.Event()
 
     # static values
     app.width = 800
     app.height = 800
-    app.stepsPerSecond = 20
+    app.stepsPerSecond = 2
     app.cellBorderWidth = 0.8
-
-    # is developer mode flag
-    app.dev = dev
 
     # used to check something is working while developing
     app.flag = False
@@ -108,26 +118,8 @@ def appStart(app, dev):
     }
 
     # load all images, for visible and not visible
-    app.images = {}
+    loadImages(app)
 
-    for t in ["city", "crown", "mountain", "obstacle", "swamp"]:
-        # get the image
-        image = Image.open(getImagePath(t))
-        # first convert to RGBA before sharpening, because sharpen doesn't work
-        # when the image is in P mode
-        # CITE: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.convert
-
-        image = image.convert("RGBA")
-        # resize the image
-        imageSize = app.cellSize * 0.8
-
-        # CITE: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.thumbnail
-        image.thumbnail((imageSize, imageSize))
-
-        # sharpen the image
-        # doesn't really do much, but slightly darker lines
-        # CITE: https://pillow.readthedocs.io/en/stable/reference/ImageFilter.html
-        image = image.filter(ImageFilter.SHARPEN)
-
-        # save the image
-        app.images[t] = CMUImage(image)
+    # create threads for listening and sending messages
+    threading.Thread(target=sendMessages, args=(app,)).start()
+    threading.Thread(target=recvMessages, args=(app,)).start()

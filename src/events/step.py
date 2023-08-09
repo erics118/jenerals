@@ -5,7 +5,12 @@ from utils.premoves import clearPremoves
 def doMove(playerId, app, move):
     """Move troops from one cell to another"""
 
+    if playerId == app.identity and move.moveTroops:
+        print(f"MOVE {playerId} {move.coords[0]} {move.coords[1]}", flush=True)
+        app.msg.set(f"MOVE {playerId} {move.coords[0]} {move.coords[1]}")
+
     p = app.players[playerId]
+
     # disregard illegal moves or if no cell is focused
     if not p.isFocused or not isMoveLegal(playerId, app, move):
         # clear remaining premoves that follow that illegal move
@@ -43,7 +48,8 @@ def doMove(playerId, app, move):
                         # new cell is now player
                         new.team = playerId
                         new.isVisible = True
-                    # otherwise, not enough troops to capture it. send all the troops over anyway
+                    # otherwise, not enough troops to capture it.
+                    # send all the troops over anyway
                     else:
                         new.numTroops = new.numTroops - selected.numTroops + 1
                         selected.numTroops = 1
@@ -80,10 +86,7 @@ def doMove(playerId, app, move):
 
     # create a set of the teams of the generals
     generalTeams = set(
-        cell.team
-        for row in app.board.grid
-        for cell in row
-        if cell.t == "general"
+        cell.team for row in app.board.grid for cell in row if cell.t == "general"
     )
 
     # if there is only one team left, then the game is over
