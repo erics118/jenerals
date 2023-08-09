@@ -15,13 +15,10 @@ from utils.args import parseArgs
 
 # multiplayer:
 # TODO: scoreboard
-# TODO: sockets
+# TODO: sockets. broken because events are handled in a separate thread and not threadsafe
 # TODO: chat, put all notifications in there too
-# TODO: capture general should end game
 
 # other features:
-# TODO: end game
-# TODO: restart game
 # TODO: z and click twice to take 50% troops
 # TODO: surrender
 # TODO: tutorial
