@@ -1,5 +1,3 @@
-import threading
-
 from cmu_graphics import *
 
 from events.appStart import appStart
@@ -15,10 +13,7 @@ from utils.ip import encodeIp
 from utils.sockets import (
     makePrimarySocket,
     makeSecondarySocket,
-    recvMessages,
-    sendMessages,
 )
-
 
 # moving:
 # TODO: move instantly when have no premoves
@@ -26,13 +21,11 @@ from utils.sockets import (
 
 # multiplayer:
 # TODO: scoreboard
-# TODO: sockets
-# TODO: chat, put all notifications in there too
-# TODO: capture general should end game
-
+# TODO: have a loading screen before the game starts
+#       confirm both players ready
+#       and start both players at the same time
+# TODO: make secondary player gets the same map as primary
 # other features:
-# TODO: end game
-# TODO: restart game
 # TODO: z and click twice to take 50% troops
 # TODO: surrender
 # TODO: tutorial
@@ -93,7 +86,3 @@ if __name__ == "__main__":
         identity=identity,
         dev=dev,
     )
-
-    # create threads for listening and sending messages
-    threading.Thread(target=recvMessages, args=(app, socket)).start()
-    threading.Thread(target=sendMessages, args=(app, socket)).start()

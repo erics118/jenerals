@@ -85,6 +85,3 @@ def devKeyPress(app, key):
             app.isPaused = not app.isPaused
         case "V":
             app.forceIsVisible = not app.forceIsVisible
-
-
-# TODO: key hold

@@ -1,4 +1,6 @@
 from classes.cell import getCellCoords
+from classes.move import Move
+from utils.premoves import addPremove
 
 
 def mouseRelease(app, mouseX, mouseY):
@@ -34,12 +36,14 @@ def startScreenMouseRelease(_app, _mouseX, _mouseY):
 def inGameMouseRelease(app, mouseX, mouseY):
     """Handle mouse releases in the game"""
 
+    p = app.players[app.identity]
+
     coords = getCellCoords(app, mouseX, mouseY)
     if coords is None:
         return
-    if coords == app.selectedCoords:
-        app.isFocused = not app.isFocused
+    if coords == p.selectedCoords:
+        p.isFocused = not p.isFocused
     else:
-        app.isFocused = True
+        p.isFocused = True
 
-        # addPremove(1, app, Move(coords, False))
+    addPremove(1, app, Move(coords, False))

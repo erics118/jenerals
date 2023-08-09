@@ -1,5 +1,7 @@
 import os
 import pathlib
+from cmu_graphics import CMUImage
+from PIL import Image, ImageFilter
 
 # CITE: uses images from:
 #     https://generals.io/city.png
@@ -28,3 +30,29 @@ def getImage(app, t, isVisible):
         imageName = "obstacle"
 
     return app.images.get(imageName)
+
+
+def loadImages(app):
+    """Load the images"""
+    app.images = {}
+    for t in ["city", "crown", "mountain", "obstacle", "swamp"]:
+        # get the image
+        image = Image.open(getImagePath(t))
+        # first convert to RGBA before sharpening, because sharpen doesn't work
+        # when the image is in P mode
+        # CITE: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.convert
+
+        image = image.convert("RGBA")
+        # resize the image
+        imageSize = app.cellSize * 0.8
+
+        # CITE: https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.thumbnail
+        image.thumbnail((imageSize, imageSize))
+
+        # sharpen the image
+        # doesn't really do much, but slightly darker lines
+        # CITE: https://pillow.readthedocs.io/en/stable/reference/ImageFilter.html
+        image = image.filter(ImageFilter.SHARPEN)
+
+        # save the image
+        app.images[t] = CMUImage(image)

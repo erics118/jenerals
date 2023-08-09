@@ -2,42 +2,15 @@ from utils.legal import isMoveLegal
 from utils.premoves import clearPremoves
 
 
-def sendMessagesA(app, socket):
-    """Send messages to the socket."""
-
-    if app.msg is None:
-        return
-
-    msg = app.msg
-    app.msg = None
-
-    while not app.stopEvent.is_set():
-        # msg = input("")
-        # need this check bc input() doesn't check it
-        if app.stopEvent.is_set():
-            break
-        socket.send_string(msg)
-        if msg == "EXIT":
-            print("! Exiting...")
-            socket.send("DISCONNECTED".encode("utf-8"))
-            app.stopEvent.set()
-            socket.close()
-            break
-
-
 def doMove(playerId, app, move):
     """Move troops from one cell to another"""
 
     if playerId == app.identity and move.moveTroops:
-        print(f"MOVE {playerId} {move.coords[0]} {move.coords[1]}")
-        print("sending")
-        app.msg = f"MOVE {playerId} {move.coords[0]} {move.coords[1]}"
+        print(f"MOVE {playerId} {move.coords[0]} {move.coords[1]}", flush=True)
+        app.msg.set(f"MOVE {playerId} {move.coords[0]} {move.coords[1]}")
 
-        sendMessagesA(app, app.socket)
-        # app.socket.send_string(f"MOVE {playerId} {move.coords[0]} {move.coords[1]}")
-        print("sent")
-    print("a")
     p = app.players[playerId]
+
     # disregard illegal moves or if no cell is focused
     if not p.isFocused or not isMoveLegal(playerId, app, move):
         # clear remaining premoves that follow that illegal move

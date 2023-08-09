@@ -55,7 +55,6 @@ class Cell:
 
         return Colors.FOG
 
-    # TODO: some borders are missing when having premoves
     def draw(self):
         """Draw a single cell."""
 
@@ -80,7 +79,6 @@ class Cell:
                 (self.row, self.col - 1),
                 (self.row, self.col + 1),
             ]:
-                # TODO: diff colors depending on existing color
                 if self.t in ["fog", "mountain", "city"]:
                     if self.team == 0:
                         # must be visible?
