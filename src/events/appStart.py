@@ -1,4 +1,5 @@
 import threading
+import time
 from cmu_graphics import *
 from classes.board import Board
 
@@ -31,15 +32,20 @@ def newGame(app):
         Player(1, "red bro", Colors.RED),
     ]
 
-    app.board = Board(app, 20, 20)
-    app.board.step("visible")
-    app.board.step("city")
-
-    # if app.identity == 1:
-    #     app.msg.set("GET-BOARD")
+    if app.identity == 0:
+        app.board = Board()
+        app.board.setup(app, True)
+        app.board.step("visible")
+        app.board.step("city")
+    else:  # app.identity == 1:
+        app.board = Board()
+        app.msg.set("GET-BOARD")
 
     # start at first turn
     app.c = 1 * app.stepsPerSecond
+
+    # wait for the board to be received and setup-ed
+    time.sleep(1)
 
 
 def appStart(app, socket, ip, identity, dev):

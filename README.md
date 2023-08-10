@@ -12,7 +12,7 @@ After cloning, install the required packages with `pip install -e .`.
 
 ## Running
 
-Run the program with `python3 src/main.py`
+Run primary player with `python3 src/main.py --primary`. On the same local network (on the same computer or a different computer), run secondary player with `python3 src/main.py --secondary --code {code}`. `{code}` is the code that is printed to the console on the primary player's screen.
 
 ## Project Proposal
 

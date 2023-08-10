@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from random import randint
 
 from cmu_graphics import *
@@ -12,10 +13,10 @@ def randomCellType():
 
     r = randint(0, 99)
 
-    if r < 23:
+    if r < 5:
         return "mountain"
 
-    if r < 26:
+    if r < 10:
         return "city"
 
     return "fog"
@@ -45,7 +46,8 @@ def generateGrid(app, rows, cols):
     # randomly generate the grid
     for r in range(rows):
         for c in range(cols):
-            grid[r][c] = Cell(app, r, c, -1, randomCellType())
+            grid[r][c] = Cell(r, c, -1, randomCellType())
+            grid[r][c].setup(app)
             # random number of troops for cities
             if grid[r][c].t == "city":
                 grid[r][c].numTroops = randomCityTroops()
@@ -59,11 +61,13 @@ def generateGrid(app, rows, cols):
 
         dist = abs(r1 - r2) + abs(c1 - c2)
 
-    grid[r1][c1] = Cell(app, r1, c1, 0, "general")
+    grid[r1][c1] = Cell(r1, c1, 0, "general")
+    grid[r1][c1].setup(app)
     grid[r1][c1].isVisible = True
     grid[r1][c1].numTroops = 1
 
-    grid[r2][c2] = Cell(app, r2, c2, 1, "general")
+    grid[r2][c2] = Cell(r2, c2, 1, "general")
+    grid[r2][c2].setup(app)
     grid[r2][c2].isVisible = True
     grid[r2][c2].numTroops = 1
 
@@ -124,6 +128,7 @@ def hasBlockedCity(grid):
     return any(0 in r for r in tempGrid)
 
 
+@dataclass
 class Board:
     """
     Board represents the main part of the game state.
@@ -131,27 +136,58 @@ class Board:
     It does not include the selected cell or the premoves.
     """
 
-    def __init__(self, app, rows, cols):
-        """Initialize the board"""
+    grid: list = None
+    rows: int = 20
+    cols: int = 20
+    left: int = 80
+    top: int = 80
+    width: int = 800
+    height: int = 800
+    _app: any = None
 
-        self.app = app
+    # def __init__(self, app, rows, cols, generateNew=True):
+    #     """Initialize the board"""
 
-        # static board properties
-        self.rows = rows
-        self.cols = cols
+    #     self._app = app
 
-        self.left = 80
-        self.top = 80
+    #     # static board properties
+    #     self.rows = rows
+    #     self.cols = cols
 
-        self.width = self.cols * app.cellSize
-        self.height = self.rows * app.cellSize
+    #     self.left = 80
+    #     self.top = 80
 
-        # randomly generate the grid
-        self.grid, generalCoords = generateGrid(app, self.rows, self.cols)
+    #     self.width = self.cols * 40  # app.cellSize
+    #     self.height = self.rows * 40  # app.cellSize
 
-        # regenerate grid until there are no blocked areas
-        while hasBlockedCity(self.grid) or hasBlockedFog(self.grid):
+    #     if not generateNew:
+    #         self.grid = makeList(rows, cols)
+
+    #         # make a blank grid
+    #         for r in range(rows):
+    #             for c in range(cols):
+    #                 self.grid[r][c] = Cell(app, r, c, -1, "fog")
+
+    #         return
+
+    def setup(self, app, generateNew):
+        """Setup the board"""
+        self._app = app
+
+        if generateNew:
+            # randomly generate the grid
             self.grid, generalCoords = generateGrid(app, self.rows, self.cols)
+
+            # regenerate grid until there are no blocked areas
+            while hasBlockedCity(self.grid) or hasBlockedFog(self.grid):
+                self.grid, generalCoords = generateGrid(app, self.rows, self.cols)
+        else:
+            generalCoords = [None] * 2
+            for row in self.grid:
+                for cell in row:
+                    if cell.t == "general":
+                        generalCoords[cell.team] = (cell.row, cell.col)
+        print(generalCoords)
 
         for playerId, coords in enumerate(generalCoords):
             app.players[playerId].generalCoord = coords
@@ -188,10 +224,7 @@ class Board:
             for row in range(len(self.grid)):
                 for col in range(len(self.grid[0])):
                     for drow, dcol in directions:
-                        if (
-                            app.board.at((row + drow, col + dcol)).team
-                            == "player"
-                        ):
+                        if app.board.at((row + drow, col + dcol)).team == "player":
                             app.board.at((row, col)).isVisible = True
 
         elif mode == "city":
@@ -209,9 +242,9 @@ class Board:
     def drawCells(self):
         """Draw all the cells in the board"""
 
-        for r in range(self.app.board.rows):
-            for c in range(self.app.board.cols):
-                self.app.board.at((r, c)).draw()
+        for r in range(self._app.board.rows):
+            for c in range(self._app.board.cols):
+                self._app.board.at((r, c)).draw()
 
     # CITE: code modified from tetris grid assignment on CS Academy
     def drawBorder(self):
@@ -219,13 +252,13 @@ class Board:
 
         # draw the board outline with double-thickness
         drawRect(
-            self.app.board.left,
-            self.app.board.top,
-            self.app.board.width,
-            self.app.board.height,
+            self._app.board.left,
+            self._app.board.top,
+            self._app.board.width,
+            self._app.board.height,
             fill=None,
             border=Colors.BORDER,
-            borderWidth=2 * self.app.cellBorderWidth,
+            borderWidth=2 * self._app.cellBorderWidth,
         )
 
     def draw(self):

@@ -36,6 +36,7 @@ from utils.sockets import (
 # TODO: zooming
 
 
+# TODO: add mutex into a class in app, lock while in redrawAll
 def onAppStart(app, socket, ip, identity, dev=False):
     """Initializes the application when it starts."""
     appStart(app, socket, ip, identity, dev)

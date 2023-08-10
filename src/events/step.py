@@ -6,7 +6,6 @@ def doMove(playerId, app, move):
     """Move troops from one cell to another"""
 
     if playerId == app.identity and move.moveTroops:
-        print(f"MOVE {playerId} {move.coords[0]} {move.coords[1]}", flush=True)
         app.msg.set(f"MOVE {playerId} {move.coords[0]} {move.coords[1]}")
 
     p = app.players[playerId]

@@ -1,7 +1,10 @@
 import time
+import jsons
 import zmq
+from classes.board import Board
+from classes.cell import Cell
 from classes.move import Move
-from events.step import doMove
+from events.step import doMove, stepWithCount
 from utils.ip import decodeIp, getLocalIp
 
 
@@ -28,13 +31,28 @@ def recvMessages(app):
                 case "GET-BOARD":
                     print("trying to send board")
                     app.socket.send_string("ACK-GET-BOARD")
-                    # TODO: implement board serialization and deserialization
-                    # because pickle doesn't work with things outside
-                    # of its own module
-                    # app.socket.send_pyobj(app.board, protocol=pickle.HIGHEST_PROTOCOL)
+                    boardJson = jsons.dumps(app.board, strip_privates=True)
+                    print(boardJson)
+                    app.socket.send_string(boardJson)
+                    print("done sending board")
                 case "ACK-GET-BOARD":
-                    # app.board = app.socket.recv_pyobj()
-                    pass
+                    print("receive board")
+                    boardJson = app.socket.recv_string()
+                    board = jsons.loads(boardJson, Board)
+                    for r in range(len(board.grid)):
+                        for c in range(len(board.grid[r])):
+                            jsonStr = jsons.dumps(board.grid[r][c])
+                            board.grid[r][c] = jsons.loads(jsonStr, Cell)
+                            board.grid[r][c].setup(app)
+                    app.board = board
+                    app.board.setup(app, False)
+                    # pass
+                case "STEP-1":
+                    for _ in range(app.stepsPerSecond * 2):
+                        stepWithCount(app)
+                case "STEP-25":
+                    for _ in range(app.stepsPerSecond * 25 * 2):
+                        stepWithCount(app)
                 case "MOVE":
                     split = msg.split(" ")
                     playerId = int(split[1])
