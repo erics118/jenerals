@@ -2,6 +2,7 @@ from cmu_graphics import *
 
 from objects.premoves import drawPremoves
 from objects.turnCounter import drawTurnCounter
+from objects.leaderboard import drawLeaderboard
 
 
 def drawGame(app):
@@ -10,6 +11,7 @@ def drawGame(app):
     app.board.draw()
     drawPremoves(app)
     drawTurnCounter(app)
+    drawLeaderboard(app)
     if app.ended:
         drawEndPopup(app)
 

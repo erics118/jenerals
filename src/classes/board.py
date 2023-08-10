@@ -242,3 +242,25 @@ class Board:
 
         self.drawCells()
         self.drawBorder()
+
+    def countTroops(self, playerId):
+        """Count the number of troops a player has"""
+
+        count = 0
+        for row in self.grid:
+            for cell in row:
+                if cell.team == playerId:
+                    count += cell.numTroops
+
+        return count
+
+    def countLand(self, playerId):
+        """Count the number of land a player has"""
+
+        count = 0
+        for row in self.grid:
+            for cell in row:
+                if cell.team == playerId:
+                    count += 1
+
+        return count
