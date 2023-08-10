@@ -17,24 +17,13 @@ from utils.sockets import (
 
 # moving:
 # TODO: move instantly when have no premoves
-# TODO: do premoves instantly if start and end pos both aren't player cells
 
 # multiplayer:
 # TODO: scoreboard
-# TODO: have a loading screen before the game starts
-#       confirm both players ready
-#       and start both players at the same time
 # TODO: mouse clicking
-# TODO: only show visible cells
-
-# other features:
-# TODO: z and click twice to take 50% troops
-# TODO: surrender
-# TODO: tutorial
-# TODO: zooming
+# TODO: moving focus needs to be sent across the thread
 
 
-# TODO: add mutex into a class in app, lock while in redrawAll
 def onAppStart(app, socket, ip, identity, dev=False):
     """Initializes the application when it starts."""
     appStart(app, socket, ip, identity, dev)

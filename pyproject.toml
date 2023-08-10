@@ -10,4 +10,4 @@ description = "generals.io clone in python using cmu_graphics"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
-dependencies = ["cmu_graphics==1.1.25", "asyncio==3.4.3", "jsons==1.6.3"]
+dependencies = ["cmu_graphics==1.1.25", "pyzmq==25.1.0", "jsons==1.6.3"]
