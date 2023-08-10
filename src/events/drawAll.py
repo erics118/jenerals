@@ -8,15 +8,16 @@ from objects.startScreen import drawStartScreen
 def drawAll(app):
     """Draw all elements of the app"""
 
-    drawBackground(app)
+    with app.lock:
+        drawBackground(app)
 
-    if not app.hasOngoingGame:
-        drawStartScreen(app)
-    else:
-        drawGame(app)
+        if not app.hasOngoingGame:
+            drawStartScreen(app)
+        else:
+            drawGame(app)
 
-    if app.flag:
-        drawRect(10, 10, 30, 30, fill="red")
+        if app.flag:
+            drawRect(10, 10, 30, 30, fill="red")
 
-    for _, button in app.buttons.items():
-        button.draw()
+        for _, button in app.buttons.items():
+            button.draw()

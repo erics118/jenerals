@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+
+
+@dataclass()
 class Message:
     """
     Message class
@@ -9,8 +13,7 @@ class Message:
     be thread safe or be used in a multithreaded manner.
     """
 
-    def __init__(self):
-        self.msg = None
+    msg: str = None
 
     def set(self, value):
         """Set the message."""

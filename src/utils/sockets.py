@@ -10,7 +10,6 @@ from utils.ip import decodeIp, getLocalIp
 
 def recvMessages(app):
     """Receive messages from the socket."""
-
     while not app.stopEvent.is_set():
         try:
             msg = app.socket.recv_string(flags=zmq.NOBLOCK)
@@ -29,14 +28,10 @@ def recvMessages(app):
                     app.stopEvent.set()
                     app.socket.close()
                 case "GET-BOARD":
-                    print("trying to send board")
                     app.socket.send_string("ACK-GET-BOARD")
                     boardJson = jsons.dumps(app.board, strip_privates=True)
-                    print(boardJson)
                     app.socket.send_string(boardJson)
-                    print("done sending board")
                 case "ACK-GET-BOARD":
-                    print("receive board")
                     boardJson = app.socket.recv_string()
                     board = jsons.loads(boardJson, Board)
                     for r in range(len(board.grid)):
@@ -46,7 +41,6 @@ def recvMessages(app):
                             board.grid[r][c].setup(app)
                     app.board = board
                     app.board.setup(app, False)
-                    # pass
                 case "STEP-1":
                     for _ in range(app.stepsPerSecond * 2):
                         stepWithCount(app)
@@ -58,10 +52,7 @@ def recvMessages(app):
                     playerId = int(split[1])
                     x = int(split[2])
                     y = int(split[3])
-                    print(f"received move: {playerId}, ({x}, {y})")
                     doMove(playerId, app, Move((x, y)))
-                case _:
-                    print(">", msg)
         except zmq.Again:
             continue
 
@@ -71,16 +62,18 @@ def sendMessages(app):
 
     while not app.stopEvent.is_set():
         # delay otherwise it'll use a ton of cpu
-        time.sleep(0.05)
+        time.sleep(0.5)
 
-        msg = app.msg.get()
+        msg = app.msg
         if msg is None:
             continue
-        app.msg.clear()
 
+        # modify app inside the mutex
+        with app.lock:
+            app.msg = None
         app.socket.send_string(msg)
 
-        print(f"sent: {msg}", flush=True)
+        # print(f"sent: {msg}", flush=True)
 
         if msg == "EXIT":
             print("! Exiting...", flush=True)

@@ -27,7 +27,7 @@ class Colors:
     # TODO: grab actual color from https://generals.io/
     SURROUNDING_RED_VISIBLE = rgb(180, 40, 10)
 
-    PREMOVE = rgb(50, 50, 50)
+    PREMOVE = rgb(0, 0, 0)
 
     # theme colors
     RED = rgb(254, 48, 0)

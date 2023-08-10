@@ -21,7 +21,7 @@ class Button:
         self.text = kwargs.get("text", "text")
         self.textSize = kwargs.get("textSize", 12)
         self.textColor = kwargs.get("textColor", Colors.BLACK)
-        self.onClick = kwargs.get("onClick", lambda: print("Clicked"))
+        self.onClick = kwargs.get("onClick", lambda: None)
         self.drawing = kwargs.get("drawing", True)
         self.fill = kwargs.get("fill", Colors.WHITE)
         self.accent = kwargs.get("accent", Colors.ACCENT)

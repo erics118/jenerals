@@ -6,7 +6,7 @@ def doMove(playerId, app, move):
     """Move troops from one cell to another"""
 
     if playerId == app.identity and move.moveTroops:
-        app.msg.set(f"MOVE {playerId} {move.coords[0]} {move.coords[1]}")
+        app.msg = f"MOVE {playerId} {move.coords[0]} {move.coords[1]}"
 
     p = app.players[playerId]
 
@@ -114,6 +114,8 @@ def stepWithCount(app):
     Every turn, cities and generals step.
     Every 25 turns, all cells step.
     """
+    if app.isPaused:
+        return
 
     app.c += 1
 

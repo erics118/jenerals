@@ -4,7 +4,6 @@ from cmu_graphics import *
 from classes.board import Board
 
 from classes.button import Button
-from classes.message import Message
 from classes.player import Player
 from utils.colors import Colors
 from utils.image import loadImages
@@ -23,7 +22,7 @@ def newGame(app):
     app.ended = False
     app.winnerId = None
 
-    app.forceIsVisible = True
+    app.forceIsVisible = False
 
     app.mouseCoords = None
 
@@ -39,24 +38,26 @@ def newGame(app):
         app.board.step("city")
     else:  # app.identity == 1:
         app.board = Board()
-        app.msg.set("GET-BOARD")
+        app.msg = "GET-BOARD"
 
     # start at first turn
     app.c = 1 * app.stepsPerSecond
 
-    # wait for the board to be received and setup-ed
+    # wait for the board to be received and setup
     time.sleep(1)
 
 
 def appStart(app, socket, ip, identity, dev):
     """Start the app"""
 
+    # MUTEX WORK TY GLEB
+    app.lock = threading.Lock()
     # is developer mode flag
     app.dev = dev
     app.ip = ip
     app.socket = socket
     app.identity = identity
-    app.msg = Message()
+    app.msg = None
     app.stopEvent = threading.Event()
 
     # static values

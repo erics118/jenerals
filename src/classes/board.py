@@ -63,12 +63,12 @@ def generateGrid(app, rows, cols):
 
     grid[r1][c1] = Cell(r1, c1, 0, "general")
     grid[r1][c1].setup(app)
-    grid[r1][c1].isVisible = True
+    grid[r1][c1].isVisible = app.identity == 0
     grid[r1][c1].numTroops = 1
 
     grid[r2][c2] = Cell(r2, c2, 1, "general")
     grid[r2][c2].setup(app)
-    grid[r2][c2].isVisible = True
+    grid[r2][c2].isVisible = app.identity == 1
     grid[r2][c2].numTroops = 1
 
     return (grid, [(r1, c1), (r2, c2)])
@@ -145,31 +145,6 @@ class Board:
     height: int = 800
     _app: any = None
 
-    # def __init__(self, app, rows, cols, generateNew=True):
-    #     """Initialize the board"""
-
-    #     self._app = app
-
-    #     # static board properties
-    #     self.rows = rows
-    #     self.cols = cols
-
-    #     self.left = 80
-    #     self.top = 80
-
-    #     self.width = self.cols * 40  # app.cellSize
-    #     self.height = self.rows * 40  # app.cellSize
-
-    #     if not generateNew:
-    #         self.grid = makeList(rows, cols)
-
-    #         # make a blank grid
-    #         for r in range(rows):
-    #             for c in range(cols):
-    #                 self.grid[r][c] = Cell(app, r, c, -1, "fog")
-
-    #         return
-
     def setup(self, app, generateNew):
         """Setup the board"""
         self._app = app
@@ -187,7 +162,6 @@ class Board:
                 for cell in row:
                     if cell.t == "general":
                         generalCoords[cell.team] = (cell.row, cell.col)
-        print(generalCoords)
 
         for playerId, coords in enumerate(generalCoords):
             app.players[playerId].generalCoord = coords
@@ -224,8 +198,9 @@ class Board:
             for row in range(len(self.grid)):
                 for col in range(len(self.grid[0])):
                     for drow, dcol in directions:
-                        if app.board.at((row + drow, col + dcol)).team == "player":
-                            app.board.at((row, col)).isVisible = True
+                        cell = self._app.board.at((row + drow, col + dcol)).team
+                        if cell == self._app.identity:
+                            self._app.board.at((row, col)).isVisible = True
 
         elif mode == "city":
             for row in self.grid:
@@ -254,8 +229,8 @@ class Board:
         drawRect(
             self._app.board.left,
             self._app.board.top,
-            self._app.board.width,
-            self._app.board.height,
+            640,
+            640,
             fill=None,
             border=Colors.BORDER,
             borderWidth=2 * self._app.cellBorderWidth,

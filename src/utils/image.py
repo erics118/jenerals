@@ -24,7 +24,7 @@ def getImage(app, t, isVisible):
     imageName = t
 
     if t == "general":
-        imageName = "crown"
+        imageName = "crown" if isVisible else None
 
     if (not isVisible) and (t in ["city", "mountain"]):
         imageName = "obstacle"
