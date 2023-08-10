@@ -31,10 +31,8 @@ def recvMessages(app):
                     app.socket.send_string("ACK-GET-BOARD")
                     boardJson = jsons.dumps(app.board, strip_privates=True)
                     app.socket.send_string(boardJson)
-                    print(f"! Sent board to secondary node: {boardJson}")
                 case "ACK-GET-BOARD":
                     boardJson = app.socket.recv_string()
-                    print(f"! Received board from primary node: {boardJson}")
                     board = jsons.loads(boardJson, Board)
                     for r in range(len(board.grid)):
                         for c in range(len(board.grid[r])):
@@ -70,12 +68,9 @@ def sendMessages(app):
         msg = app.msg.get()
         if msg is None:
             continue
-        print(msg)
 
         app.msg.clear()
         app.socket.send_string(msg)
-
-        print(f"sent: {msg}", flush=True)
 
         if msg == "EXIT":
             print("! Exiting...", flush=True)
