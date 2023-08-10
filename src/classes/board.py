@@ -13,10 +13,10 @@ def randomCellType():
 
     r = randint(0, 99)
 
-    if r < 5:
+    if r < 20:
         return "mountain"
 
-    if r < 10:
+    if r < 23:
         return "city"
 
     return "fog"
