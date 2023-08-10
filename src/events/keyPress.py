@@ -38,27 +38,12 @@ def inGameKeyPress(app, key):
             addPremove(app.identity, app, Move(add(p.premoveSelectedCoords, (-1, 0))))
         case "down":
             addPremove(app.identity, app, Move(add(p.premoveSelectedCoords, (1, 0))))
-        case "a":
-            addPremove(1, app, Move(add(app.players[1].premoveSelectedCoords, (0, -1))))
-        case "d":
-            addPremove(1, app, Move(add(app.players[1].premoveSelectedCoords, (0, 1))))
-        case "w":
-            addPremove(1, app, Move(add(app.players[1].premoveSelectedCoords, (-1, 0))))
-        case "s":
-            addPremove(1, app, Move(add(app.players[1].premoveSelectedCoords, (1, 0))))
-        # if q is pressed, clear premoves
-        case "i":
-            clearPremoves(0, app)
-        case "p":
-            popPremove(0, app)
-        case "l":
-            app.players[0].isFocused ^= True
         case "q":
-            clearPremoves(1, app)
+            clearPremoves(app.identity, app)
         case "e":
-            popPremove(1, app)
-        case "z":
-            app.players[1].isFocused ^= True
+            popPremove(app.identity, app)
+        case "space":
+            app.players[app.identity].isFocused ^= True
 
     if app.dev:
         devKeyPress(app, key)
