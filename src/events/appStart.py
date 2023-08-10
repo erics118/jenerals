@@ -51,7 +51,6 @@ def appStart(app, socket, ip, identity, dev):
     """Start the app"""
 
     # MUTEX WORK TY GLEB
-    app.lock = threading.Lock()
     # is developer mode flag
     app.dev = dev
     app.ip = ip

@@ -82,8 +82,6 @@ def sendMessages(app):
             app.stopEvent.set()
             app.socket.close()
             break
-        app.lock.release()
-        print("SSSrelease")
 
 
 def makeSocket():
