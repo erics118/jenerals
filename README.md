@@ -47,6 +47,12 @@ At all times, there is at least one troop in a cell that you control.
 
 Run the program in development mode with the `--dev` flag.
 
+`shift-f` `F` - Toggle flag. For debugging, has no effect on gameplay.
+
+`shift-v` (`V`) - Toggle visibility of all cells.
+
+Additionally, if there is only a primary player, there are some additional shortcuts:
+
 `wasd` - Move the opponent's selected cell.
 
 `z` - Clear the opponent's premoves.
@@ -54,12 +60,6 @@ Run the program in development mode with the `--dev` flag.
 `x` - Undo the opponent's latest premove.
 
 `c` - Toggle moving troops when moving the opponent's selected cell.
-
-`shift-f` `F` - Toggle flag. For debugging, has no effect on gameplay.
-
-`shift-v` (`V`) - Toggle visibility of all cells.
-
-Additionally, if there is only a primary player, there are some additional shortcuts:
 
 `shift-,` (`<`) - Step by one turn.
 
