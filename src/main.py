@@ -67,7 +67,6 @@ if __name__ == "__main__":
 
     print()
     print(f"! Room Code: {encodeIp(ip)}")
-    print(f"! IP: {ip}")
     print(f"! Identity: {identity}")
     print()
 

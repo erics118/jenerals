@@ -1,6 +1,6 @@
 # jenerals.io
 
-generals.io clone in python using cmu_graphics
+[generals.io](https://generals.io) clone in python using `cmu_graphics`.
 
 ## Requirements
 
@@ -17,7 +17,7 @@ Run primary player with `python3 src/main.py --primary`. On the same local netwo
 
 You must start the primary player's game first, then start secondary player's game. If you start the secondary player's game first, it will not work. Currently, you must start both games almost immediately after each other, or else the secondary player will be out of sync.
 
-It is also possible to play the game with one player. Just run with `--primary` and press `shift-v` (`V`) to toggle visibility of all cells.
+It is also possible to play the game with one player. Just run with `--dev --primary` and press `shift-v` (`V`) to toggle visibility of all cells. See controls specified under [Dev Shortcuts](#dev-shortcuts).
 
 ## Project Proposal
 
@@ -45,7 +45,7 @@ At all times, there is at least one troop in a cell that you control.
 
 ## Dev Shortcuts
 
-Run the program in development mode with the `--dev` flag.
+Run the program in development mode with the `--dev` flag. This enables some features that are not part of the original [generals.io](https://generals.io) game.
 
 `shift-f` `F` - Toggle flag. For debugging, has no effect on gameplay.
 
