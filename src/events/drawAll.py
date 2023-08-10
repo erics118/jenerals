@@ -1,4 +1,3 @@
-import time
 from cmu_graphics import *
 
 from objects.background import drawBackground
@@ -8,8 +7,6 @@ from objects.startScreen import drawStartScreen
 
 def drawAll(app):
     """Draw all elements of the app"""
-    time.sleep(1)
-
     drawBackground(app)
 
     if not app.hasOngoingGame:

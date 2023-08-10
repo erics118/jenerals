@@ -64,13 +64,13 @@ def sendMessages(app):
 
     while not app.stopEvent.is_set():
         # delay otherwise it'll use a ton of cpu
-        time.sleep(0.5)
+        time.sleep(0.1)
 
-        msg = app.msg
+        msg = app.msg.get()
         if msg is None:
             continue
+        print(msg)
 
-        # modify app inside the mutex
         app.msg.clear()
         app.socket.send_string(msg)
 
