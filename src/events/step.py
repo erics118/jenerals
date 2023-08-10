@@ -33,7 +33,7 @@ def doMove(playerId, app, move):
                         selected.numTroops = 1
                         # new cell is now player
                         new.team = playerId
-                        new.isVisible = True
+                        new.isVisible = playerId == app.identity
                     else:
                         clearPremoves(playerId, app)
 
@@ -46,7 +46,7 @@ def doMove(playerId, app, move):
                         selected.numTroops = 1
                         # new cell is now player
                         new.team = playerId
-                        new.isVisible = True
+                        new.isVisible = playerId == app.identity
                     # otherwise, not enough troops to capture it.
                     # send all the troops over anyway
                     else:
@@ -76,7 +76,7 @@ def doMove(playerId, app, move):
                     selected.numTroops = 1
                     # new cell is now player
                     new.team = playerId
-                    new.isVisible = True
+                    new.isVisible = playerId == app.identity
                 # otherwise, not enough troops to capture it. send all the troops over anyway
                 else:
                     new.numTroops = new.numTroops - selected.numTroops + 1

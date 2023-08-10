@@ -73,8 +73,6 @@ def generateGrid(app, rows, cols):
 
     return (grid, [(r1, c1), (r2, c2)])
 
-    # return (grid, (r, c))
-
 
 def hasBlockedFog(grid):
     """Check if a generated grid has any blocked areas"""
@@ -160,8 +158,11 @@ class Board:
             generalCoords = [None] * 2
             for row in self.grid:
                 for cell in row:
+                    cell.isVisible = app.identity == cell.team
                     if cell.t == "general":
                         generalCoords[cell.team] = (cell.row, cell.col)
+
+        app.board.step("visible")
 
         for playerId, coords in enumerate(generalCoords):
             app.players[playerId].generalCoord = coords

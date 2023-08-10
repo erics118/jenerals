@@ -31,8 +31,13 @@ def recvMessages(app):
                     app.socket.send_string("ACK-GET-BOARD")
                     boardJson = jsons.dumps(app.board, strip_privates=True)
                     app.socket.send_string(boardJson)
+                    print(f"! Sent board to secondary node: {boardJson}")
                 case "ACK-GET-BOARD":
+                    app.lock.acquire()
+                    print("RRRacquire")
+
                     boardJson = app.socket.recv_string()
+                    print(f"! Received board from primary node: {boardJson}")
                     board = jsons.loads(boardJson, Board)
                     for r in range(len(board.grid)):
                         for c in range(len(board.grid[r])):
@@ -41,6 +46,9 @@ def recvMessages(app):
                             board.grid[r][c].setup(app)
                     app.board = board
                     app.board.setup(app, False)
+
+                    app.lock.release()
+                    print("RRRrelease")
                 case "STEP-1":
                     for _ in range(app.stepsPerSecond * 2):
                         stepWithCount(app)
@@ -69,11 +77,13 @@ def sendMessages(app):
             continue
 
         # modify app inside the mutex
-        with app.lock:
-            app.msg = None
+        app.lock.acquire()
+        print("SSSacquire")
+        app.msg = None
+        app.release()
         app.socket.send_string(msg)
 
-        # print(f"sent: {msg}", flush=True)
+        print(f"sent: {msg}", flush=True)
 
         if msg == "EXIT":
             print("! Exiting...", flush=True)
@@ -81,6 +91,8 @@ def sendMessages(app):
             app.stopEvent.set()
             app.socket.close()
             break
+        app.lock.release()
+        print("SSSrelease")
 
 
 def makeSocket():

@@ -81,7 +81,7 @@ if __name__ == "__main__":
     if args.secondary:
         socket, ip, identity = makeSecondarySocket(args.code)
 
-    print(f"Room Code: {encodeIp(ip)}")
+    print(f"\nRoom Code: {encodeIp(ip)}\nIP: {ip}\nIdentity: {identity}\n")
 
     runApp(
         socket=socket,

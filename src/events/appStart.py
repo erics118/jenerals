@@ -34,7 +34,6 @@ def newGame(app):
     if app.identity == 0:
         app.board = Board()
         app.board.setup(app, True)
-        app.board.step("visible")
         app.board.step("city")
     else:  # app.identity == 1:
         app.board = Board()
