@@ -1,6 +1,5 @@
 from classes.move import Move
 from events.appStart import newGame
-from events.step import doMove, stepWithCount
 from utils.premoves import addPremove, clearPremoves, popPremove
 from utils.tuple import add
 
@@ -57,22 +56,22 @@ def devKeyPress(app, key):
         case "F":
             app.flag = not app.flag
         # step once
-        case "<":
-            # step twice, so one turn
-            for _ in range(app.stepsPerSecond * 2):
-                stepWithCount(app)
-            app.msg.set("STEP-1")
-        # step 25 turns
-        case ">":
-            for _ in range(app.stepsPerSecond * 25 * 2):
-                stepWithCount(app)
-            app.msg.set("STEP-25")
-        # do all premoves
-        case "?":
-            p = app.players[app.identity]
-            while len(p.premoves) >= 1:
-                doMove(app.identity, app, p.premoves.pop(0))
-        case "P":
-            app.isPaused = not app.isPaused
+        # case "<":
+        #     # step twice, so one turn
+        #     for _ in range(app.stepsPerSecond * 2):
+        #         stepWithCount(app)
+        #     app.msg.set("STEP-1")
+        # # step 25 turns
+        # case ">":
+        #     for _ in range(app.stepsPerSecond * 25 * 2):
+        #         stepWithCount(app)
+        #     app.msg.set("STEP-25")
+        # # do all premoves
+        # case "?":
+        #     p = app.players[app.identity]
+        #     while len(p.premoves) >= 1:
+        #         doMove(app.identity, app, p.premoves.pop(0))
+        # case "P":
+        #     app.isPaused = not app.isPaused
         case "V":
             app.forceIsVisible = not app.forceIsVisible

@@ -50,7 +50,6 @@ def newGame(app):
 def appStart(app, socket, ip, identity, dev):
     """Start the app"""
 
-    # MUTEX WORK TY GLEB
     # is developer mode flag
     app.dev = dev
     app.ip = ip

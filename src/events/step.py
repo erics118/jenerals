@@ -4,9 +4,10 @@ from utils.premoves import clearPremoves
 
 def doMove(playerId, app, move):
     """Move troops from one cell to another"""
-
-    if playerId == app.identity and move.moveTroops:
-        app.msg.set(f"MOVE {playerId} {move.coords[0]} {move.coords[1]}")
+    if playerId == app.identity:
+        app.msg.set(
+            f"MOVE {playerId} {move.coords[0]} {move.coords[1]} {move.moveTroops}"
+        )
 
     p = app.players[playerId]
 

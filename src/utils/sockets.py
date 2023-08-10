@@ -54,7 +54,8 @@ def recvMessages(app):
                     playerId = int(split[1])
                     x = int(split[2])
                     y = int(split[3])
-                    doMove(playerId, app, Move((x, y)))
+                    moveTroops = split[4] == "True"
+                    doMove(playerId, app, Move((x, y), moveTroops))
         except zmq.Again:
             continue
 

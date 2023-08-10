@@ -19,9 +19,17 @@ def drawEndPopup(app):
 
     drawRect(280, 280, 240, 290, fill="white")
     drawLabel(
+        "You won!" if app.winnerId == app.identity else "You lost!",
+        400,
+        330,
+        fill="black",
+        bold=True,
+        size=18,
+    )
+    drawLabel(
         f"Winner: {app.players[app.winnerId].name}!",
         400,
-        340,
+        350,
         fill="black",
         bold=True,
         size=18,
