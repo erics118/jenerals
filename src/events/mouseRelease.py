@@ -32,7 +32,6 @@ def startScreenMouseRelease(_app, _mouseX, _mouseY):
     """Handle mouse releases on the start screen"""
 
 
-# TODO: do this after sockets are done
 def inGameMouseRelease(app, mouseX, mouseY):
     """Handle mouse releases in the game"""
 
@@ -46,4 +45,4 @@ def inGameMouseRelease(app, mouseX, mouseY):
     else:
         p.isFocused = True
 
-    addPremove(1, app, Move(coords, False))
+    addPremove(app.identity, app, Move(coords, False))

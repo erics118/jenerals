@@ -10,18 +10,13 @@ from events.step import step
 from utils.args import parseArgs
 from utils.ip import encodeIp
 
-from utils.sockets import (
-    makePrimarySocket,
-    makeSecondarySocket,
-)
+from utils.sockets import makePrimarySocket, makeSecondarySocket
 
 # moving:
 # TODO: move instantly when have no premoves
 
 # multiplayer:
-# TODO: scoreboard
-# TODO: mouse clicking
-# TODO: moving focus needs to be sent across the thread
+# TODO: leaderboard
 
 
 def onAppStart(app, socket, ip, identity, dev=False):
