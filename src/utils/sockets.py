@@ -33,9 +33,6 @@ def recvMessages(app):
                     app.socket.send_string(boardJson)
                     print(f"! Sent board to secondary node: {boardJson}")
                 case "ACK-GET-BOARD":
-                    app.lock.acquire()
-                    print("RRRacquire")
-
                     boardJson = app.socket.recv_string()
                     print(f"! Received board from primary node: {boardJson}")
                     board = jsons.loads(boardJson, Board)
@@ -46,9 +43,6 @@ def recvMessages(app):
                             board.grid[r][c].setup(app)
                     app.board = board
                     app.board.setup(app, False)
-
-                    app.lock.release()
-                    print("RRRrelease")
                 case "STEP-1":
                     for _ in range(app.stepsPerSecond * 2):
                         stepWithCount(app)
@@ -77,10 +71,7 @@ def sendMessages(app):
             continue
 
         # modify app inside the mutex
-        app.lock.acquire()
-        print("SSSacquire")
-        app.msg = None
-        app.release()
+        app.msg.clear()
         app.socket.send_string(msg)
 
         print(f"sent: {msg}", flush=True)

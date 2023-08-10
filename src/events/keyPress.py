@@ -61,12 +61,12 @@ def devKeyPress(app, key):
             # step twice, so one turn
             for _ in range(app.stepsPerSecond * 2):
                 stepWithCount(app)
-            app.msg = "STEP-1"
+            app.msg.set("STEP-1")
         # step 25 turns
         case ">":
             for _ in range(app.stepsPerSecond * 25 * 2):
                 stepWithCount(app)
-            app.msg = "STEP-25"
+            app.msg.set("STEP-25")
         # do all premoves
         case "?":
             p = app.players[app.identity]

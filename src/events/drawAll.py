@@ -10,8 +10,6 @@ def drawAll(app):
     """Draw all elements of the app"""
     time.sleep(1)
 
-    app.lock.acquire()
-
     drawBackground(app)
 
     if not app.hasOngoingGame:
@@ -24,5 +22,3 @@ def drawAll(app):
 
     for _, button in app.buttons.items():
         button.draw()
-
-    app.lock.release()
