@@ -12,7 +12,8 @@ from utils.ip import encodeIp
 
 from utils.sockets import makePrimarySocket, makeSecondarySocket
 
-# TODO: move instantly when have no premoves
+# TODO: move without premoves when not focused
+# currently, premoves still show even though the unfocused move is instant
 # TODO: wait for both players to be ready before starting
 
 
