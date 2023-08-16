@@ -194,16 +194,25 @@ class Board:
             (+1, -1),
         ]
 
-        if mode == "visible":
-            # update visibility for every cell
-            for row in range(len(self.grid)):
-                for col in range(len(self.grid[0])):
-                    for drow, dcol in directions:
-                        cell = self._app.board.at((row + drow, col + dcol)).team
-                        if cell == self._app.identity:
-                            self._app.board.at((row, col)).isVisible = True
+        # always update visibility for every cell
+        for row in range(len(self.grid)):
+            for col in range(len(self.grid[0])):
+                c = self._app.board.at((row, col))
+                # reset visibility
+                c.isVisible = False
 
-        elif mode == "city":
+                # if is own cell, make visible
+                if c.team == self._app.identity:
+                    c.isVisible = True
+                else:
+                    # check if any adjacent cells are own cells
+                    for drow, dcol in directions:
+                        other = self._app.board.at((row + drow, col + dcol))
+
+                        if other.team == self._app.identity:
+                            c.isVisible = True
+
+        if mode == "city":
             for row in self.grid:
                 for cell in row:
                     # if is a city or general
