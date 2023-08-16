@@ -73,25 +73,23 @@ def devKeyPress(app, key):
             app.flag = not app.flag
         case "V":
             app.forceIsVisible = not app.forceIsVisible
+        case "P":
+            app.isPaused = not app.isPaused
         # step once
         case "<":
-            # step twice, so one turn
             for _ in range(app.stepsPerSecond * 2):
                 stepWithCount(app)
-            app.msg.set("STEP-1")
         # step 25 turns
         case ">":
             for _ in range(app.stepsPerSecond * 25 * 2):
                 stepWithCount(app)
-            app.msg.set("STEP-25")
         # do all premoves
         case "?":
             p = app.players[app.identity]
             while len(p.premoves) >= 1:
                 doMove(app.identity, app, p.premoves.pop(0))
+
             otherId = 1 if app.identity == 0 else 0
             o = app.players[otherId]
             while len(o.premoves) >= 1:
                 doMove(otherId, app, o.premoves.pop(0))
-        case "P":
-            app.isPaused = not app.isPaused

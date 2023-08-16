@@ -78,7 +78,7 @@ def doMove(playerId, app, move):
                     # new cell is now player
                     new.team = playerId
                     new.isVisible = playerId == app.identity
-                # otherwise, not enough troops to capture it. send all the troops over anyway
+                # otherwise, not enough troops to capture it. send as many as possible
                 else:
                     new.numTroops = new.numTroops - selected.numTroops + 1
                     selected.numTroops = 1

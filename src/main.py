@@ -12,11 +12,8 @@ from utils.ip import encodeIp
 
 from utils.sockets import makePrimarySocket, makeSecondarySocket
 
-# moving:
 # TODO: move instantly when have no premoves
-
-# multiplayer:
-# TODO: leaderboard
+# TODO: wait for both players to be ready before starting
 
 
 def onAppStart(app, socket, ip, identity, dev=False):

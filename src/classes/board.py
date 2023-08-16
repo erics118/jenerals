@@ -54,7 +54,7 @@ def generateGrid(app, rows, cols):
 
     dist = 0
 
-    # make sure the two generals are at least 0.3 of the board away from each other
+    # two generals mus be at least 30% of the board away from each other
     while dist < (rows + cols) * 0.3:
         r1, c1 = randomCoords(rows, cols)
         r2, c2 = randomCoords(rows, cols)
@@ -207,9 +207,9 @@ class Board:
                 else:
                     # check if any adjacent cells are own cells
                     for drow, dcol in directions:
-                        other = self._app.board.at((row + drow, col + dcol))
+                        o = self._app.board.at((row + drow, col + dcol))
 
-                        if other.team == self._app.identity:
+                        if o.team == self._app.identity:
                             c.isVisible = True
 
         if mode == "city":

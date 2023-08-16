@@ -52,7 +52,7 @@ def drawLeaderboard(app):
     # sort just player ids based on troop count
     sortedPlayers = sorted(
         list(range(len(app.players))),
-        key=lambda playerId: app.board.countTroops(playerId),
+        key=app.board.countTroops,
         reverse=True,
     )
 

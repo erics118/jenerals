@@ -4,7 +4,7 @@ import zmq
 from classes.board import Board
 from classes.cell import Cell
 from classes.move import Move
-from events.step import doMove, stepWithCount
+from events.step import doMove
 from utils.ip import decodeIp, getLocalIp
 
 
@@ -16,37 +16,32 @@ def recvMessages(app):
             command = msg.split(" ")[0]
 
             match command:
-                case "PING":
-                    app.socket.send_string("PONG")
+                # sent by secondary node
                 case "CONNECTED":
                     print("! A secondary node has connected to this primary.")
                     app.socket.send_string("ACK-CONNECTED")
+                # sent by primary node
                 case "ACK-CONNECTED":
                     print("! Connected to a primary node.")
-                case "DISCONNECTED":
-                    print("! Another node has disconnected from this node.")
-                    app.stopEvent.set()
-                    app.socket.close()
+                # sent by secondary node
                 case "GET-BOARD":
                     app.socket.send_string("ACK-GET-BOARD")
                     boardJson = jsons.dumps(app.board, strip_privates=True)
                     app.socket.send_string(boardJson)
+                # sent by primary node
                 case "ACK-GET-BOARD":
                     boardJson = app.socket.recv_string()
                     board = jsons.loads(boardJson, Board)
+
                     for r in range(len(board.grid)):
                         for c in range(len(board.grid[r])):
                             jsonStr = jsons.dumps(board.grid[r][c])
                             board.grid[r][c] = jsons.loads(jsonStr, Cell)
                             board.grid[r][c].setup(app)
+
                     app.board = board
                     app.board.setup(app, False)
-                case "STEP-1":
-                    for _ in range(app.stepsPerSecond * 2):
-                        stepWithCount(app)
-                case "STEP-25":
-                    for _ in range(app.stepsPerSecond * 25 * 2):
-                        stepWithCount(app)
+                # sent by either node
                 case "MOVE":
                     split = msg.split(" ")
                     playerId = int(split[1])
@@ -71,13 +66,6 @@ def sendMessages(app):
 
         app.msg.clear()
         app.socket.send_string(msg)
-
-        if msg == "EXIT":
-            print("! Exiting...", flush=True)
-            app.socket.send("DISCONNECTED".encode("utf-8"))
-            app.stopEvent.set()
-            app.socket.close()
-            break
 
 
 def makeSocket():

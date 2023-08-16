@@ -9,10 +9,9 @@ from utils.image import getImage
 class Cell:
     """
     A single cell on the board.
-    It includes the position, the team, type, the number of troops, and if the cell is visible.
-
-    The row and col fields are sometimes redundant if the cell is in a Board.
-    Nevertheless, they are useful in other cases.
+    It includes the position, the team, type, the number of troops, and if the
+    cell is visible. The row and col fields are only used internally, and should
+    not be modified.
     """
 
     row: int

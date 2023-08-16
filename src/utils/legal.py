@@ -6,8 +6,11 @@ def isMoveLegal(playerId, app, move):
     isVisible = app.board.at(move.coords).isVisible or app.forceIsVisible
 
     # check bounds
-    if not (
-        0 <= move.coords[0] < app.board.rows and 0 <= move.coords[1] < app.board.cols
+    if (
+        move.coords[0] < 0
+        or move.coords[0] >= app.board.rows
+        or move.coords[1] < 0
+        or move.coords[1] >= app.board.cols
     ):
         return False
 

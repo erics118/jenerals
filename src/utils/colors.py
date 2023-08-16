@@ -24,8 +24,7 @@ class Colors:
     SURROUNDING_OBSTACLE_NOT_VISIBLE = rgb(43, 43, 43)
 
     SURROUNDING_BLUE_VISIBLE = rgb(48, 60, 107)
-    # TODO: grab actual color from https://generals.io/
-    SURROUNDING_RED_VISIBLE = rgb(180, 40, 10)
+    SURROUNDING_RED_VISIBLE = rgb(123, 30, 25)
 
     PREMOVE = rgb(0, 0, 0)
 
